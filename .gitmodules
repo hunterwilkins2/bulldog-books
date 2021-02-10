@@ -1,0 +1,3 @@
+[submodule "bulldog-books.wiki"]
+	path = bulldog-books.wiki
+	url = https://github.com/galaxyproduction/bulldog-books.wiki.git
