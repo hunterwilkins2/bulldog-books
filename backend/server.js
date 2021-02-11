@@ -16,13 +16,13 @@ mongoose.connect(process.env.DATABASE_URL, {
 const app = express()
 
 app.use(express.json())
-app.use(morgan('common'))
+app.use(morgan('dev'))
 app.use(helmet())
 app.use(cors({
     origin: process.env.CORS_ORIGIN
 }))
 
-// TODO change get route to return books
+// TODO: change get route to return books
 app.get('/', (req, res) => {
     res.json({
         message: 'Hello, World'
