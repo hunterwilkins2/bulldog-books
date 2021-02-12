@@ -13,7 +13,7 @@ function Forgot(){
 
     return(
         <>
-            <BasicNavbar/>
+            <BasicNavbar />
             <div style={{display: 'flex', justifyContent: 'center', maxWidth: '100vw'}}>
                 <Form className="login-form" style={formStyle}>
                     <Form.Group controlId="formBasicEmail">

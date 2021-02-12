@@ -5,8 +5,13 @@ import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import Login from './components/Login'
 import Register from './components/Register'
 import Forgot from './components/Forgot'
-import User from './components/User'
+import User from './components/user/User'
+import Cart from './components/user/Cart'
+import Profile from './components/user/Profile'
+import Orders from './components/user/Orders'
 
+
+// need to troubleshoot why Cart, Orders, Profile not rendering
 
 function App() {
 
@@ -16,9 +21,12 @@ function App() {
         <Router>
             <Switch>
                 <Route path='/' exact component={Login} />
-                <Route path='/register' component={Register} />
-                <Route path='/forgot' component={Forgot} />
-                <Route path='/user' component={User} />
+                <Route path='/register' exact component={Register} />
+                <Route path='/forgot' exact component={Forgot} />
+                <Route path='/user' exact component={User} />
+                <Route path='/user/cart' component={Cart}/>
+                <Route path='/user/orders' component={Orders}/>
+                <Route path='/user/profile' component={Profile}/>
             </Switch>
         </Router>
     )

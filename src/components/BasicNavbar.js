@@ -11,7 +11,7 @@ function BasicNavbar(){
         textDecoration: 'none', 
         color: 'white' 
     }
-  
+
     return(
         <Navbar className="basic-nav" variant="dark">
             <Navbar.Brand className="navbar-brand" href="#home">
@@ -24,10 +24,11 @@ function BasicNavbar(){
                         className="d-inline-block align-top"
                     />{' '}
                 </Link>
-                <Link to='/' style={linkStyle}> Bulldawg Books </Link>
+                <Link to='/' style={linkStyle}> Bulldawg Books</Link>
             </Navbar.Brand>
         </Navbar>
     )
+  
 }
 
 export default BasicNavbar
