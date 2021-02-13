@@ -1,8 +1,9 @@
 import React from 'react'
 
+
 function Orders(){
     return(
-        <h1>Orders</h1>
+        <h1>Orders Page</h1>
     )
 }
 

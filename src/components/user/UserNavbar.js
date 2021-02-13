@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import { Navbar, Form, FormControl, Button, Nav } from 'react-bootstrap'
 import { Link, NavLink} from 'react-router-dom'
@@ -40,6 +41,7 @@ function UserNavbar(){
                 <FormControl type="text" placeholder="Title, Author, ISBN" className="mr-sm-2" />
                 <Button variant="outline-info">Search</Button>
             </Form>
+            
         </Navbar>
     )
 }
