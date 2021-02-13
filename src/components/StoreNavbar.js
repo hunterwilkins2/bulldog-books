@@ -1,11 +1,12 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import { Navbar, Form, FormControl, Button, Nav, Dropdown, DropdownButton } from 'react-bootstrap'
 import { Basket, Search } from 'react-bootstrap-icons'
 import { Link } from 'react-router-dom'
 
-import bulldawgbook from '../images/bulldawgbook.png' 
+import bulldawgbook from './images/bulldawgbook.png' 
 
-function UserNavbar(){
+function StoreNavbar({ type }){
 
     const linkStyle = {
         fontFamily: 'Bebas Neue',
@@ -44,13 +45,15 @@ function UserNavbar(){
                 </Link>
             </Navbar.Brand>
 
+            {type === 'user' &&  
             <Form inline className="mx-auto">
                 <FormControl type="text" placeholder="Title, Author, ISBN" style={searchStyle} />
                 <Button className="but button-primary" style={buttonStyle} >
                     <Search></Search>
                 </Button>
-            </Form>
+            </Form>}
 
+            {type === 'user' && 
             <Nav className="ml-auto" style={navLinkStyle}>
                 <DropdownButton id="dropdown-basic-button" title="Profile">
                     <Dropdown.Item href="/user/Profile">Profile</Dropdown.Item>
@@ -59,9 +62,16 @@ function UserNavbar(){
                 </DropdownButton>
 
                 <Button href="/user/Cart" className="ml-2" variant="light"><Basket /> Cart</Button>{' '}
-            </Nav>
+            </Nav>}
+         
+            
+         
+        
+            
+
+           
         </Navbar>
     )
 }
 
-export default UserNavbar
+export default StoreNavbar

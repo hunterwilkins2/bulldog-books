@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Col, Button } from 'react-bootstrap'
 
-import BasicNavbar from './BasicNavbar'
+import StoreNavbar from './StoreNavbar'
 import './styles/Register.css'
 
 function Register(){
@@ -14,7 +14,7 @@ function Register(){
 
     return(
         <>
-            <BasicNavbar/>
+            <StoreNavbar/>
             <div style={{display: 'flex', justifyContent: 'center', maxWidth: '100vw'}}>
                 <Form className="register-form" style={formStyle}>
                     <Form.Row>

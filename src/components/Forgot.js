@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Button } from 'react-bootstrap'
 
-import BasicNavbar from './BasicNavbar'
+import StoreNavbar from './StoreNavbar'
 
 function Forgot(){
 
@@ -13,7 +13,7 @@ function Forgot(){
 
     return(
         <>
-            <BasicNavbar />
+            <StoreNavbar />
             <div style={{display: 'flex', justifyContent: 'center', maxWidth: '100vw'}}>
                 <Form className="login-form" style={formStyle}>
                     <Form.Group controlId="formBasicEmail">

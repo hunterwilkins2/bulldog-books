@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React, {useState, useEffect} from 'react'
-import UserNavbar from './UserNavbar'
+import StoreNavbar from '../StoreNavbar'
 import { Card, ListGroup, ListGroupItem, Col, Row, Container } from 'react-bootstrap'
 
 import '../styles/User.css'
@@ -45,7 +45,7 @@ function User(){
     
     return (
         <div>
-            <UserNavbar />
+            <StoreNavbar type='user' />
             <Container>
                 <Row className="mx-auto" lg={3} >
                     {bookCards}
