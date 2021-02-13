@@ -58,7 +58,7 @@ function UserNavbar(){
                     <Dropdown.Item href="/">Logout</Dropdown.Item>
                 </DropdownButton>
 
-                <Button className="ml-2" variant="light"><Basket /> Cart</Button>{' '}
+                <Button href="/user/Cart" className="ml-2" variant="light"><Basket /> Cart</Button>{' '}
             </Nav>
         </Navbar>
     )
