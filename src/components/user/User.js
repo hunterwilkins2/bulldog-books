@@ -10,7 +10,11 @@ import { booksData } from '../../data/books'
 function User(){
 
     const [showPopup, setShowPopup] = useState(false)
-    console.log('In User() ' + showPopup)
+    const [popupBook, setPopupBook] = useState(null)
+    function makePopup(book) {
+        setShowPopup(true)
+        setPopupBook(book)
+    }
 
 
     const cardStyle = {
@@ -43,10 +47,9 @@ function User(){
                 <Card.Body>
                     <Card.Link href={book.website}>More Info</Card.Link>
                     <Card.Link href="">Add To Cart</Card.Link>
-                    <Button onClick={() => setShowPopup(true)}>Manage Books</Button>
+                    <Button onClick={() => makePopup(book)}>Manage Books</Button>
                 </Card.Body>
             </Card>
-            <ManageBooksPopup show={showPopup}></ManageBooksPopup>
         </Col>
     ))
     
@@ -58,6 +61,7 @@ function User(){
                     {bookCards}
                 </Row>
             </Container>
+            <ManageBooksPopup show={showPopup} book={popupBook}></ManageBooksPopup>
         </div>
     )
 }
