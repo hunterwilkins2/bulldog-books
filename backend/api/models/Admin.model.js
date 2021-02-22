@@ -15,7 +15,7 @@ const adminSchema = new Schema({
     phoneNumber: { 
         type: Number,
         required: true,
-        validate: { 
+        validator: { 
             validtor: (v) => /\d{3}-\d{3}-\d{4}/.test(v.toString()),
             message: prop => `${prop} is not a valid phone number`
         }
