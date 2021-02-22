@@ -1,12 +1,14 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React, {useState, useEffect} from 'react'
 import StoreNavbar from '../StoreNavbar'
-import { Card, ListGroup, ListGroupItem, Col, Row, Container } from 'react-bootstrap'
+import { Card, ListGroup, ListGroupItem, Col, Row, Container, Button, Toast } from 'react-bootstrap'
 
 import '../styles/User.css'
 import { booksData } from '../../data/books'
 
 function User(){
+
+    const [showPopup, setShowPopup] = useState(false)
 
     const cardStyle = {
         padding: '10px',
@@ -38,6 +40,8 @@ function User(){
                 <Card.Body>
                     <Card.Link href={book.website}>More Info</Card.Link>
                     <Card.Link href="">Add To Cart</Card.Link>
+                    <Button onClick={() => setShowPopup(true)}>Manage Books</Button>
+                    <Toast show={showPopup}>hello</Toast>
                 </Card.Body>
             </Card>
         </Col>
