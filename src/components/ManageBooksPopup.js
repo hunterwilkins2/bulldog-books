@@ -1,5 +1,5 @@
 import React from 'react'
-import {Modal, Form} from 'react-bootstrap'
+import {Modal, Form, Button} from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
 function ManageBooksPopup(props) {
@@ -18,35 +18,47 @@ function ManageBooksPopup(props) {
     }
     return(
         <Modal show={props.show}>
-            <Form>
-                <Form.Group>
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control placeholder={title} />
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Subtitle</Form.Label>
-                    <Form.Control placeholder={subtitle} />
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Author</Form.Label>
-                    <Form.Control placeholder={author} />
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>ISBN</Form.Label>
-                    <Form.Control placeholder={isbn} />
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Website</Form.Label>
-                    <Form.Control placeholder={website} />
-                </Form.Group>
-            </Form>
+            <Modal.Header>Edit Book</Modal.Header>
+            <Modal.Body>
+                <Form>
+                    <Form.Group>
+                        <Form.Label>Title</Form.Label>
+                        <Form.Control placeholder={title} />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Subtitle</Form.Label>
+                        <Form.Control placeholder={subtitle} />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Author</Form.Label>
+                        <Form.Control placeholder={author} />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>ISBN</Form.Label>
+                        <Form.Control placeholder={isbn} />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Website</Form.Label>
+                        <Form.Control placeholder={website} />
+                    </Form.Group>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={props.close}>
+                    Close
+                </Button>
+                <Button variant="primary">
+                    Save Changes
+                </Button>
+            </Modal.Footer>
         </Modal>
     )
 }
 
 ManageBooksPopup.propTypes = {
     show: PropTypes.bool,
-    book: PropTypes.any
+    book: PropTypes.any,
+    close: PropTypes.func
 }
 
 export default ManageBooksPopup

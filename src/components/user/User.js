@@ -15,6 +15,7 @@ function User(){
         setShowPopup(true)
         setPopupBook(book)
     }
+    const closePopup = () => setShowPopup(false)
 
 
     const cardStyle = {
@@ -61,7 +62,7 @@ function User(){
                     {bookCards}
                 </Row>
             </Container>
-            <ManageBooksPopup show={showPopup} book={popupBook}></ManageBooksPopup>
+            <ManageBooksPopup show={showPopup} book={popupBook} close={closePopup}></ManageBooksPopup>
         </div>
     )
 }
