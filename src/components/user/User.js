@@ -1,12 +1,24 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React, {useState, useEffect} from 'react'
 import StoreNavbar from '../StoreNavbar'
-import { Card, ListGroup, ListGroupItem, Col, Row, Container } from 'react-bootstrap'
+import { Card, ListGroup, ListGroupItem, Col, Row, Container, Button} from 'react-bootstrap'
+import ManageBooksPopup from '../ManageBooksPopup'
+import PropTypes from 'prop-types'
 
 import '../styles/User.css'
 import { booksData } from '../../data/books'
 
-function User(){
+function User(props){
+    console.log('admin: ' + props.location.userProps.admin)
+
+    const [showPopup, setShowPopup] = useState(false)
+    const [popupBook, setPopupBook] = useState(null)
+    function makePopup(book) {
+        setShowPopup(true)
+        setPopupBook(book)
+    }
+    const closePopup = () => setShowPopup(false)
+
 
     const cardStyle = {
         padding: '10px',
@@ -38,6 +50,11 @@ function User(){
                 <Card.Body>
                     <Card.Link href={book.website}>More Info</Card.Link>
                     <Card.Link href="">Add To Cart</Card.Link>
+                    {props.location.userProps.admin ? (
+                        <Button onClick={() => makePopup(book)} >Manage Books</Button>
+                    ) : (
+                        null
+                    )}                   
                 </Card.Body>
             </Card>
         </Col>
@@ -51,8 +68,13 @@ function User(){
                     {bookCards}
                 </Row>
             </Container>
+            <ManageBooksPopup show={showPopup} book={popupBook} close={closePopup}></ManageBooksPopup>
         </div>
     )
+}
+
+User.propTypes = {
+    location: PropTypes.any
 }
 
 export default User
