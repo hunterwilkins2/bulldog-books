@@ -18,8 +18,10 @@ function User(){
         marginTop: '20px'
     }
 
+    // keep books in state
     const [books, setBooks] = useState([])
 
+    // when component renders, put this data from ../../data/books into state (array of JSON objects)
     useEffect(() => {
         setBooks(booksData)
     }, [])
@@ -42,7 +44,7 @@ function User(){
             </Card>
         </Col>
     ))
-    
+
     return (
         <div>
             <UserNav/> 

@@ -5,8 +5,6 @@ import { Form, Row, Col, Button, Container } from 'react-bootstrap'
 import UserNav from './UserNav'
 import '../../styles.css'
 
-// pick back up at 2:37 on the video
-
 function Profile(){
 
     const formStyle = {

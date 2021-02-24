@@ -1,9 +1,20 @@
 import React from 'react'
 
+import UserNav from './UserNav'
 
 function Orders(){
+    
+    const h1Style={
+        fontSize: '3em'
+    }
+    
     return(
-        <h1>Orders Page</h1>
+
+        <>
+            <UserNav/>
+            <h1 style={h1Style}>Orders Page</h1>
+            <p>test test test</p>
+        </>
     )
 }
 
