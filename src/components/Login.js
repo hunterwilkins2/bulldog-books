@@ -2,7 +2,7 @@ import React from 'react'
 import {Form, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-import StoreNavbar from './StoreNavbar'
+import BasicNav from './BasicNav'
 import './styles/Login.css'
 
 function Login(){
@@ -15,7 +15,7 @@ function Login(){
 
     return(
         <>
-            <StoreNavbar/>
+            <BasicNav />
             <div style={{display: 'flex', justifyContent: 'center', maxWidth: '100vw'}}>
                 <Form className="login-form" style={formStyle}>
                     <Form.Group controlId="formBasicEmail">
