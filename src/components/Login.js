@@ -2,7 +2,7 @@ import React from 'react'
 import {Form, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-import StoreNavbar from './StoreNavbar'
+import BasicNav from './BasicNav'
 import './styles/Login.css'
 
 function Login(){
@@ -15,14 +15,14 @@ function Login(){
 
     return(
         <>
-            <StoreNavbar/>
+            <BasicNav />
             <div style={{display: 'flex', justifyContent: 'center', maxWidth: '100vw'}}>
                 <Form className="login-form" style={formStyle}>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control type="email" placeholder="email@example.com" />
                         <Form.Text className="text-muted">
-                    We will never share your email with anyone else.
+                            We will never share your email with anyone else.
                         </Form.Text>
                     </Form.Group>
                     <Form.Group controlId="formBasicPassword">
@@ -33,7 +33,19 @@ function Login(){
                     <br></br>
                     <Link to='/forgot'>Forgot Password?</Link>
                     <br></br>
-                    <Link to='/user'>Continue Without an Account</Link>
+                    <Link to={{
+                        pathname: '/user',
+                        userProps:{
+                            admin: false
+                        }
+                    }}>Continue Without an Account</Link>
+                    <br></br>
+                    <Link to={{
+                        pathname: '/admin',
+                        userProps:{
+                            admin: true
+                        }
+                    }}>Continue as Admin</Link>
                     <br></br>
                     <br></br>
                     <Button variant="primary" type="submit">
