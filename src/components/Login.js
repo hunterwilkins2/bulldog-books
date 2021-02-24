@@ -41,7 +41,7 @@ function Login(){
                     }}>Continue Without an Account</Link>
                     <br></br>
                     <Link to={{
-                        pathname: '/user',
+                        pathname: '/admin',
                         userProps:{
                             admin: true
                         }

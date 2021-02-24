@@ -1,12 +1,21 @@
-/* eslint-disable react/jsx-no-target-blank */
 import React, {useState, useEffect} from 'react'
 import StoreNavbar from '../StoreNavbar'
-import { Card, ListGroup, ListGroupItem, Col, Row, Container } from 'react-bootstrap'
+import { Card, ListGroup, ListGroupItem, Col, Row, Container, Button} from 'react-bootstrap'
+import ManageBooksPopup from '../ManageBooksPopup'
 
 import '../styles/User.css'
 import { booksData } from '../../data/books'
 
-function User(){
+function Admin(){
+
+    const [showPopup, setShowPopup] = useState(false)
+    const [popupBook, setPopupBook] = useState(null)
+    function makePopup(book) {
+        setShowPopup(true)
+        setPopupBook(book)
+    }
+    const closePopup = () => setShowPopup(false)
+
 
     const cardStyle = {
         padding: '10px',
@@ -24,6 +33,7 @@ function User(){
         setBooks(booksData)
     }, [])
 
+
     const bookCards = books.map(book => (
         <Col style={topBuffer} key={book.isbn} xs='3'>
             <Card style={cardStyle}>
@@ -37,12 +47,12 @@ function User(){
                 </ListGroup>
                 <Card.Body>
                     <Card.Link href={book.website}>More Info</Card.Link>
-                    <Card.Link href="">Add To Cart</Card.Link>                
+                    <Card.Link href="">Add To Cart</Card.Link>
+                    <Button onClick={() => makePopup(book)} >Manage Books</Button>                            
                 </Card.Body>
             </Card>
         </Col>
     ))
-    
     return (
         <div>
             <StoreNavbar type='user' />
@@ -51,8 +61,9 @@ function User(){
                     {bookCards}
                 </Row>
             </Container>
+            <ManageBooksPopup show={showPopup} book={popupBook} close={closePopup}></ManageBooksPopup>
         </div>
     )
 }
 
-export default User
+export default Admin
