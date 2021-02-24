@@ -8,7 +8,6 @@ function ManageBooksPopup(props) {
     let author = null
     let isbn = null
     let website = null
-    console.log('In ManageBooksPopup()')
     if (props.book !== null) {
         title = props.book.title
         subtitle = props.book.subtitle

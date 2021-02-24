@@ -3,11 +3,13 @@ import React, {useState, useEffect} from 'react'
 import StoreNavbar from '../StoreNavbar'
 import { Card, ListGroup, ListGroupItem, Col, Row, Container, Button} from 'react-bootstrap'
 import ManageBooksPopup from '../ManageBooksPopup'
+import PropTypes from 'prop-types'
 
 import '../styles/User.css'
 import { booksData } from '../../data/books'
 
-function User(){
+function User(props){
+    console.log('admin: ' + props.location.userProps.admin)
 
     const [showPopup, setShowPopup] = useState(false)
     const [popupBook, setPopupBook] = useState(null)
@@ -48,7 +50,11 @@ function User(){
                 <Card.Body>
                     <Card.Link href={book.website}>More Info</Card.Link>
                     <Card.Link href="">Add To Cart</Card.Link>
-                    <Button onClick={() => makePopup(book)}>Manage Books</Button>
+                    {props.location.userProps.admin ? (
+                        <Button onClick={() => makePopup(book)} >Manage Books</Button>
+                    ) : (
+                        null
+                    )}                   
                 </Card.Body>
             </Card>
         </Col>
@@ -65,6 +71,10 @@ function User(){
             <ManageBooksPopup show={showPopup} book={popupBook} close={closePopup}></ManageBooksPopup>
         </div>
     )
+}
+
+User.propTypes = {
+    location: PropTypes.any
 }
 
 export default User

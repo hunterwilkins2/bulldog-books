@@ -33,7 +33,19 @@ function Login(){
                     <br></br>
                     <Link to='/forgot'>Forgot Password?</Link>
                     <br></br>
-                    <Link to='/user'>Continue Without an Account</Link>
+                    <Link to={{
+                        pathname: '/user',
+                        userProps:{
+                            admin: false
+                        }
+                    }}>Continue Without an Account</Link>
+                    <br></br>
+                    <Link to={{
+                        pathname: '/user',
+                        userProps:{
+                            admin: true
+                        }
+                    }}>Continue as Admin</Link>
                     <br></br>
                     <br></br>
                     <Button variant="primary" type="submit">
