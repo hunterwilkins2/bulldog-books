@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react'
-import StoreNavbar from '../StoreNavbar'
 import { Card, ListGroup, ListGroupItem, Col, Row, Container, Button} from 'react-bootstrap'
 import ManageBooksPopup from '../ManageBooksPopup'
 
-import '../styles/User.css'
+import AdminNav from './AdminNav'
+import '../styles/Admin.css'
 import { booksData } from '../../data/books'
 
 function Admin(){
@@ -55,7 +55,7 @@ function Admin(){
     ))
     return (
         <div>
-            <StoreNavbar type='user' />
+            <AdminNav/>
             <Container>
                 <Row className="mx-auto" lg={3} >
                     {bookCards}

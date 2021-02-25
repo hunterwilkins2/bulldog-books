@@ -4,9 +4,9 @@ import { Navbar, Form, FormControl, Button, Nav, Dropdown, DropdownButton } from
 import { Basket, Search } from 'react-bootstrap-icons'
 import { Link } from 'react-router-dom'
 
-import bulldawgbook from './images/bulldawgbook.png' 
+import bulldawgbook from '../images/bulldawgbook.png' 
 
-function StoreNavbar({ type }){
+function AdminNav(){
 
     const linkStyle = {
         fontFamily: 'Bebas Neue',
@@ -45,15 +45,13 @@ function StoreNavbar({ type }){
                 </Link>
             </Navbar.Brand>
 
-            {(type === 'user' || type ==='admin') &&  
             <Form inline className="mx-auto">
                 <FormControl type="text" placeholder="Title, Author, ISBN" style={searchStyle} />
                 <Button className="but button-primary" style={buttonStyle} >
                     <Search></Search>
                 </Button>
-            </Form>}
+            </Form>
 
-            {(type === 'user' || type === 'admin') &&
             <Nav className="ml-auto" style={navLinkStyle}>
                 <DropdownButton id="dropdown-basic-button" title="Profile">
                     <Dropdown.Item href="/user/Profile">Profile</Dropdown.Item>
@@ -62,16 +60,9 @@ function StoreNavbar({ type }){
                 </DropdownButton>
 
                 <Button href="/user/Cart" className="ml-2" variant="light"><Basket /> Cart</Button>{' '}
-            </Nav>}
-         
-            
-         
-        
-            
-
-           
+            </Nav>
         </Navbar>
     )
 }
 
-export default StoreNavbar
+export default AdminNav

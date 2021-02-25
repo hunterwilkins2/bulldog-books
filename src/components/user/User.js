@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React, {useState, useEffect} from 'react'
-import StoreNavbar from '../StoreNavbar'
 import { Card, ListGroup, ListGroupItem, Col, Row, Container } from 'react-bootstrap'
 
+import UserNav from './UserNav'
 import '../styles/User.css'
 import { booksData } from '../../data/books'
 
@@ -18,8 +18,10 @@ function User(){
         marginTop: '20px'
     }
 
+    // keep books in state
     const [books, setBooks] = useState([])
 
+    // when component renders, put this data from ../../data/books into state (array of JSON objects)
     useEffect(() => {
         setBooks(booksData)
     }, [])
@@ -42,10 +44,10 @@ function User(){
             </Card>
         </Col>
     ))
-    
+
     return (
         <div>
-            <StoreNavbar type='user' />
+            <UserNav/> 
             <Container>
                 <Row className="mx-auto" lg={3} >
                     {bookCards}
