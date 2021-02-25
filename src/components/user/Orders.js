@@ -14,6 +14,7 @@ function Orders(){
             <UserNav/>
             <h1 style={h1Style}>Orders Page</h1>
             <p>test test test</p>
+            <p>lol</p>
         </>
     )
 }
