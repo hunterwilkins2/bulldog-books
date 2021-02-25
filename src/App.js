@@ -10,6 +10,7 @@ import Cart from './components/user/Cart'
 import Profile from './components/user/Profile'
 import Orders from './components/user/Orders'
 import Admin from './components/admin/Admin'
+import Checkout from './components/user/Checkout'
 
 
 // need to troubleshoot why Cart, Orders, Profile not rendering
@@ -27,6 +28,7 @@ function App() {
                 <Route path='/user' exact component={User} />
                 <Route path='/admin' exact component={Admin} />
                 <Route path='/user/cart' component={Cart}/>
+                <Route path='/user/checkout' component={Checkout}/>
                 <Route path='/user/orders' component={Orders}/>
                 <Route path='/user/profile' component={Profile}/>
             </Switch>
