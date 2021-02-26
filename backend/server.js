@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 
 const middlewares = require('./middlewares')
+const books = require('./api/routes/books')
 
 mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
@@ -28,6 +29,8 @@ app.get('/', (req, res) => {
         message: 'Hello, World'
     })
 })
+
+app.use('/api/books', books)
 
 // Error handlers for invalid requests
 app.use(middlewares.notFound)
