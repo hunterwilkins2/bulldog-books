@@ -13,6 +13,7 @@ function Confirmation(){
         borderRadius: '25px'
     }
 
+
     return(
         <>
             <StoreNavbar/>
