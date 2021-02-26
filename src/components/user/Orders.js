@@ -50,7 +50,6 @@ function Orders(){
     }
     
 
-<<<<<<< HEAD
     const [orderInfo, setOrders] = useState([])
     
     useEffect(() => {
@@ -93,13 +92,6 @@ function Orders(){
                 </Row>
             </Container>
 
-=======
-        <>
-            <UserNav/>
-            <h1 style={h1Style}>Orders Page</h1>
-            <p>test test test</p>
-            <p>lol</p>
->>>>>>> a8766120a79930552a65c1f5c3f20aba164cf3c6
         </>
 
     ))    
@@ -115,9 +107,4 @@ function Orders(){
         </div>
     )
 }
-<<<<<<< HEAD
 export default Orders
-=======
-
-export default Orders
->>>>>>> a8766120a79930552a65c1f5c3f20aba164cf3c6
