@@ -1,5 +1,7 @@
 import React from 'react'
 import { Form, Col, Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+
 
 import StoreNavbar from './StoreNavbar'
 import './styles/Register.css'
@@ -90,9 +92,11 @@ function Register(){
                             <Form.Control placeholder="Security code" />
                         </Form.Group>
                     </Form.Row>
-                    <Button variant="primary" type="submit">
-                        Submit
-                    </Button>
+                    <Link to='/confirmation'>
+                        <Button variant="primary" type="submit">
+                            Submit
+                        </Button>
+                    </Link>
                 </Form>
             </div>
         </>
