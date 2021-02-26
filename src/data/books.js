@@ -9,7 +9,7 @@ export const booksData = [
         'pages': 472,
         'description': 'JavaScript lies at the heart of almost every modern web application, from social apps to the newest browser-based games. Though simple for beginners to pick up and play with, JavaScript is a flexible, complex language that you can use to build full-scale applications.',
         'website': 'http://eloquentjavascript.net/',
-        'image': 'https://eloquentjavascript.net/img/cover.jpg'
+        'image': 'https://eloquentjavascript.net/img/cover.jpg',
     },
     {
         'isbn': '9781449331818',
