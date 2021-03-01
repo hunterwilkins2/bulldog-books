@@ -9,9 +9,18 @@ import { booksData } from '../../data/books'
 function User(){
 
     const cardStyle = {
-        padding: '10px',
-        width: '18rem',
-        height: '35rem'
+        padding: '3%',
+        width: '100%',
+        height: '100%'
+    }
+
+    const lG = {
+        padding: '2%',
+    }
+
+    const lG4 = {
+        padding: '2%',
+        textAlign: 'center',
     }
 
     const topBuffer = {
@@ -30,17 +39,24 @@ function User(){
         <Col style={topBuffer} key={book.isbn} xs='3'>
             <Card style={cardStyle}>
                 <Card.Img variant="top" src={book.image} />
-                <Card.Body>
-                    <Card.Title>{book.title}</Card.Title>
-                    <Card.Subtitle className="text-muted">{book.subtitle}</Card.Subtitle>
-                </Card.Body>  
-                <ListGroup className="list-group-flush">
+                <ListGroup style={lG}  className="list-group-flush">
+                    <ListGroupItem>
+                        <Card.Title>{book.title}</Card.Title>
+                        <Card.Subtitle className="text-muted">{book.subtitle}</Card.Subtitle>
+                    </ListGroupItem>
+                </ListGroup>  
+                <ListGroup style={lG} className="list-group-flush">
                     <ListGroupItem>Author: {book.author}</ListGroupItem>
                 </ListGroup>
-                <Card.Body>
-                    <Card.Link href={book.website}>More Info</Card.Link>
-                    <Card.Link href="">Add To Cart</Card.Link>                
-                </Card.Body>
+                <ListGroup style={lG} className="list-group-flush">
+                    <ListGroupItem>Price: {book.Price}</ListGroupItem>
+                </ListGroup>
+                <listGroup style={lG4} className="list-group-flush">
+                    <ListGroupItem>
+                        <Card.Link href={book.website}>More Info</Card.Link>
+                        <Card.Link href="">Add To Cart</Card.Link>
+                    </ListGroupItem>                   
+                </listGroup>
             </Card>
         </Col>
     ))
