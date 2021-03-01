@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Card, Col, Container, Form, Row} from 'react-bootstrap'
+import {Button, Card, Col, Container, Form, Row, ListGroup} from 'react-bootstrap'
 
 import UserNav from './UserNav'
 import { booksData } from '../../data/books'
@@ -17,11 +17,11 @@ function Checkout(){
 
     
 
-    const orderSummaryEntries = orderData.map(book => (
-        <Card.Body key={book.isbn}>
-            {book.title}....................1x$12
-        </Card.Body>
-    ))
+    // const orderSummaryEntries = orderData.map(book => (
+    //     <Card.Body key={book.isbn}>
+    //         {book.title}....................1x$12
+    //     </Card.Body>
+    // ))
 
     console.log('checkout')
     return(
@@ -111,11 +111,15 @@ function Checkout(){
                     <Col>
                         <h2>Order Summary</h2>
                         <Card>
-                            {orderSummaryEntries}
-                            <Card.Body>Total: ${total.toFixed(2)}</Card.Body>
-                            <Card.Body>Tax: ${tax.toFixed(2)}</Card.Body>
-                            <Card.Body>Delivery: ${delivery.toFixed(2)}</Card.Body>
-                            <Card.Body>Grand Total: ${grand_total.toFixed(2)}</Card.Body>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item>Learning JavaScript Design Patterns: $23.21</ListGroup.Item>
+                                <ListGroup.Item>Speaking JavaScript: $45.73</ListGroup.Item>
+                                <ListGroup.Item>Programming JavaScript Applications: $12.43</ListGroup.Item>
+                                <ListGroup.Item>Total: $81.37 </ListGroup.Item>
+                                <ListGroup.Item>Tax: $3.25 </ListGroup.Item>
+                                <ListGroup.Item>Delivery Fee: $8.00 </ListGroup.Item>
+                                <ListGroup.Item>Grand Total: $92.62 </ListGroup.Item>
+                            </ListGroup>
                         </Card>
                         <h2>Payment Information</h2>
                         <Form>
