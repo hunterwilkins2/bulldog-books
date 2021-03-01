@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import Login from './components/Login'
 import Register from './components/Register'
 import Forgot from './components/Forgot'
+import Confirmation from './components/Confirmation'
 import User from './components/user/User'
 import Cart from './components/user/Cart'
 import Profile from './components/user/Profile'
@@ -25,6 +26,7 @@ function App() {
                 <Route path='/' exact component={Login} />
                 <Route path='/register' exact component={Register} />
                 <Route path='/forgot' exact component={Forgot} />
+                <Route path='/confirmation' exact component={Confirmation} />
                 <Route path='/user' exact component={User} />
                 <Route path='/admin' exact component={Admin} />
                 <Route path='/user/cart' component={Cart}/>
