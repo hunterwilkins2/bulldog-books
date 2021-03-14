@@ -16,15 +16,20 @@ function UserNav(){
 
     const navLinkStyle = {
         color: 'white',
-        padding: '10px'
+        padding: '10px',
+        marginLeft: '5%',
+    }
+
+    const searchFormStyle = {
+        borderRadius: '.25rem 0 0 .25rem', 
     }
 
     const searchStyle = {
-        borderRadius: '.25rem 0 0 .25rem',
+        width: '90%',
     }
 
     const buttonStyle = {
-        borderRadius: '0 .25rem .25rem 0',
+        width: '10%',
     }
 
     return(
@@ -44,14 +49,14 @@ function UserNav(){
                 </Link>
             </Navbar.Brand>
 
-            <Form inline className="mx-auto">
+            <Form inline style={searchFormStyle} >
                 <FormControl type="text" placeholder="Title, Author, ISBN" style={searchStyle} />
                 <Button className="but button-primary" style={buttonStyle} >
                     <Search></Search>
                 </Button>
             </Form>
 
-            <Nav className="ml-auto" style={navLinkStyle}>
+            <Nav style={navLinkStyle}>
                 <DropdownButton id="dropdown-basic-button" title="Profile">
                     <Dropdown.Item href="/user/Profile">Profile</Dropdown.Item>
                     <Dropdown.Item href="/user/Orders">Orders</Dropdown.Item>
