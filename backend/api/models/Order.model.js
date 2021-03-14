@@ -1,9 +1,9 @@
 const { Schema, model } = require('mongoose')
 
-const OBJECT_ID = Schema.Types.ObjectId;
+const OBJECT_ID = Schema.Types.ObjectId
 
 const orderSchema = Schema({
-    _id = { type: Number, required: true },
+    _id: { type: Number, required: true },
     subtotal: { type: Number, required: true },
     tax: { type: Number, required: true },
     delivery: { type: Number, required: true },
