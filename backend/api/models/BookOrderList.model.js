@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose')
 
-const OBJECT_ID = MONGOOSE.Schema.Types.ObjectId;
+const OBJECT_ID = Schema.Types.ObjectId
 
 const bookOrderListSchema = Schema({
     books: [{ type: OBJECT_ID, ref: 'Book' }],
