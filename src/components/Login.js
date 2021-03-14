@@ -1,30 +1,60 @@
 import React from 'react'
-import {Form, Button } from 'react-bootstrap'
+import {Form, Button, } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { Formik, Field } from 'formik'
 import * as yup from 'yup'
 
 import BasicNav from './BasicNav'
-import './styles/Login.css'
+import Promos from './Promos'
+import BestSellers from './BestSeller'
+// import './styles/Login.css'
+import background from './images/background.jpg' 
+
+
 
 function Login(){
+
+    const cont = {
+        display: 'flex',
+        justifyContent: 'space-around',
+
+        minHeight: '100vh',
+
+        backgroundImage: `url(${background})`,
+        backgroundRepeat: 'repeat',
+        backgroundSize: 'cover',
+        backgroundAttachment: 'scroll',
+
+    }
 
     const formStyle = {
         border:'2px solid #ffffff',
         background: '#ffffff',
-        borderRadius: '25px'
+        borderRadius: '25px',
+        height: '100%',
+        width: '100%',
+        minWidth: '30%',
+        margin: '1%',
     }
+
 
     const schema = yup.object().shape({
         email: yup.string().email('Invalid Email Format').required('Required'),
         password: yup.string().required('Required')
     })
-    
+
 
     return(
         <>
+
             <BasicNav />
-            <div style={{display: 'flex', justifyContent: 'center', maxWidth: '100vw'}}>
+            <div style = {cont}>
+
+                <Form style ={formStyle}>
+                    <h1>Promotions</h1>
+                    <Promos />
+                </Form>
+                
                 <Formik 
                     initialValues={{email: '', password: ''}} 
                     onSubmit={(data, {setSubmitting}) => {
@@ -36,6 +66,7 @@ function Login(){
                     validationSchema={schema}
                 >{({values, errors, setSubmitting, handleSubmit}) => (
                         <Form className="login-form" style={formStyle} onSubmit={handleSubmit}>
+                            <h1> Login </h1>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
                                 <Field 
@@ -81,10 +112,17 @@ function Login(){
                             <pre>{JSON.stringify(errors, null, 2)}</pre>     
                         </Form>
                     )}</Formik>
+                <Form className="login-form" style={formStyle}>
+                    <h1>Best Sellers</h1>
+                    < BestSellers />
+                </Form>
             </div>
         </>
     )
+
 }
+
+    
 
 export default Login
 

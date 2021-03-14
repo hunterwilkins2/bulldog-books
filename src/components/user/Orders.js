@@ -28,17 +28,23 @@ function Orders(){
 
     const cardStyle1 = {
         padding: '10px',
-        width: '18rem',
+        maxHeight: '90%',
+        width: '100%',
+        height: '100%',
     }
 
     const cardStyle2 = {
         padding: '10px',
-        width: '18rem',
+        maxHeight: '90%',
+        width: '100%',
+        height: '100%',
     }
 
     const cardStyle3 = {
         padding: '10px',
-        width: '18rem',
+        maxHeight: '90%',
+        width: '100%',
+        height: '100%',
     }
 
     const cardTitle = {
@@ -47,6 +53,10 @@ function Orders(){
 
     const secTitle = {
         fontWeight: 'bold',
+    }
+
+    const image = {
+        height: '85%',
     }
     
 
@@ -64,11 +74,11 @@ function Orders(){
                 <Row>
                     <h3 style = {cardTitle}> Order {orderInput.orderNum}</h3>
                 </Row>
-                <Row  className="mx-auto" lg={3}> 
+                <Row className = 'mx-auto' lg={3}> 
                     <Col style={topBuffer} key={orderInput.isbn} xs='1'>
                         <Card style={cardStyle1}>
                             <Card.Title>{orderInput.title}</Card.Title>
-                            <Card.Img variant="top" src={orderInput.image} />
+                            <Card.Img style={image} variant="top" src={orderInput.image} />
                         </Card>
                     </Col>
                     <Col style={topBuffer} key={orderInput.TrackingId} xs='1'>

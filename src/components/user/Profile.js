@@ -11,7 +11,9 @@ function Profile(){
         border:'0.5px solid #ffffff',
         background: '#ffffff',
         borderRadius: '20px',
-        padding: '15px'
+        padding: '15px',
+        margin: '2%',
+        height: '95%',
     }
 
     const h1Style = {
@@ -35,7 +37,7 @@ function Profile(){
                                     <Form.Label>Last Name</Form.Label>
                                     <Form.Control type="text" placeholder="Last Name" />
                                 </Form.Group>
-                            </Form.Row>.
+                            </Form.Row>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control type="email" placeholder="email@example.com" />

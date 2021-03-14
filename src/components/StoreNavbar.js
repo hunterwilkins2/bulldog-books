@@ -20,12 +20,19 @@ function StoreNavbar({ type }){
         padding: '10px'
     }
 
+    const searchFormStyle = {
+        borderRadius: '.25rem 0 0 .25rem',
+        width: '100%',
+    } 
+
     const searchStyle = {
         borderRadius: '.25rem 0 0 .25rem',
+        width: '100%',
     }
 
     const buttonStyle = {
         borderRadius: '0 .25rem .25rem 0',
+        width: '100%',
     }
 
     return(
@@ -46,7 +53,7 @@ function StoreNavbar({ type }){
             </Navbar.Brand>
 
             {(type === 'user' || type ==='admin') &&  
-            <Form inline className="mx-auto">
+            <Form inline className="mx-auto" style={searchFormStyle}>
                 <FormControl type="text" placeholder="Title, Author, ISBN" style={searchStyle} />
                 <Button className="but button-primary" style={buttonStyle} >
                     <Search></Search>
