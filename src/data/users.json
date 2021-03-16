@@ -1,0 +1,11 @@
+[
+    {
+        "firstName": "John",
+        "lastName": "Smith",
+        "password": "password123",
+        "email": "john.smith@gmail.com",
+        "dateJoined": "2014-12-14T00:00:00.000Z",
+        "status": "active",
+        "userType": "customer"
+    }
+]

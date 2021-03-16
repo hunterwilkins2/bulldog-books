@@ -1,0 +1,8 @@
+[
+    {
+        "customer": "604d923a2d32ca1dac01e897",
+        "cardNumber": 123456789,
+        "type": "visa",
+        "expirationDate": "2014-12-14T00:00:00.000Z"
+    }
+]

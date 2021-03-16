@@ -1,0 +1,12 @@
+[
+    {
+        "subtotal": 19.99,
+        "tax": 1.60,
+        "delivery": 5.00,
+        "total": 21.59,
+        "promotions": "",
+        "customer": "604d923a2d32ca1dac01e897",
+        "paymentCard": "604e6eceab00ba3d1ca983f9",
+        "bookOrderList": "604e834cab00ba3d1ca983fb"
+    }
+]
