@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose')
 const OBJECT_ID = Schema.Types.ObjectId
 
 const addressSchema = Schema({
-    _id: { type: OBJECT_ID, required: true },
+    customer: { type: OBJECT_ID, ref: 'User' },
     street: { type: String, required: true },
     city: { type: String, required: true },
     state: { type: String, required: true },

@@ -5,7 +5,6 @@ const OBJECT_ID = Schema.Types.ObjectId
 const bookOrderListSchema = Schema({
     books: [{ type: OBJECT_ID, ref: 'Book' }],
     bookQuantities: [{ type: Number, required: true }],
-    order: { type: OBJECT_ID, ref: 'Order' },
     shoppingCart: { type: OBJECT_ID, ref: 'ShoppingCart' }
 })
     
