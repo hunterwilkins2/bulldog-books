@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 import React from 'react'
 import {Form, Button, } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { Formik, Field, ErrorMessage } from 'formik'
+import { Formik, ErrorMessage } from 'formik'
 import * as yup from 'yup'
 
 import BasicNav from './BasicNav'
@@ -39,7 +38,7 @@ function Login(){
     }
 
 
-    const schema = yup.object().shape({
+    const validationSchema = yup.object().shape({
         email: yup.string().email('Invalid Email Format').required('Required'),
         password: yup.string().required('Required')
     })
@@ -64,7 +63,7 @@ function Login(){
                         console.log(data)
                         setSubmitting(false)
                     }}
-                    validationSchema={schema}
+                    validationSchema={validationSchema}
                 >{({ handleSubmit,
                         handleChange,
                         handleBlur,
@@ -79,6 +78,7 @@ function Login(){
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control 
                                     name="email"
+                                    placeholder="email@example.com"
                                     value={values.email}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
