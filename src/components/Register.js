@@ -2,7 +2,8 @@
 import React from 'react'
 import { Form, Col, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { Formik } from 'formik'
+import { Formik, ErrorMessage } from 'formik'
+import * as yup from 'yup'
 
 import StoreNavbar from './StoreNavbar'
 import './styles/Register.css'
@@ -14,6 +15,38 @@ function Register(){
         background: '#ffffff',
         borderRadius: '25px'
     }
+
+    const validationSchema = yup.object().shape({
+        firstName: yup.string()
+            .min(1, 'First Name must be betwen 1 and 100 characters')
+            .max(100, 'First Name must be betwen 1 and 100 characters')
+            .required('Required'),
+        lastName: yup.string()
+            .min(1, 'Last Name must be betwen 1 and 100 characters')
+            .max(100, 'Last Name must be betwen 1 and 100 characters')
+            .required('Required'),
+        email: yup.string().email('Invalid Email Format').required('Required'),
+        password: yup.string().required('Required'),
+        address1: yup.string()
+            .min(1, 'Address Line 1 must be betwen 1 and 100 characters')
+            .max(100, 'Address Line 1 must be betwen 1 and 100 characters'),
+        address2: yup.string()
+            .min(1, 'Address Line 2 must be betwen 1 and 100 characters')
+            .max(100, 'Address Line 2 must be betwen 1 and 100 characters'),
+        city: yup.string()
+            .min(1, 'Please enter a valid city name')
+            .max(23, 'Please enter a valid city name'),
+        zip: yup.string()
+            .length(5, 'Enter a valid zip code of length 5')
+            .matches('^[0-9]*$', 'zip code can only contain numbers'),
+        cardNumber: yup.string()
+            .length(16, 'Enter a valid card number of length 16')
+            .matches('^[0-9]*$', 'card number can only contain numbers'),
+        security: yup.string()
+            .min(3, 'Minimum length of 3')
+            .max(4, 'Maximum length of 4')
+            .matches('^[0-9]*$', 'card number can only contain numbers')
+    })
 
     return(
         <>
@@ -28,8 +61,8 @@ function Register(){
                     address1:  '',
                     address2: '',
                     city: '',
-                    state: '',
                     zip: '',
+                    state: '',
                     cardType: '',
                     cardNumber: '',
                     expiration: '',
@@ -41,6 +74,7 @@ function Register(){
                     console.log(data)
                     setSubmitting(false)
                 }}
+                validationSchema={validationSchema}
             >
                 {({ handleSubmit,
                     handleChange,
@@ -64,6 +98,7 @@ function Register(){
                                         isValid={touched.firstName && !errors.firstName}
                                         isInvalid={touched.firstName && errors.firstName}
                                     />
+                                    <ErrorMessage name="firstName" />
                                 </Form.Group>
                                 <Form.Group as={Col} controlId="formLastName">
                                     <Form.Label>Last Name</Form.Label>
@@ -76,6 +111,7 @@ function Register(){
                                         isValid={touched.lastName && !errors.lastName}
                                         isInvalid={touched.lastName && errors.lastName}
                                     />
+                                    <ErrorMessage name="lastName" />
                                 </Form.Group>
                             </Form.Row>
                             <Form.Row>
@@ -91,6 +127,7 @@ function Register(){
                                         isValid={touched.email && !errors.email}
                                         isInvalid={touched.email && errors.email}
                                     />
+                                    <ErrorMessage name="email" />
                                 </Form.Group>
                                 <Form.Group as={Col} controlId="formPassword">
                                     <Form.Label>Password</Form.Label>
@@ -128,6 +165,7 @@ function Register(){
                                     isValid={touched.address1 && !errors.address1}
                                     isInvalid={touched.address1 && errors.addres1}
                                 />
+                                <ErrorMessage name="address1" />
                             </Form.Group>
                             <Form.Group controlId="formAddress2">
                                 <Form.Label>Address Line 2</Form.Label>
@@ -140,6 +178,7 @@ function Register(){
                                     isValid={touched.address2 && !errors.address2}
                                     isInvalid={touched.address2 && errors.addres2}
                                 />
+                                <ErrorMessage name="address2" />
                             </Form.Group>
                             <Form.Row>
                                 <Form.Group as={Col} controlId="formCity">
@@ -153,6 +192,7 @@ function Register(){
                                         isValid={touched.city && !errors.city}
                                         isInvalid={touched.city && errors.city}
                                     />
+                                    <ErrorMessage name="city" />
                                 </Form.Group>
                                 <Form.Group as={Col} controlId="formState">
                                     <Form.Label>State</Form.Label>
@@ -258,6 +298,7 @@ function Register(){
                                     isValid={touched.cardNumber && !errors.cardNumber}
                                     isInvalid={touched.cardNumber && errors.cardNumber} 
                                 />
+                                <ErrorMessage name="cardNumber" />
                             </Form.Group>
                             <Form.Row>
                                 <Form.Group as={Col} >
@@ -282,6 +323,7 @@ function Register(){
                                         isValid={touched.security && !errors.security}
                                         isInvalid={touched.security && errors.security} 
                                     />
+                                    <ErrorMessage name="security" />
                                 </Form.Group>
                             </Form.Row>
                             <Link to='/confirmation'>
@@ -289,7 +331,6 @@ function Register(){
                             Submit
                                 </Button>
                             </Link>
-                            <pre>{JSON.stringify(values)}</pre>
                         </Form>
                     </div>
                 )}</Formik>
