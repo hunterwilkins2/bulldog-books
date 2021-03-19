@@ -1,5 +1,6 @@
 const express = require('express')
 const User = require('../models/User.model')
+const Cart = require('../models/Cart.model')
 const auth = require('../../auth')
 
 const router = express.Router()
@@ -19,6 +20,8 @@ router.post('/register', async (req, res, next) => {
             password,
             email,
         })
+
+        await Cart.create({ user: user._id })
 
         const token = auth.createToken(user._id, user.status, user.userType)
         res.cookie('jwt', token, { httpOnly: true, maxAge: auth.maxAge * 1000 })
