@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose')
 const { isEmail } = require('validator')
+const bcrypt = require('bcrypt')
 
 const userSchema = Schema({
     firstName: { type: String, required: [true, 'Please enter your first name'] },
@@ -27,5 +28,16 @@ const userSchema = Schema({
         required: true
     },
 })
+
+userSchema.pre('save', async (next) => {
+    const salt = await bcrypt.genSalt()
+    this.password = await bcrypt.hash(this.password, salt)
+    next()
+})
+
+// Sends email to user to activate account
+// userSchema.post('save', (doc, next) => {
+//     next()
+// })
 
 module.exports = model('User', userSchema)
