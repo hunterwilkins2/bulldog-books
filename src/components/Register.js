@@ -2,7 +2,8 @@
 import React from 'react'
 import { Form, Col, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { Formik, ErrorMessage } from 'formik'
+import * as formik from 'formik'
+import { Formik, ErrorMessage} from 'formik'
 import * as yup from 'yup'
 
 import StoreNavbar from './StoreNavbar'
@@ -85,7 +86,7 @@ function Register(){
                     setSubmitting
                 }) => (
                     <div style={{display: 'flex', justifyContent: 'center', maxWidth: '100vw'}}>
-                        <Form className="register-form" style={formStyle}>
+                        <Form className="register-form" style={formStyle} onSubmit={handleSubmit}>
                             <Form.Row>
                                 <Form.Group as={Col} controlId="formFirstName">
                                     <Form.Label>First Name</Form.Label>
@@ -327,7 +328,10 @@ function Register(){
                                 </Form.Group>
                             </Form.Row>
                             <Link to='/confirmation'>
-                                <Button variant="primary" type="submit">
+                                <Button 
+                                    variant="primary" 
+                                    type="submit" 
+                                    disabled={Object.keys(errors).length > 0 || !touched.firstName || !touched.lastName  || !touched.email || !touched.password} >
                             Submit
                                 </Button>
                             </Link>
