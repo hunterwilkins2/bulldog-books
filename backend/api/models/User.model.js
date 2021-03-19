@@ -16,16 +16,23 @@ const userSchema = Schema({
         unique: true,
         validate: [isEmail, 'Please enter a valid email']
     },
-    dateJoined: { type: Date, required: true},
+    dateJoined: 
+    { 
+        type: Date, 
+        required: true,
+        default: Date.now
+    },
     status: { 
         type: String, 
         enum: ['active', 'inactive', 'suspended'],
-        required: true
+        required: true,
+        default: 'inactive'
     },
     userType: { 
         type: String, 
         enum: ['admin', 'customer'],
-        required: true
+        required: true,
+        default: 'customer'
     },
 })
 
