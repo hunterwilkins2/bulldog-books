@@ -1,5 +1,6 @@
 const express = require('express')
 const User = require('../models/User.model')
+const auth = require('../../auth')
 
 const router = express.Router()
 
@@ -25,7 +26,11 @@ router.post('/register', async (req, res, next) => {
             type,
         })
 
-        res.status(201).json(user)
+        const token = auth.createToken(user._id, user.status, user.userType)
+        res.cookie('jwt', token, { httpOnly: true, maxAge: auth.maxAge * 1000 })
+        res.cookie('userType', user.userType, { maxAge: auth.maxAge * 1000 })
+
+        res.status(201).json( { user: user._id } )
     } catch (error) {
         res.status(400)
 

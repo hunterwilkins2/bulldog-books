@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors') // Cross origin sharing
 const helmet = require('helmet') // Adds security to requests
 const morgan = require('morgan') // Logger
+const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 
 require('dotenv').config()
@@ -19,6 +20,7 @@ const app = express()
 app.use(express.json())
 app.use(morgan('dev'))
 app.use(helmet())
+app.use(cookieParser())
 app.use(cors({
     origin: process.env.CORS_ORIGIN
 }))
