@@ -11,7 +11,7 @@ const errorHandler = (error, req, res, next) => {
     const statusCode = res.statusCode === 200 ? 500 : res.statusCode // Sets status code to 500 if status code wasn't set
     res.status(statusCode)
     res.json({
-        message: error.message
+        errors: error.message
     })
 }
 
