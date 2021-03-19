@@ -40,4 +40,21 @@ userSchema.pre('save', async (next) => {
 //     next()
 // })
 
+// static method to login user
+userSchema.statics.login = async (email, password) => {
+    const user = await this.findOne( { email })
+
+    if(user) {
+        const auth = await bcrypt.compare(password, user.password)
+
+        if(auth) {
+            return user
+        } else {
+            throw Error('Incorrect password')
+        }
+    }
+
+    throw Error('Incorrect email')
+}
+
 module.exports = model('User', userSchema)

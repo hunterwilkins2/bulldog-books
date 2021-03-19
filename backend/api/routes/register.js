@@ -42,3 +42,23 @@ router.post('/register', async (req, res, next) => {
         }
     }
 })
+
+router.post('/login', async (req, res, next) => {
+    try {
+        const { email, password } = req.body
+
+        const user = await User.login(email, password)
+
+        const token = auth.createToken(user._id, user.status, user.userType)
+        res.cookie('jwt', token, { httpOnly: true, maxAge: auth.maxAge * 1000 })
+        res.cookie('userType', user.userType, { maxAge: auth.maxAge * 1000 })
+
+        res.status(200).json( { user: user._id })
+    } catch(error) {
+        res.status(401)
+
+        next(error)
+    }
+})
+
+module.exports = router
