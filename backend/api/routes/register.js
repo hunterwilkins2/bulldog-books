@@ -15,7 +15,7 @@ router.post('/register', async (req, res, next) => {
 
         const dateJoined = Date.now()
         const status = 'inactive'
-        const type = 'customer'
+        const userType = 'customer'
         const user = await User.create({
             firstName,
             lastName,
@@ -23,7 +23,7 @@ router.post('/register', async (req, res, next) => {
             email,
             dateJoined,
             status,
-            type,
+            userType,
         })
 
         const token = auth.createToken(user._id, user.status, user.userType)
