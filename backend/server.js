@@ -37,7 +37,7 @@ app.use(middlewares.notFound)
 app.use(middlewares.errorHandler)
 
 // Starts the server listening on env.PORT or 5000
-const port = process.env.PORT || 5000
+const port = process.env.SERVER_PORT || 5000
 app.listen(port, () => {
     console.log(`Listening at http://localhost:${port}`)
 })
