@@ -1,4 +1,5 @@
 const express = require('express')
+const auth = require('../../auth')
 const Book = require('../models/Book.model')
 
 const router = express.Router()
@@ -24,7 +25,7 @@ router.get('/:isbn', async (req, res, next) => {
 })
 
 // Create one
-router.post('/', async (req, res, next) => {
+router.post('/', auth.verifyAdmin, async (req, res, next) => {
     try {
         const { title, 
             author, 
@@ -61,7 +62,7 @@ router.post('/', async (req, res, next) => {
 })
 
 // Delete one
-router.delete('/:isbn', async (req, res, next) => {
+router.delete('/:isbn', auth.verifyAdmin, async (req, res, next) => {
     try {
         await Book.deleteOne({ isbn: req.params.isbn })
         res.status(204).send()

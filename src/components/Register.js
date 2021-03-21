@@ -281,6 +281,8 @@ function Register(){
                                     value={values.cardType}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    isInvalid={(touched.cardType && errors.cardType) || (!touched.cardType && (touched.cardNumber || touched.security || touched.expiration )) }
+                                    isValid={touched.cardType && !errors.cardType}
                                 >
                                     <option>Choose...</option>
                                     <option>Visa</option>
@@ -297,13 +299,13 @@ function Register(){
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     isValid={touched.cardNumber && !errors.cardNumber}
-                                    isInvalid={touched.cardNumber && errors.cardNumber} 
+                                    isInvalid={(touched.cardNumber && (errors.cardNumber || values.cardNumber.length == 0))|| (!touched.cardNumber && (touched.cardType || touched.security || touched.expiration )) } 
                                 />
                                 <ErrorMessage name="cardNumber" />
                             </Form.Group>
                             <Form.Row>
                                 <Form.Group as={Col} >
-                                    <Form.Label>Month</Form.Label>
+                                    <Form.Label>Expiration</Form.Label>
                                     <Form.Control 
                                         name="expiration"
                                         type="date"
@@ -311,7 +313,7 @@ function Register(){
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         isValid={touched.expiration && !errors.expiration}
-                                        isInvalid={touched.expiration && errors.expiration} 
+                                        isInvalid={(touched.expiration && errors.expiration) || (!touched.expiration && (touched.cardType || touched.security || touched.cardNumber )) } 
                                     />
                                 </Form.Group>
                                 <Form.Group as={Col}>
@@ -322,7 +324,7 @@ function Register(){
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         isValid={touched.security && !errors.security}
-                                        isInvalid={touched.security && errors.security} 
+                                        isInvalid={(touched.security && (errors.security || values.security.length == 0)) || (!touched.security && (touched.cardType || touched.cardNumber || touched.expiration )) } 
                                     />
                                     <ErrorMessage name="security" />
                                 </Form.Group>
