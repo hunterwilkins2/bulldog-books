@@ -10,7 +10,10 @@ const cart = Schema({
         ref: 'User',
         required: true
     },
-    books: [cartItemSchema]
+    books: {
+        type: [cartItemSchema],
+        default: () => [{}]
+    }
 })
 
 module.exports = model('Cart', cart)
