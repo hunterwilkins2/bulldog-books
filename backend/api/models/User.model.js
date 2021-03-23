@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose')
 const { isEmail } = require('validator')
 const bcrypt = require('bcrypt')
+const generator = require('generate-password')
 
 const userSchema = Schema({
     firstName: { type: String, required: [true, 'Please enter your first name'] },
@@ -21,6 +22,10 @@ const userSchema = Schema({
         type: Date, 
         required: true,
         default: Date.now
+    },
+    confirmationCode: {
+        type: String,
+        default: generator.generate({ length: 6, numbers: true })
     },
     status: { 
         type: String, 
