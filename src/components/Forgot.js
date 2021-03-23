@@ -7,6 +7,14 @@ import * as yup from 'yup'
 
 import StoreNavbar from './StoreNavbar'
 
+function forgetEmail(){
+    console.log('In forget email')
+    fetch('http://localhost:3000/forgetEmail', {
+        method: 'POST'
+    }
+    ).then(response => response.json()).then(data => console.log(data))
+}
+
 function Forgot(){
 
     const formStyle = {
@@ -58,7 +66,7 @@ function Forgot(){
                             </Form.Text>
                             <ErrorMessage name="email" />
                         </Form.Group>
-                        <Button disabled={setSubmitting} variant="primary" type="submit">
+                        <Button onClick={forgetEmail} variant="primary" type="submit">
                                 Request Passsword Reset
                         </Button>   
                     </Form>

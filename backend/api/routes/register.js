@@ -4,6 +4,7 @@ const Cart = require('../models/Cart.model')
 const auth = require('../../auth')
 
 const router = express.Router()
+const nodemailer = require('nodemailer')
 
 router.post('/register', async (req, res, next) => {
     try {
@@ -51,6 +52,37 @@ router.post('/login', async (req, res, next) => {
         res.cookie('userType', user.userType, { maxAge: auth.maxAge * 1000 })
 
         res.status(200).json( { user: user._id })
+    } catch(error) {
+        res.status(401)
+
+        next(error)
+    }
+})
+
+router.post('/forgetEmail', async (req, res, next) => {
+    try {
+        // send email
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            host: 'smtp.gmail.com',
+            auth: { // Should set these as environment variables
+                user: 'bulldawgbooksswe@gmail.com',
+                pass: 'BulldawgBooksPassword'
+            }
+        })
+        const mailOptions = {
+            from: 'bulldawgbooksswe@gmail.com',
+            to: 'nssafir@gmail.com', // change this
+            subject: 'Link to Reset Passowrd',
+            text: 'test'
+        }
+        transporter.sendMail(mailOptions, (err, response) => {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log(response)
+            }
+        })
     } catch(error) {
         res.status(401)
 
