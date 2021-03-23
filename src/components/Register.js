@@ -83,7 +83,9 @@ function Register(){
                     values,
                     touched,
                     errors,
-                    setSubmitting
+                    setSubmitting,
+                    dirty,
+                    isValid
                 }) => (
                     <div style={{display: 'flex', justifyContent: 'center', maxWidth: '100vw'}}>
                         <Form className="register-form" style={formStyle} onSubmit={handleSubmit}>
@@ -333,7 +335,8 @@ function Register(){
                                 <Button 
                                     variant="primary" 
                                     type="submit" 
-                                    disabled={Object.keys(errors).length > 0 || !touched.firstName || !touched.lastName  || !touched.email || !touched.password} >
+                                    disabled={!(dirty && isValid)}
+                                >
                             Submit
                                 </Button>
                             </Link>
