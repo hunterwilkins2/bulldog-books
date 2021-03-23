@@ -42,6 +42,16 @@ userSchema.pre('save', async function (next) {
     next()
 })
 
+userSchema.pre('findOneAndUpdate', async function (next) {
+    if(this.isModified('password')) {
+        let pass = this.getUpdate().password
+        const salt = await bcrypt.genSalt()
+        pass = await bcrypt.hash(pass, salt)
+        this.findOneAndUpdate({}, { password: pass })
+    }
+    next()
+})
+
 // Sends email to user to activate account
 // userSchema.post('save', (doc, next) => {
 //     next()
