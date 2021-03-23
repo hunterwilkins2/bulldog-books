@@ -9,6 +9,19 @@ const createToken = (id, status, type) => {
     })
 }
 
+const getId = (token) => {
+    var id
+    jwt.verify(token, process.env.RSA_PRIVATE, (error, decodedToken) => {
+        if(error) {
+            throw error
+        }
+
+        id = decodedToken.id
+    })
+
+    return id
+}
+
 const verifyCustomer = (req, res, next) => {
     const token = req.cookies.jwt
 
@@ -60,6 +73,7 @@ const verifyAdmin = (req, res, next) => {
 
 module.exports = {
     createToken,
+    getId,
     verifyCustomer,
     verifyAdmin,
     maxAge

@@ -11,7 +11,10 @@ const orderSchema = Schema({
     promotions: { type: OBJECT_ID, ref: 'Promotion' },
     customer: {type: OBJECT_ID, ref: 'User' },
     paymentCard: {type: OBJECT_ID, ref: 'Payment' },
-    bookOrderList: [cartItemSchema]
+    bookOrderList: {
+        type: [cartItemSchema],
+        default: () => [{}]
+    }
 })
     
 module.exports = model('Order', orderSchema)
