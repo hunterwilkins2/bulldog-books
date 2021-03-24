@@ -48,12 +48,14 @@ userSchema.pre('save', async function (next) {
 })
 
 userSchema.pre('findOneAndUpdate', async function (next) {
-    if(this.isModified('password')) {
-        let pass = this.getUpdate().password
-        const salt = await bcrypt.genSalt()
-        pass = await bcrypt.hash(pass, salt)
-        this.findOneAndUpdate({}, { password: pass })
+    if(!this._update.password) {
+        return next()
     }
+
+    let pass = this.getUpdate().password
+    const salt = await bcrypt.genSalt()
+    pass = await bcrypt.hash(pass, salt)
+    this.findOneAndUpdate({}, { password: pass })
     next()
 })
 

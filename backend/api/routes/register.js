@@ -67,7 +67,7 @@ router.post('/confirmation', async (req, res, next) => {
 
         if(user.confirmationCode == confirmationCode) {
             await User.findOneAndUpdate( { _id: id}, { status: 'active' })
-            res.status(200).send()
+            res.status(200).json( { message: 'Confirmation successful'})
         } else {
             throw Error('Incorrect confirmation code')
         }
