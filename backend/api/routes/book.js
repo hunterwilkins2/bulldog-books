@@ -1,4 +1,3 @@
-const VALIDATOR = require('validator')
 const BOOK = require('mongoose').model('Book')
 const USER = require('mongoose').model('User')
 
@@ -29,16 +28,6 @@ function validateBookForm(payload) {
         errors.description = 'Description must be at least 10 symbols long.'
     }
 
-    if (!payload || !payload.cover || !VALIDATOR.isURL(payload.cover)) {
-        isFormValid = false
-        errors.cover = 'Please provide proper url for the book\'s cover'
-    }
-
-    if (!payload || !payload.isbn || !VALIDATOR.isISBN(payload.isbn)) {
-        isFormValid = false
-        errors.isbn = 'Please provide a valid ISBN.'
-    }
-
     if (!payload || isNaN(Number(payload.pagesCount)) || payload.pagesCount === '') {
         isFormValid = false
         errors.pagesCount = 'Please provide number of pages.'
@@ -47,27 +36,6 @@ function validateBookForm(payload) {
     if (!payload || isNaN(Number(payload.price)) || Number(payload.price) < 0 || payload.pagesCount === '') {
         isFormValid = false
         errors.price = 'Please provide book price.'
-    }
-
-    return {
-        success: isFormValid,
-        errors
-    }
-}
-
-function validateRatingForm(payload) {
-    let errors = {}
-    let isFormValid = true
-
-    if (
-        !payload
-    || isNaN(Number(payload.rating))
-    || !VALIDATOR.isInt(payload.rating.toString())
-    || Number(payload.rating) < 1
-    || Number(payload.rating) > 5
-    ) {
-        isFormValid = false
-        errors.price = 'Rating must be an integer number between 1 and 5.'
     }
 
     return {
@@ -189,54 +157,10 @@ module.exports = {
             })
         })
     },
+    
+}   
 
-    rate: (req, res) => {
-        let bookId = req.params.bookId
-        let rating = req.body.rating
-        let userId = req.user.id
-
-        let validationResult = validateRatingForm(req.body)
-
-        if (!validationResult.success) {
-            return res.status(400).json({
-                message: 'Rating form validation failed!',
-                errors: validationResult.errors
-            })
-        }
-
-        BOOK.findById(bookId).then((book) => {
-            if (!book) {
-                return res.status(400).json({
-                    message: 'There is no book with the given id in our database.'
-                })
-            }
-
-            let ratedByIds = book.ratedBy.map((id) => id.toString())
-            if (ratedByIds.indexOf(userId) !== -1) {
-                return res.status(400).json({
-                    message: 'You already rated this book'
-                })
-            }
-
-            book.ratedBy.push(userId)
-            book.ratingPoints += rating
-            book.ratedCount += 1
-            book.currentRating = book.ratingPoints / book.ratedCount
-            book.save()
-
-            return res.status(200).json({
-                message: 'You rated the book successfully.',
-                data: book
-            })
-        }).catch((err) => {
-            console.log(err)
-            return res.status(400).json({
-                message: 'Something went wrong, please try again.'
-            })
-        })
-    },
-
-    addToFavorites: (req, res) => {
+ addToFavorites: (req, res) => {
         let bookId = req.params.bookId
 
         BOOK.findById(bookId).then((book) => {
