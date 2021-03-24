@@ -62,6 +62,9 @@ router.post('/login', async (req, res, next) => {
 router.post('/forgetEmail', async (req, res, next) => {
     try {
         // send email
+        const email = req.body.email
+        console.log(email)
+        let password = 'notrealpassword' // TODO: find password from database (after resetting it)
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             host: 'smtp.gmail.com',
@@ -72,14 +75,16 @@ router.post('/forgetEmail', async (req, res, next) => {
         })
         const mailOptions = {
             from: 'bulldawgbooksswe@gmail.com',
-            to: 'nssafir@gmail.com', // change this
-            subject: 'Link to Reset Passowrd',
-            text: 'test'
+            to: email, 
+            subject: 'New Password',
+            text: `Your password for Bulldawg Books has been reset to ${password}`
         }
         transporter.sendMail(mailOptions, (err, response) => {
             if (err) {
+                console.log('err')
                 console.log(err)
             } else {
+                console.log('success')
                 console.log(response)
             }
         })

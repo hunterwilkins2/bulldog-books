@@ -7,12 +7,29 @@ import * as yup from 'yup'
 
 import StoreNavbar from './StoreNavbar'
 
-function forgetEmail(){
-    console.log('In forget email')
-    fetch('http://localhost:3000/forgetEmail', {
-        method: 'POST'
+function forgetEmail(userEmail){
+    console.log('In forgetEmail()')
+    let fetchData = {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify({
+            email: userEmail
+        })
     }
-    ).then(response => response.json()).then(data => console.log(data))
+    console.log(fetchData)
+    // Change Pasword
+    // TODO: make route which changes password
+    // Send Email
+    fetch('http://localhost:3000/forgetEmail', fetchData)
+        .then(response => response.json())
+        .then(data => console.log(data))
 }
 
 function Forgot(){
@@ -66,7 +83,7 @@ function Forgot(){
                             </Form.Text>
                             <ErrorMessage name="email" />
                         </Form.Group>
-                        <Button onClick={forgetEmail} variant="primary" type="submit">
+                        <Button onClick={() => forgetEmail(values.email)} variant="primary" type="submit">
                                 Request Passsword Reset
                         </Button>   
                     </Form>
