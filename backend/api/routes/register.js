@@ -2,9 +2,10 @@ const express = require('express')
 const User = require('../models/User.model')
 const Cart = require('../models/Cart.model')
 const auth = require('../../auth')
+const genPass = require('generate-password')
 
 const router = express.Router()
-const nodemailer = require('nodemailer')
+const mailer = require('../../email')
 
 router.post('/register', async (req, res, next) => {
     try {
@@ -59,43 +60,41 @@ router.post('/login', async (req, res, next) => {
     }
 })
 
-router.post('/forgetEmail', async (req, res, next) => {
+router.post('/forgot-password', async (req, res, next) => {
     try {
         // generate new password
-        let newPassword = Math.random().toString(36).slice(2)
+        let newPassword = genPass.generate({ length: 8, numbers: true })
         // change user password to this new password
         const userEmail = req.body.email
         User.findOneAndUpdate(
             { email : userEmail },
             { password : newPassword}
         )
-        // send email
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            host: 'smtp.gmail.com',
-            auth: { // Should set these as environment variables
-                user: 'bulldawgbooksswe@gmail.com',
-                pass: 'BulldawgBooksPassword'
-            }
-        })
-        const mailOptions = {
-            from: 'bulldawgbooksswe@gmail.com',
-            to: userEmail, 
-            subject: 'New Password',
-            text: `Your password for Bulldawg Books has been reset to ${newPassword}`
-        }
-        transporter.sendMail(mailOptions, (err, response) => {
-            if (err) {
-                console.log('err')
-                console.log(err)
-            } else {
-                console.log('success')
-                console.log(response)
-            }
-        })
+
+        mailer.sendMail(userEmail, 'New Password', `Your password for Bulldawg Books has been reset to ${newPassword}`)
+
     } catch(error) {
         res.status(401)
 
+        next(error)
+    }
+})
+
+router.post('/reset-password', async (req, res, next) => {
+    try {
+        const { email, oldPassword, newPassword } = req.body
+
+        const user = await User.login(email, oldPassword)
+
+        await User.findOneAndUpdate( { email: email }, { password: newPassword })
+
+        const token = auth.createToken(user._id, user.status, user.userType)
+        res.cookie('jwt', token, { httpOnly: true, maxAge: auth.maxAge * 1000 })
+        res.cookie('userType', user.userType, { maxAge: auth.maxAge * 1000 })
+
+        res.status(200).json( { user: user._id })
+    } catch (error) {
+        res.status(401)
         next(error)
     }
 })
