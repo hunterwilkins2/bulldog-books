@@ -2,10 +2,10 @@ const express = require('express')
 const User = require('../models/User.model')
 const Cart = require('../models/Cart.model')
 const auth = require('../../auth')
+const mailer = require('../../email')
 const genPass = require('generate-password')
 
 const router = express.Router()
-const mailer = require('../../email')
 
 router.post('/register', async (req, res, next) => {
     try {
@@ -24,6 +24,8 @@ router.post('/register', async (req, res, next) => {
         })
 
         await Cart.create({ user: user._id })
+
+        mailer.sendMail(user.email, 'Active you Bulldawg Books account', `Thanks for registering for Bulldawg Books. Here is your confirmation code: ${user.confirmationCode}`)
 
         const token = auth.createToken(user._id, user.status, user.userType)
         res.cookie('jwt', token, { httpOnly: true, maxAge: auth.maxAge * 1000, })
@@ -124,16 +126,19 @@ router.post('/confirmation', async (req, res, next) => {
     }   
 })
 
-// router.get('/resend-confirmation', async (req, res, next) => {
-//     try {
-//         const id = auth.getId(req.cookie.jwt)
-//         const user = await User.findById(id)
+router.get('/resend-confirmation', async (req, res, next) => {
+    try {
+        const id = auth.getId(req.cookie.jwt)
+        const user = await User.findById(id)
 
-//         // Call email api
+        // Call email api
+        mailer.sendMail(user.email, 'Active you Bulldawg Books account', `Thanks for registering for Bulldawg Books. Here is your confirmation code: ${user.confirmationCode}`)
 
-//     } catch (error) {
-//         next(error)
-//     }
-// })
+        res.status(200)
+
+    } catch (error) {
+        next(error)
+    }
+})
 
 module.exports = router
