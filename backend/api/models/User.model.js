@@ -47,23 +47,6 @@ userSchema.pre('save', async function (next) {
     next()
 })
 
-userSchema.pre('findOneAndUpdate', async function (next) {
-    if(!this._update.password) {
-        return next()
-    }
-
-    let pass = this.getUpdate().password
-    const salt = await bcrypt.genSalt()
-    pass = await bcrypt.hash(pass, salt)
-    this.findOneAndUpdate({}, { password: pass })
-    next()
-})
-
-// Sends email to user to activate account
-// userSchema.post('save', (doc, next) => {
-//     next()
-// })
-
 // static method to login user
 userSchema.statics.login = async function (email, password) {
     const user = await this.findOne( { email })
@@ -76,7 +59,7 @@ userSchema.statics.login = async function (email, password) {
         }
     }
 
-    throw Error('Incorrect email or password password')
+    throw Error('Incorrect email or password')
 }
 
 module.exports = model('User', userSchema)

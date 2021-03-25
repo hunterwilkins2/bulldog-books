@@ -66,12 +66,15 @@ router.post('/forgot-password', async (req, res, next) => {
         let newPassword = genPass.generate({ length: 8, numbers: true })
         // change user password to this new password
         const userEmail = req.body.email
-        User.findOneAndUpdate(
-            { email : userEmail },
-            { password : newPassword}
-        )
+        await User.findOne({ email : userEmail }, function (err, doc) {
+            if(err) return false
+            doc.password = newPassword
+            doc.save()
+        })
 
         mailer.sendMail(userEmail, 'New Password', `Your password for Bulldawg Books has been reset to ${newPassword}`)
+
+        res.status(200).json({ message: 'Password was sent to your email' })
 
     } catch(error) {
         res.status(401)
@@ -86,7 +89,11 @@ router.post('/reset-password', async (req, res, next) => {
 
         const user = await User.login(email, oldPassword)
 
-        await User.findOneAndUpdate( { email: email }, { password: newPassword })
+        await User.findOne({ email : email }, function (err, doc) {
+            if(err) return false
+            doc.password = newPassword
+            doc.save()
+        })
 
         const token = auth.createToken(user._id, user.status, user.userType)
         res.cookie('jwt', token, { httpOnly: true, maxAge: auth.maxAge * 1000 })

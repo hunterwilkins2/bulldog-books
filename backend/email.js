@@ -18,11 +18,11 @@ const sendMail = (userEmail, subject, text) => {
     }
     transporter.sendMail(mailOptions, (err, response) => {
         if (err) {
-            throw err
+            console.log('Error: ' + err)
         } else {
             console.log('Success: ' + response)
         }
     })
 }
 
-module.exports = sendMail
+module.exports = { sendMail }
