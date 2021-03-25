@@ -46,13 +46,11 @@ router.post('/login', async (req, res, next) => {
 
         const user = await User.login(email, password)
 
-        // const token = auth.createToken(user._id, user.status, user.userType)
-        // res.cookie('jwt', token, { maxAge: auth.maxAge * 1000 })
-        // res.cookie('userType', user.userType, { path: '/', domain: 'localhost', httpOnly: true })
+        const token = auth.createToken(user._id, user.status, user.userType)
+        res.cookie('jwt', token, { maxAge: auth.maxAge * 1000, path: '/', domain: 'localhost', httpOnly: true })
+        res.cookie('userType', user.userType, { maxAge: auth.maxAge * 1000, path: '/', domain: 'localhost', httpOnly: true })
 
-        res.cookie('userType', user.userType, { path: '/', domain: 'localhost', sameSite: 'lax' })
-            .status(200)
-            .json( { user: user._id })
+        res.status(200).json( { user: user._id })
     } catch(error) {
         res.status(401)
 

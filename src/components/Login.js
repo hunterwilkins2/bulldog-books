@@ -63,11 +63,11 @@ function Login(){
                         await fetch('http://localhost:3000/login', {
                             method: 'POST',
                             withCredentials: true,
-                            credentials: 'same-origin', 
+                            credentials: 'include',
                             headers: {
                                 'Content-type': 'application/json',
-                                'Access-Control-Allow-Origin': '*',
-                                // 'Access-Control-Allow-Credentials': 'true',
+                                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                                'Access-Control-Allow-Credentials': true,
                             },
                             body: JSON.stringify(data)
                         })
