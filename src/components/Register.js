@@ -2,7 +2,6 @@
 import React from 'react'
 import { Form, Col, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import * as formik from 'formik'
 import { Formik, ErrorMessage} from 'formik'
 import * as yup from 'yup'
 
@@ -337,9 +336,9 @@ function Register(){
                                     isInvalid={errors.cardType}
                                 >
                                     <option value = ''>Choose...</option>
-                                    <option>Visa</option>
-                                    <option>American Express</option>
-                                    <option>MasterCard</option>
+                                    <option value='Visa'>Visa</option>
+                                    <option value='American Express'>American Express</option>
+                                    <option value='Mastercard'>MasterCard</option>
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group controlID="formCardNumber">
