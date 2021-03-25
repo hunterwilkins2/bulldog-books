@@ -57,9 +57,20 @@ function Login(){
                 
                 <Formik 
                     initialValues={{email: '', password: ''}} 
-                    onSubmit={(data, {setSubmitting}) => {
+                    onSubmit={async (data, {setSubmitting}) => {
                         setSubmitting(true)
-                        // make async call to DB eventually
+                        
+                        await fetch('http://localhost:3000/login', {
+                            method: 'POST',
+                            withCredentials: true,
+                            credentials: 'include',
+                            headers: {
+                                'Content-type': 'application/json',
+                                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                                'Access-Control-Allow-Credentials': true,
+                            },
+                            body: JSON.stringify(data)
+                        })
                         console.log(data)
                         setSubmitting(false)
                     }}

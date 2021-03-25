@@ -23,7 +23,7 @@ app.use(morgan('dev'))
 app.use(helmet())
 app.use(cookieParser())
 app.use(cors({
-    origin: process.env.CORS_ORIGIN
+    credentials: true, origin: process.env.CORS_ORIGIN
 }))
 
 // TODO: change get route to return books
