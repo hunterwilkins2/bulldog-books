@@ -15,7 +15,7 @@ const address = require('./api/routes/address')
 const profile = require('./api/routes/profile')
 
 mongoose.set('useFindAndModify', false)
-// mongoose.set('useCreateIndex', true)
+mongoose.set('useCreateIndex', true)
 mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
