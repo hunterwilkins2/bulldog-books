@@ -88,7 +88,7 @@ router.post('/login', async (req, res, next) => {
     }
 })
 
-router.post('/forgot-password', async (req, res, next) => {
+router.patch('/forgot-password', async (req, res, next) => {
     try {
         // generate new password
         let newPassword = genPass.generate({ length: 8, numbers: true })
@@ -111,7 +111,7 @@ router.post('/forgot-password', async (req, res, next) => {
     }
 })
 
-router.post('/reset-password', async (req, res, next) => {
+router.patch('/reset-password', async (req, res, next) => {
     try {
         const { email, oldPassword, newPassword } = req.body
 
