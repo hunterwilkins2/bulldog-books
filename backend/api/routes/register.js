@@ -31,8 +31,19 @@ router.post('/register', async (req, res, next) => {
         mailer.sendMail(user.email, 'Active you Bulldawg Books account', `Thanks for registering for Bulldawg Books. Here is your confirmation code: ${user.confirmationCode}`)
 
         const token = auth.createToken(user._id, user.status, user.userType)
-        res.cookie('jwt', token, { maxAge: stayLoggedIn ? auth.maxAge * 1000 : -1, path: '/', domain: 'localhost', httpOnly: true })
-        res.cookie('userType', user.userType, { maxAge: stayLoggedIn ? auth.maxAge * 1000 : -1, path: '/', domain: 'localhost', httpOnly: true })
+        const cookieOptions = { 
+            path: '/', 
+            domain: 'localhost', 
+            httpOnly: true 
+        
+        }
+
+        if(stayLoggedIn) {
+            cookieOptions.maxAge = auth.maxAge * 1000
+        }
+        
+        res.cookie('jwt', token, cookieOptions)
+        res.cookie('userType', user.userType, cookieOptions)
 
         res.status(201).json( { user: user._id } )
     } catch (error) {
@@ -54,8 +65,20 @@ router.post('/login', async (req, res, next) => {
         const user = await User.login(email, password)
 
         const token = auth.createToken(user._id, user.status, user.userType)
-        res.cookie('jwt', token, { maxAge: stayLoggedIn ? auth.maxAge * 1000 : -1, path: '/', domain: 'localhost', httpOnly: true })
-        res.cookie('userType', user.userType, { maxAge: stayLoggedIn ? auth.maxAge * 1000 : -1, path: '/', domain: 'localhost', httpOnly: true })
+
+        const cookieOptions = { 
+            path: '/', 
+            domain: 'localhost', 
+            httpOnly: true 
+        
+        }
+
+        if(stayLoggedIn) {
+            cookieOptions.maxAge = auth.maxAge * 1000
+        }
+
+        res.cookie('jwt', token, cookieOptions)
+        res.cookie('userType', user.userType, cookieOptions)
 
         res.status(200).json( { user: user._id })
     } catch(error) {
@@ -101,8 +124,15 @@ router.post('/reset-password', async (req, res, next) => {
         })
 
         const token = auth.createToken(user._id, user.status, user.userType)
-        res.cookie('jwt', token, { maxAge: -1, path: '/', domain: 'localhost', httpOnly: true })
-        res.cookie('userType', user.userType, { maxAge: -1, path: '/', domain: 'localhost', httpOnly: true })
+        const cookieOptions = { 
+            path: '/', 
+            domain: 'localhost', 
+            httpOnly: true 
+        
+        }
+        
+        res.cookie('jwt', token, cookieOptions)
+        res.cookie('userType', user.userType, cookieOptions)
 
         res.status(200).json( { user: user._id })
     } catch (error) {
