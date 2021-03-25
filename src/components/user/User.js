@@ -4,7 +4,7 @@ import { Card, ListGroup, ListGroupItem, Col, Row, Container } from 'react-boots
 
 import UserNav from './UserNav'
 import '../styles/User.css'
-import { booksData } from '../../data/books'
+//import { booksData } from '../../data/books'
 
 function User(){
 
@@ -32,13 +32,19 @@ function User(){
 
     // when component renders, put this data from ../../data/books into state (array of JSON objects)
     useEffect(() => {
-        setBooks(booksData)
+        async function fetchBooks(){
+            const response = await fetch('http://localhost:3000/api/books')
+            const data = await response.json()
+            setBooks(data)
+        }
+        fetchBooks()
     }, [])
 
+    console.log(books)
     const bookCards = books.map(book => (
         <Col style={topBuffer} key={book.isbn} xs='3'>
             <Card style={cardStyle}>
-                <Card.Img variant="top" src={book.image} />
+                <Card.Img variant="top" src={book.cover} />
                 <ListGroup style={lG}  className="list-group-flush">
                     <ListGroupItem>
                         <Card.Title>{book.title}</Card.Title>
@@ -51,12 +57,12 @@ function User(){
                 <ListGroup style={lG} className="list-group-flush">
                     <ListGroupItem>Price: {book.Price}</ListGroupItem>
                 </ListGroup>
-                <listGroup style={lG4} className="list-group-flush">
+                <ListGroup style={lG4} className="list-group-flush">
                     <ListGroupItem>
                         <Card.Link href={book.website}>More Info</Card.Link>
                         <Card.Link href="">Add To Cart</Card.Link>
                     </ListGroupItem>                   
-                </listGroup>
+                </ListGroup>
             </Card>
         </Col>
     ))
