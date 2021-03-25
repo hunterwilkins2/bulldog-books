@@ -17,8 +17,11 @@ const userSchema = Schema({
         unique: true,
         validate: [isEmail, 'Please enter a valid email']
     },
-    dateJoined: 
-    { 
+    recievePromotions: {
+        type: Boolean,
+        required: true
+    },
+    dateJoined: { 
         type: Date, 
         required: true,
         default: Date.now

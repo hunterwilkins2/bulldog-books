@@ -2,10 +2,10 @@ const express = require('express')
 const User = require('../models/User.model')
 const Cart = require('../models/Cart.model')
 const auth = require('../../auth')
+const mailer = require('../../email')
 const genPass = require('generate-password')
 
 const router = express.Router()
-const mailer = require('../../email')
 
 router.post('/register', async (req, res, next) => {
     try {
@@ -13,7 +13,9 @@ router.post('/register', async (req, res, next) => {
             firstName,
             lastName,
             password,
-            email
+            email,
+            recievePromotions,
+            stayLoggedIn
         } = req.body
 
         const user = await User.create({
@@ -21,13 +23,27 @@ router.post('/register', async (req, res, next) => {
             lastName,
             password,
             email,
+            recievePromotions
         })
 
         await Cart.create({ user: user._id })
 
+        mailer.sendMail(user.email, 'Active you Bulldawg Books account', `Thanks for registering for Bulldawg Books. Here is your confirmation code: ${user.confirmationCode}`)
+
         const token = auth.createToken(user._id, user.status, user.userType)
-        res.cookie('jwt', token, { httpOnly: true, maxAge: auth.maxAge * 1000, })
-        res.cookie('userType', user.userType, { maxAge: auth.maxAge * 1000 })
+        const cookieOptions = { 
+            path: '/', 
+            domain: 'localhost', 
+            httpOnly: true 
+        
+        }
+
+        if(stayLoggedIn) {
+            cookieOptions.maxAge = auth.maxAge * 1000
+        }
+        
+        res.cookie('jwt', token, cookieOptions)
+        res.cookie('userType', user.userType, cookieOptions)
 
         res.status(201).json( { user: user._id } )
     } catch (error) {
@@ -44,13 +60,25 @@ router.post('/register', async (req, res, next) => {
 
 router.post('/login', async (req, res, next) => {
     try {
-        const { email, password } = req.body
+        const { email, password, stayLoggedIn } = req.body
 
         const user = await User.login(email, password)
 
         const token = auth.createToken(user._id, user.status, user.userType)
-        res.cookie('jwt', token, { maxAge: auth.maxAge * 1000, path: '/', domain: 'localhost', httpOnly: true })
-        res.cookie('userType', user.userType, { maxAge: auth.maxAge * 1000, path: '/', domain: 'localhost', httpOnly: true })
+
+        const cookieOptions = { 
+            path: '/', 
+            domain: 'localhost', 
+            httpOnly: true 
+        
+        }
+
+        if(stayLoggedIn) {
+            cookieOptions.maxAge = auth.maxAge * 1000
+        }
+
+        res.cookie('jwt', token, cookieOptions)
+        res.cookie('userType', user.userType, cookieOptions)
 
         res.status(200).json( { user: user._id })
     } catch(error) {
@@ -96,8 +124,15 @@ router.post('/reset-password', async (req, res, next) => {
         })
 
         const token = auth.createToken(user._id, user.status, user.userType)
-        res.cookie('jwt', token, { httpOnly: true, maxAge: auth.maxAge * 1000 })
-        res.cookie('userType', user.userType, { maxAge: auth.maxAge * 1000 })
+        const cookieOptions = { 
+            path: '/', 
+            domain: 'localhost', 
+            httpOnly: true 
+        
+        }
+        
+        res.cookie('jwt', token, cookieOptions)
+        res.cookie('userType', user.userType, cookieOptions)
 
         res.status(200).json( { user: user._id })
     } catch (error) {
@@ -124,16 +159,19 @@ router.post('/confirmation', async (req, res, next) => {
     }   
 })
 
-// router.get('/resend-confirmation', async (req, res, next) => {
-//     try {
-//         const id = auth.getId(req.cookie.jwt)
-//         const user = await User.findById(id)
+router.get('/resend-confirmation', async (req, res, next) => {
+    try {
+        const id = auth.getId(req.cookie.jwt)
+        const user = await User.findById(id)
 
-//         // Call email api
+        // Call email api
+        mailer.sendMail(user.email, 'Active you Bulldawg Books account', `Thanks for registering for Bulldawg Books. Here is your confirmation code: ${user.confirmationCode}`)
 
-//     } catch (error) {
-//         next(error)
-//     }
-// })
+        res.status(200)
+
+    } catch (error) {
+        next(error)
+    }
+})
 
 module.exports = router
