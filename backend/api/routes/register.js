@@ -61,10 +61,15 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/forgetEmail', async (req, res, next) => {
     try {
+        // generate new password
+        let newPassword = Math.random().toString(36).slice(2)
+        // change user password to this new password
+        const userEmail = req.body.email
+        User.findOneAndUpdate(
+            { email : userEmail },
+            { password : newPassword}
+        )
         // send email
-        const email = req.body.email
-        console.log(email)
-        let password = 'notrealpassword' // TODO: find password from database (after resetting it)
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             host: 'smtp.gmail.com',
@@ -75,9 +80,9 @@ router.post('/forgetEmail', async (req, res, next) => {
         })
         const mailOptions = {
             from: 'bulldawgbooksswe@gmail.com',
-            to: email, 
+            to: userEmail, 
             subject: 'New Password',
-            text: `Your password for Bulldawg Books has been reset to ${password}`
+            text: `Your password for Bulldawg Books has been reset to ${newPassword}`
         }
         transporter.sendMail(mailOptions, (err, response) => {
             if (err) {
