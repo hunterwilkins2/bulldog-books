@@ -10,6 +10,7 @@ const paymentSchema = Schema({
     { 
         type: String, 
         required: [true, 'Must enter credit card number'],
+        unique: true,
         validate: [isCreditCard, 'Credit card number is not valid']
     },
     type: 

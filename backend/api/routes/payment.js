@@ -1,13 +1,16 @@
 const express = require('express')
-const { Payment } = require('../models/Payment.model')
+const Payment = require('../models/Payment.model')
 const auth = require('../../auth')
 
 const router = express.Router()
 
 router.get('/', auth.verifyCustomer, async (req, res, next) => {
     try {
-        const payments = await Payment.find({ customer: auth.getId(req.cookies.jwt) })
-        res.status(200).send(payments)
+        const id = auth.getId(req.cookies.jwt)
+
+        const payments = await Payment.find({ customer: id }, 'type expirationDate')
+
+        res.status(200).json(payments)
     } catch(error) {
         next(error)
     }
@@ -15,17 +18,19 @@ router.get('/', auth.verifyCustomer, async (req, res, next) => {
 
 router.post('/', auth.verifyCustomer, async (req, res, next) => {
     try {
-        const cardsSaved = Payment.where({ customer: auth.getId(req.cookies.jwt) }).count()
-        if(cardsSaved <= 3) {
+        const id = auth.getId(req.cookies.jwt) 
+        const cardCount = await Payment.countDocuments({ customer: id }).exec()
+
+        if(cardCount <= 3) {        
             const { cardNumber, type, expirationDate } = req.body
-            const id = auth.getId(req.cookies.jwt) 
-    
-            await Payment.create(id, cardNumber, type, expirationDate)
-    
-            res.status(204).send()
+        
+            await Payment.create({ customer: id, cardNumber, type, expirationDate })
+        
+            res.status(200).send('Sucessfully added card')
         } else {
-            throw Error('Can only have 3 cards save to an account')
+            throw Error('Can only have 3 cards associated with an account')
         }
+
     } catch(error) {
         next(error)
     }
@@ -33,9 +38,13 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
 
 router.delete('/', auth.verifyCustomer, async (req, res, next) => {
     try {
-        await Payment.deleteOne({ customer: auth.getId(req.cookies.jwt) })
-        res.status(204).send()
+        const { paymentId } = req.body
+
+        await Payment.findByIdAndDelete(paymentId)
+        res.status(200).send('Successfully deleted card')
     } catch(error) {
         next(error)
     }
 })
+
+module.exports = router
