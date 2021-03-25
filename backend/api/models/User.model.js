@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose')
 const { isEmail } = require('validator')
 const bcrypt = require('bcrypt')
+const generator = require('generate-password')
 
 const userSchema = Schema({
     firstName: { type: String, required: [true, 'Please enter your first name'] },
@@ -22,6 +23,10 @@ const userSchema = Schema({
         required: true,
         default: Date.now
     },
+    confirmationCode: {
+        type: String,
+        default: generator.generate({ length: 6, numbers: true })
+    },
     status: { 
         type: String, 
         enum: ['active', 'inactive', 'suspended'],
@@ -39,6 +44,18 @@ const userSchema = Schema({
 userSchema.pre('save', async function (next) {
     const salt = await bcrypt.genSalt()
     this.password = await bcrypt.hash(this.password, salt)
+    next()
+})
+
+userSchema.pre('findOneAndUpdate', async function (next) {
+    if(!this._update.password) {
+        return next()
+    }
+
+    let pass = this.getUpdate().password
+    const salt = await bcrypt.genSalt()
+    pass = await bcrypt.hash(pass, salt)
+    this.findOneAndUpdate({}, { password: pass })
     next()
 })
 

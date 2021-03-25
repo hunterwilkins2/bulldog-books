@@ -100,4 +100,34 @@ router.post('/forgetEmail', async (req, res, next) => {
     }
 })
 
+router.post('/confirmation', async (req, res, next) => {
+    try {
+        const id = auth.getId(req.cookies.jwt)
+        const { confirmationCode } = req.body
+
+        const user = await User.findById(id)
+
+        if(user.confirmationCode == confirmationCode) {
+            await User.findOneAndUpdate( { _id: id}, { status: 'active' })
+            res.status(200).json( { message: 'Confirmation successful'})
+        } else {
+            throw Error('Incorrect confirmation code')
+        }
+    } catch (error) {
+        next(error)
+    }   
+})
+
+// router.get('/resend-confirmation', async (req, res, next) => {
+//     try {
+//         const id = auth.getId(req.cookie.jwt)
+//         const user = await User.findById(id)
+
+//         // Call email api
+
+//     } catch (error) {
+//         next(error)
+//     }
+// })
+
 module.exports = router
