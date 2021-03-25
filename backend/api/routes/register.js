@@ -24,7 +24,7 @@ router.post('/register', async (req, res, next) => {
         await Cart.create({ user: user._id })
 
         const token = auth.createToken(user._id, user.status, user.userType)
-        res.cookie('jwt', token, { httpOnly: true, maxAge: auth.maxAge * 1000 })
+        res.cookie('jwt', token, { httpOnly: true, maxAge: auth.maxAge * 1000, })
         res.cookie('userType', user.userType, { maxAge: auth.maxAge * 1000 })
 
         res.status(201).json( { user: user._id } )
@@ -46,11 +46,13 @@ router.post('/login', async (req, res, next) => {
 
         const user = await User.login(email, password)
 
-        const token = auth.createToken(user._id, user.status, user.userType)
-        res.cookie('jwt', token, { httpOnly: true, maxAge: auth.maxAge * 1000 })
-        res.cookie('userType', user.userType, { maxAge: auth.maxAge * 1000 })
+        // const token = auth.createToken(user._id, user.status, user.userType)
+        // res.cookie('jwt', token, { maxAge: auth.maxAge * 1000 })
+        // res.cookie('userType', user.userType, { path: '/', domain: 'localhost', httpOnly: true })
 
-        res.status(200).json( { user: user._id })
+        res.cookie('userType', user.userType, { path: '/', domain: 'localhost', sameSite: 'lax' })
+            .status(200)
+            .json( { user: user._id })
     } catch(error) {
         res.status(401)
 
@@ -67,7 +69,7 @@ router.post('/confirmation', async (req, res, next) => {
 
         if(user.confirmationCode == confirmationCode) {
             await User.findOneAndUpdate( { _id: id}, { status: 'active' })
-            res.status(200).send()
+            res.status(200).json( { message: 'Confirmation successful'})
         } else {
             throw Error('Incorrect confirmation code')
         }
