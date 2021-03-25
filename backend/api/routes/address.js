@@ -19,9 +19,15 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
         const { street, city, state, zipcode } = req.body
         const id = auth.getId(req.cookies.jwt) 
 
+        const currentAddress = await Address.findOne({ customer: id })
+
+        if(currentAddress) {
+            throw Error('Cannot save more than one address')
+        }
+
         await Address.create({ customer: id, street, city, state, zipcode })
 
-        res.status(200).send('Successfully added address')
+        res.status(200).json({message: 'Successfully added address'})
     } catch(error) {
         next(error)
     }
@@ -35,7 +41,7 @@ router.patch('/', auth.verifyCustomer, async (req, res, next) => {
         const address = await Address.findOneAndUpdate({ customer: id }, patchData, { new: true })
 
         if(address) {
-            res.status(200).send('Succesfully updated address')
+            res.status(200).json({message: 'Succesfully updated address'})
         } else {
             throw Error('Could not find address')
         }
@@ -49,7 +55,7 @@ router.delete('/', auth.verifyCustomer, async (req, res, next) => {
     try {
         const id = auth.getId(req.cookies.jwt)
         await Address.deleteOne({ customer: id })
-        res.status(200).send('Succesfully deleted address')
+        res.status(200).json({message: 'Succesfully deleted address'})        
     } catch(error) {
         next(error)
     }

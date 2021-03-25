@@ -8,7 +8,7 @@ const router = express.Router()
 router.get('/', async (req, res, next) => {
     try {
         const books = await Book.find()
-        res.send(books)
+        res.json(books)
     } catch(error) {
         next(error)
     }
@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:isbn', async (req, res, next) => {
     try {
         const book = await Book.findOne({ isbn: req.params.isbn })
-        res.send(book)
+        res.json(book)
     } catch(error) {
         next(error)
     }
@@ -55,7 +55,7 @@ router.post('/', auth.verifyAdmin, async (req, res, next) => {
             threshold: threshold })
 
         await book.save()
-        res.send(book)
+        res.json(book)
     } catch(error) {
         next(error)
     }
@@ -65,7 +65,7 @@ router.post('/', auth.verifyAdmin, async (req, res, next) => {
 router.delete('/:isbn', auth.verifyAdmin, async (req, res, next) => {
     try {
         await Book.deleteOne({ isbn: req.params.isbn })
-        res.status(204).send()
+        res.status(200).json({ message: 'Successfully deleted book'})
     } catch(error) {
         next(error)
     }

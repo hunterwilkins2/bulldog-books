@@ -26,7 +26,7 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
         
             await Payment.create({ customer: id, cardNumber, type, expirationDate })
         
-            res.status(200).send('Sucessfully added card')
+            res.status(200).json({ message: 'Sucessfully added card' })
         } else {
             throw Error('Can only have 3 cards associated with an account')
         }
@@ -41,7 +41,7 @@ router.delete('/', auth.verifyCustomer, async (req, res, next) => {
         const { paymentId } = req.body
 
         await Payment.findByIdAndDelete(paymentId)
-        res.status(200).send('Successfully deleted card')
+        res.status(200).json({ message: 'Successfully deleted card' })
     } catch(error) {
         next(error)
     }
