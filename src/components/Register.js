@@ -29,26 +29,74 @@ function Register(){
         email: yup.string().email('Invalid Email Format').required('Required'),
         password: yup.string().required('Required'),
         address1: yup.string()
-            .min(1, 'Address Line 1 must be betwen 1 and 100 characters')
-            .max(100, 'Address Line 1 must be betwen 1 and 100 characters'),
+            .when(['address2', 'city', 'state', 'zip'], {
+                is: (address2, city, state, zip) => address2 === undefined && city === undefined && state === undefined && zip === undefined,
+                then: yup.string().min(1, 'Minimum 1 Character').max(100,'Max 100 Characters').notRequired(),
+                otherwise: yup.string().min(1, 'Minimum 1 Character').max(100,'Max 100 Characters').required('Address Line 1 is Required')
+            }),
         address2: yup.string()
             .min(1, 'Address Line 2 must be betwen 1 and 100 characters')
             .max(100, 'Address Line 2 must be betwen 1 and 100 characters'),
         city: yup.string()
-            .min(1, 'Please enter a valid city name')
-            .max(23, 'Please enter a valid city name'),
+            .when(['address1', 'address2','state', 'zip'], {
+                is: (address1, address2, state, zip) => address1 === undefined && address2 === undefined && state === undefined && zip === undefined,
+                then: yup.string().min(1, 'Minimum 1 Character').max(23,'Max 23 Characters').notRequired(),
+                otherwise: yup.string().min(1, 'Minimum 1 Character').max(23,'Max 23 Characters').required('City is Required')
+            }),
         zip: yup.string()
-            .length(5, 'Enter a valid zip code of length 5')
-            .matches('^[0-9]*$', 'zip code can only contain numbers'),
+            .when(['address1', 'address2','state', 'city'], {
+                is: (address1, state, city, address2) => address1 === undefined && address2 === undefined && state === undefined && city === undefined,
+                then: yup.string().length(5, 'Must be length 5').matches('^[0-9]*$', 'Must contain only contain numbers').notRequired(),
+                otherwise: yup.string().length(5, 'Must be length 5').matches('^[0-9]*$', 'Must contain only contain numbers').required()
+            }),
+        state: yup.string()
+            .when(['address1', 'address2','zip', 'city'], {
+                is: (address1, address2, zip, city) => address1 === undefined && address2 === undefined && zip === undefined && city === undefined,
+                then: yup.string().notRequired(),
+                otherwise: yup.string().required()
+            }),
         cardNumber: yup.string()
-            .length(16, 'Enter a valid card number of length 16')
-            .matches('^[0-9]*$', 'card number can only contain numbers'),
+            .when(['security', 'expiration', 'cardType'], {
+                is: (security, cardType, expiration) => security === undefined && cardType === undefined && expiration === undefined,
+                then: yup.string().length(16, 'Must be 16 digits').matches('^[0-9]*$', 'Can only contain numbers').notRequired(),
+                otherwise: yup.string().length(16, 'Must be 16 digits').matches('^[0-9]*$', 'Can only contain numbers').required()
+            }),
         security: yup.string()
-            .min(3, 'Minimum length of 3')
-            .max(4, 'Maximum length of 4')
-            .matches('^[0-9]*$', 'card number can only contain numbers')
-    })
-
+            .when(['cardNumber', 'expiration', 'cardType'], {
+                is: (cardNumber, cardType, expiration) => cardNumber === undefined && cardType === undefined && expiration === undefined,
+                then: yup.string().min(3, 'Minimum length of 3').max(4, 'Maximum length of 4').matches('^[0-9]*$', 'card number can only contain numbers').notRequired(),
+                otherwise: yup.string().min(3, 'Minimum length of 3').max(4, 'Maximum length of 4').matches('^[0-9]*$', 'card number can only contain numbers').required()
+            }),
+        expiration: yup.date()
+            .when(['cardNumber', 'security', 'cardType'], {
+                is: (cardNumber, cardType, security) => cardNumber === undefined && cardType === undefined && security === undefined,
+                then: yup.date().notRequired(),
+                otherwise: yup.date().required()
+            }),
+        cardType: yup.string()
+            .when(['cardNumber', 'security', 'expiration'], {
+                is: (cardNumber, expiration, security) => cardNumber === undefined && expiration === undefined && security === undefined,
+                then: yup.string().notRequired(),
+                otherwise: yup.string().required()
+            })
+    }, [['address1', 'city'], 
+        ['address1', 'zip'], 
+        ['city', 'zip'], 
+        ['address1', 'state'],
+        ['city', 'state'], 
+        ['zip', 'state'],
+        ['address2', 'city'],
+        ['address2', 'address1'],
+        ['address2', 'zip'],
+        ['address2', 'state'],
+        ['cardNumber', 'security'],
+        ['cardNumber', 'expiration'],
+        ['cardNumber', 'cardType'],
+        ['security', 'expiration'],
+        ['security', 'cardType'],
+        ['expiration', 'cardType'],
+        ['expiration', 'cardNumber']
+    ])
     return(
         <>
             <StoreNavbar/>
@@ -88,7 +136,7 @@ function Register(){
                     isValid
                 }) => (
                     <div style={{display: 'flex', justifyContent: 'center', maxWidth: '100vw'}}>
-                        <Form className="register-form" style={formStyle} onSubmit={handleSubmit}>
+                        <Form className="register-form" style={formStyle} onSubmit={handleSubmit}> 
                             <Form.Row>
                                 <Form.Group as={Col} controlId="formFirstName">
                                     <Form.Label>First Name</Form.Label>
@@ -166,7 +214,7 @@ function Register(){
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     isValid={touched.address1 && !errors.address1}
-                                    isInvalid={touched.address1 && errors.addres1}
+                                    isInvalid={errors.address1}
                                 />
                                 <ErrorMessage name="address1" />
                             </Form.Group>
@@ -193,7 +241,7 @@ function Register(){
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         isValid={touched.city && !errors.city}
-                                        isInvalid={touched.city && errors.city}
+                                        isInvalid={errors.city}
                                     />
                                     <ErrorMessage name="city" />
                                 </Form.Group>
@@ -206,8 +254,10 @@ function Register(){
                                         value={values.state}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
+                                        isValid={touched.state && !errors.state}
+                                        isInvalid={errors.state}
                                     >
-                                        <option value="Choose...">Choose...</option>
+                                        <option value="">Choose...</option>
                                         <option value="AL">Alabama</option>
                                         <option value="AK">Alaska</option>
                                         <option value="AZ">Arizona</option>
@@ -270,7 +320,7 @@ function Register(){
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         isValid={touched.zip && !errors.zip}
-                                        isInvalid={touched.zip && errors.zip}
+                                        isInvalid={errors.zip}
                                     />
                                 </Form.Group>
                             </Form.Row>
@@ -283,10 +333,10 @@ function Register(){
                                     value={values.cardType}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    isInvalid={(touched.cardType && errors.cardType) || (!touched.cardType && (touched.cardNumber || touched.security || touched.expiration )) }
                                     isValid={touched.cardType && !errors.cardType}
+                                    isInvalid={errors.cardType}
                                 >
-                                    <option>Choose...</option>
+                                    <option value = ''>Choose...</option>
                                     <option>Visa</option>
                                     <option>American Express</option>
                                     <option>MasterCard</option>
@@ -301,7 +351,7 @@ function Register(){
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     isValid={touched.cardNumber && !errors.cardNumber}
-                                    isInvalid={(touched.cardNumber && (errors.cardNumber || values.cardNumber.length == 0))|| (!touched.cardNumber && (touched.cardType || touched.security || touched.expiration )) } 
+                                    isInvalid={errors.cardNumber}
                                 />
                                 <ErrorMessage name="cardNumber" />
                             </Form.Group>
@@ -315,7 +365,7 @@ function Register(){
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         isValid={touched.expiration && !errors.expiration}
-                                        isInvalid={(touched.expiration && errors.expiration) || (!touched.expiration && (touched.cardType || touched.security || touched.cardNumber )) } 
+                                        isInvalid={errors.expiration}
                                     />
                                 </Form.Group>
                                 <Form.Group as={Col}>
@@ -326,7 +376,7 @@ function Register(){
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         isValid={touched.security && !errors.security}
-                                        isInvalid={(touched.security && (errors.security || values.security.length == 0)) || (!touched.security && (touched.cardType || touched.cardNumber || touched.expiration )) } 
+                                        isInvalid={errors.security}
                                     />
                                     <ErrorMessage name="security" />
                                 </Form.Group>
