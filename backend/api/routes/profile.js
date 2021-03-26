@@ -16,4 +16,22 @@ router.get('/', auth.verifyCustomer, async (req, res, next) => {
     }
 })
 
+router.patch('/', auth.verifyCustomer, async (req, res, next) => {
+    try {
+        if(req.body.password) {
+            throw Error('Must use reset password route')
+        }
+
+        const id = auth.getId(req.cookies.jwt)
+        const { firstName, lastName, recievePromotions } = req.body
+        
+        await User.findByIdAndUpdate(id, { firstName, lastName, recievePromotions }, { new: true})
+
+        res.status(200).json({ message: 'Successfully updated user information' })
+
+    } catch (error) {
+        next(error)
+    }
+})
+
 module.exports = router
