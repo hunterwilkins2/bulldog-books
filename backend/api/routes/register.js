@@ -164,10 +164,9 @@ router.get('/resend-confirmation', async (req, res, next) => {
         const id = auth.getId(req.cookie.jwt)
         const user = await User.findById(id)
 
-        // Call email api
         mailer.sendMail(user.email, 'Active you Bulldawg Books account', `Thanks for registering for Bulldawg Books. Here is your confirmation code: ${user.confirmationCode}`)
 
-        res.status(200)
+        res.status(200).json({ message: 'Password was sent to your email' })
 
     } catch (error) {
         next(error)
