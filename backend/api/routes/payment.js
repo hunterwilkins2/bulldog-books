@@ -16,7 +16,7 @@ router.get('/', auth.verifyCustomer, async (req, res, next) => {
     }
 })
 
-router.post('/', auth.verifyCustomer, async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
         const id = auth.getId(req.cookies.jwt) 
         const cardCount = await Payment.countDocuments({ customer: id }).exec()

@@ -14,7 +14,7 @@ router.get('/', auth.verifyCustomer, async (req, res, next) => {
     }
 })
 
-router.post('/', auth.verifyCustomer, async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
         const { street, city, state, zipcode } = req.body
         const id = auth.getId(req.cookies.jwt) 
