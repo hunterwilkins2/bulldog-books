@@ -13,7 +13,7 @@ const addressSchema = Schema({
     { 
         type: Number,
         required: [true, 'Please enter your zip code'],
-        validate: [(str) => isLength(str.toString(), { min: 6, max: 6 }), 'Please enter a valid zip code']
+        validate: [(str) => isLength(str.toString(), { min: 5, max: 5 }), 'Please enter a valid zip code']
     },
 })
 
