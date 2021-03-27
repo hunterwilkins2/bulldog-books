@@ -4,40 +4,14 @@ import { Link } from 'react-router-dom'
 import NumericInput from 'react-numeric-input'
 
 import UserNav from '../UserNav'
+// import StoreNavbar from '../StoreNavbar'
 import { booksData } from '../../data/books'
+import './../styles/Cart.css' 
 
 function Cart(){
 
     let orderData = booksData.slice(1,4)
 
-    
-    const cardStyle ={ 
-        padding: '5%',
-        width: '100%',
-        height: '90%'
-    }
-
-    const cardImage = {
-        height: '50%'
-    }
-
-    const h1Style = {
-        fontSize: '2.5em'
-    }
-
-    const buttonStyle={
-        margin: '10px'
-    }
-
-    const colStyle = {
-        margin: '0px'
-    }
-
-    const rowStyle = {
-        margin: '0px'
-    }
-
-    
     // keep books in state
     const [books, setBooks] = useState([])
 
@@ -47,9 +21,9 @@ function Cart(){
     }, [])
 
     const bookCards = books.map(book => (
-        <Col style={colStyle} key={book.isbn} xs='3'>
-            <Card style={cardStyle}>
-                <Card.Img variant="top" src={book.image} style={cardImage} />
+        <Col id = "col-style-cart" key={book.isbn} xs='3'>
+            <Card id = "card-style-cart">
+                <Card.Img variant="top" src={book.image} id = "card-image-cart" />
                 <Card.Body>
                     <Card.Title>{book.title}</Card.Title>
                     <Card.Subtitle className="text-muted">{book.subtitle}</Card.Subtitle>
@@ -72,20 +46,20 @@ function Cart(){
         </Col>
     ))
     return(
-        <div>
+        <div id = "background">
             <UserNav/> 
-            <h1 style={h1Style}>Cart</h1>
+            <h1 id = "h1-style-cart">Cart</h1>
             <Container>
-                <Row className="mx-auto" lg={3} style={rowStyle}>
+                <Row className="mx-auto" lg={3} id = "row-style-cart">
                     {bookCards}
                 </Row>
                 <Link to='/user/checkout'>
-                    <Button variant="primary" type="submit" style = {buttonStyle}>
+                    <Button variant="primary" type="submit" id = "button-style-cart">
                             Proceed to Checkout
                     </Button>
                 </Link>
             </Container>
-        </div>       
+        </div>      
     )
 }
 
