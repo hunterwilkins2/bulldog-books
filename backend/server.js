@@ -13,6 +13,8 @@ const register = require('./api/routes/register')
 const payment = require('./api/routes/payment')
 const address = require('./api/routes/address')
 const profile = require('./api/routes/profile')
+const bestSellers = require('./api/routes/bestSeller')
+const newRelases = require('./api/routes/newReleases')
 
 mongoose.set('useFindAndModify', false)
 mongoose.set('useCreateIndex', true)
@@ -39,6 +41,8 @@ app.get('/', (req, res) => {
 
 app.use('/', register)
 app.use('/api/books', books)
+app.use('/api/bestSellers', bestSellers)
+app.use('/api/newReleases', newRelases)
 app.use('/api/address', address)
 app.use('/api/payment', payment)
 app.use('/api/profile', profile)
