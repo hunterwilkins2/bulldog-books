@@ -6,6 +6,7 @@ import NumericInput from 'react-numeric-input'
 import StoreNavbar from '../StoreNavbar'
 import { booksData } from '../../data/books'
 import './../styles/Cart.css' 
+import './../styles/Background.css'
 
 function Cart(){
 

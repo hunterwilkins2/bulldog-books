@@ -6,6 +6,7 @@
         background-attachment: fixed;
         background-size: 100% 100%;
         min-height: 100vh;
+        min-width: 100vw;
 
         font-family: Verdana, Geneva, Tahoma, sans-serif;
     }

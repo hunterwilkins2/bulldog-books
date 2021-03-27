@@ -1,0 +1,28 @@
+
+
+    #row1-profile {
+        padding:2%;
+        padding-bottom:0;
+    }
+
+    #row2-profile {
+        padding:2%;
+    }
+
+    #form-style-profile {
+        border: 0.5px solid #ffffff;
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 15px;
+        height: 100%;
+        max-height: 60vh;
+
+    }
+
+    #h1-style-profile {
+        font-size: 1.5em;
+    }
+
+    #button1-profile {
+        margin-top: 8.5%;              
+    }

@@ -4,7 +4,8 @@ import { Formik, ErrorMessage} from 'formik'
 import * as yup from 'yup'
 
 import StoreNavbar from '../StoreNavbar'
-import '../../styles.css'
+import './../styles/Profile.css' 
+import './../styles/Background.css'
 
 function Profile(){
 
@@ -24,18 +25,18 @@ function Profile(){
         security: '123',
     }
 
-    const formStyle = {
-        border:'0.5px solid #ffffff',
-        background: '#ffffff',
-        borderRadius: '20px',
-        padding: '15px',
-        margin: '2%',
-        height: '95%',
-    }
+    // const formStyle = {
+    //     border:'0.5px solid #ffffff',
+    //     background: '#ffffff',
+    //     borderRadius: '20px',
+    //     padding: '15px',
+    //     margin: '2%',
+    //     height: '95%',
+    // }
 
-    const h1Style = {
-        fontSize: '1.5em'
-    }
+    // const h1Style = {
+    //     fontSize: '1.5em'
+    // }
 
     const editNameSchema = yup.object().shape({
         firstName: yup.string()
@@ -79,8 +80,8 @@ function Profile(){
     return(
         <>
             <StoreNavbar/>
-            <Container>
-                <Row>
+            <Container id = "background">
+                <Row id = "row1-profile">
                     <Col>
                         <Formik 
                             initialValues={{
@@ -104,8 +105,8 @@ function Profile(){
                                 dirty,
                                 isValid,
                             }) => (
-                                <Form style={formStyle}>
-                                    <h1 style={h1Style}>Update Info</h1>
+                                <Form id = "form-style-profile">
+                                    <h1 id = "h1-style-profile">Update Info</h1>
                                     <Form.Row>
                                         <Form.Group as={Col} controlId="formFirstName">
                                             <Form.Label>First Name</Form.Label>
@@ -155,7 +156,7 @@ function Profile(){
                                             isValid={touched.receivePromos && !errors.receivePromos}
                                             isInvalid={touched.receivePromos && errors.receivePromos} 
                                         /></Form.Group>
-                                    <Button variant="primary" type="submit" disabled={!(dirty && isValid)}>
+                                    <Button id = "button1-profile" variant="primary" type="submit" disabled={!(dirty && isValid)}>
                                 Save Changes
                                     </Button>
                                 </Form>
@@ -184,8 +185,8 @@ function Profile(){
                                 dirty,
                                 isValid,
                             }) => (
-                                <Form className="edit-card-form" style={formStyle}>
-                                    <h1 style={h1Style}>Update Payment</h1>
+                                <Form className="edit-card-form" id = "form-style-profile">
+                                    <h1 id = "h1-style-profile">Update Payment</h1>
                                     <Form.Group controlId="formCardType">
                                         <Form.Label>Card Type</Form.Label>
                                         <Form.Control 
@@ -246,14 +247,14 @@ function Profile(){
                                             <ErrorMessage name="security" />
                                         </Form.Group>
                                     </Form.Row>
-                                    <Button variant="primary" type="submit" disabled={!(dirty && isValid)}>
-                                Save Changes
+                                    <Button id = "button2-profile"  variant="primary" type="submit" disabled={!(dirty && isValid)}>
+                                        Save Changes
                                     </Button>
                                 </Form>
                             )}</Formik>
                     </Col>
                 </Row>
-                <Row>
+                <Row id = "row2-profile">
                     <Col>   
                         <Formik 
                             initialValues={{
@@ -278,8 +279,8 @@ function Profile(){
                                 dirty,
                                 isValid,
                             }) => (
-                                <Form classname="edit-address-form" style={formStyle}>
-                                    <h1 style={h1Style}>Update Address</h1>
+                                <Form classname="edit-address-form" id = "form-style-profile">
+                                    <h1 id = "h1-style-profile">Update Address</h1>
                                     <Form.Group controlId="formAddress1">
                                         <Form.Label>Address Line 1</Form.Label>
                                         <Form.Control 
@@ -401,7 +402,7 @@ function Profile(){
                                             <ErrorMessage name="zip" />
                                         </Form.Group>
                                     </Form.Row>
-                                    <Button variant="primary" type="submit" disabled={!(dirty && isValid)}>
+                                    <Button id = "button-profile" variant="primary" type="submit" disabled={!(dirty && isValid)}>
                                 Save Changes
                                     </Button>
                                 </Form>
@@ -429,8 +430,8 @@ function Profile(){
                                 dirty,
                                 isValid,
                             }) => (
-                                <Form classname="edit-password-form" style={formStyle}>
-                                    <h1 style={h1Style}>Update Password</h1>
+                                <Form classname="edit-password-form" id = "form-style-profile">
+                                    <h1 id = "h1-style-profile">Update Password</h1>
                                     <Form.Group controlId="formOldPassword">
                                         <Form.Label>Old Password</Form.Label>
                                         <Form.Control 
@@ -470,7 +471,7 @@ function Profile(){
                                         />
                                         <ErrorMessage name="confirmPassword" />
                                     </Form.Group>
-                                    <Button variant="primary" type="submit" disabled={!(dirty && isValid)}>
+                                    <Button id = "button-profile" variant="primary" type="submit" disabled={!(dirty && isValid)}>
                     Save Changes
                                     </Button>
                                 </Form>
