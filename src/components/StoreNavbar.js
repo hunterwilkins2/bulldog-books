@@ -2,9 +2,17 @@ import React from 'react'
 import { Navbar, Form, FormControl, Button, Nav, Dropdown, DropdownButton } from 'react-bootstrap'
 import { Basket, Search } from 'react-bootstrap-icons'
 import { Link } from 'react-router-dom'
+import { getCookie, deleteCookie } from './cookie-parser'
 
 import bulldawgbook from './images/bulldawgbook.png' 
 import './styles/StoreNavbar.css' 
+
+function logout() {
+    if(getCookie('jwt') || getCookie('userType')) {
+        deleteCookie('jwt', '/', 'localhost')
+        deleteCookie('userType', '/', 'localhost')
+    }
+}
 
 function UserNav(){
 
@@ -31,11 +39,16 @@ function UserNav(){
                 <DropdownButton id="dropdown-basic-button" title="Profile">
                     <Dropdown.Item href="/user/Profile">Profile</Dropdown.Item>
                     <Dropdown.Item href="/user/Orders">Orders</Dropdown.Item>
-                    <Dropdown.Item href="/Login">Login</Dropdown.Item>
-                    <Dropdown.Item href="/">Logout</Dropdown.Item>
                 </DropdownButton>
 
                 <Button href="/user/Cart" className="ml-2" variant="light"><Basket /> Cart</Button>{' '}
+
+                <Button onClick={logout}
+                    href={!getCookie('jwt') ? '/login' : '/'} 
+                    className="ml-2" 
+                    variant="outline-info">
+                    {!getCookie('jwt') ? 'Login' : 'Logout'}
+                </Button>{' '}
             </Nav>
         </Navbar>
     )
