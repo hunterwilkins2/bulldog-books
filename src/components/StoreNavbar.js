@@ -22,8 +22,11 @@ function UserNav(){
                 <Link to='/'>
                     <img alt="" src={bulldawgbook}/>{' '}
                 </Link>
-                <Link to='/' className="text-white"  id = "text_bulldawg"> BULLDAWG </Link>
-                <Link to='/' className="text-danger" id = "text_books">  BOOKS</Link>
+                <Link to='/' id="logoLink">
+                    <span className="text-white" id="text_bulldawg">BULLDAWG </span>
+                    <span id="logoSpace"> </span>
+                    <span className="text-danger" id="text_books">BOOKS</span>
+                </Link>
             </Navbar.Brand>
 
             {/* {(type === 'user' || type ==='admin') &&   */}

@@ -18,6 +18,10 @@
         border: 2px solid white;
     }
 
+    #logoLink:hover *{
+        text-decoration: underline;
+    }
+
     #text_bulldawg {
         font-family: Bebas Neue;
         font-size: 200%;
