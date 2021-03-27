@@ -24,7 +24,7 @@ function Promos(){
 
                 <Row > {promo.title} </Row>
                 <br></br>
-                <Row id = "pcode-p"> CODE: {promo.code} </Row>
+                <Row className = "mx-auto" id = "pcode-p"> CODE: {promo.code} </Row>
             
             </Col>
             <Col id = "col3-p"> {promo.discount}</Col>

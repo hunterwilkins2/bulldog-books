@@ -6,9 +6,8 @@
 }
 
 #title {
-    font-size: 300%;
+    font-size: xx-large;
     font-weight: bold;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-color:rgb(61, 65, 65);
     border: 2px solid white;
     border-radius: 25px;
@@ -38,7 +37,7 @@
     text-align: center;
 
     margin: 2%;
-    max-width: 60%;
+    max-width: 90%;
     padding-top: 1%;
     padding-bottom: 2%
 }
