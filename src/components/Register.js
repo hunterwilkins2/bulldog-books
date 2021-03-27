@@ -6,15 +6,16 @@ import { Formik, ErrorMessage} from 'formik'
 import * as yup from 'yup'
 
 import StoreNavbar from './StoreNavbar'
+import './styles/Background.css'
 import './styles/Register.css'
 
 function Register(){
 
-    const formStyle = {
-        border:'2px solid #ffffff',
-        background: '#ffffff',
-        borderRadius: '25px'
-    }
+    // const formStyle = {
+    //     border:'2px solid #ffffff',
+    //     background: '#ffffff',
+    //     borderRadius: '25px'
+    // }
 
     const validationSchema = yup.object().shape({
         firstName: yup.string()
@@ -97,7 +98,7 @@ function Register(){
         ['expiration', 'cardNumber']
     ])
     return(
-        <>
+        <div id = "background">
             <StoreNavbar/>
             <Formik
                 initialValues={{
@@ -134,8 +135,8 @@ function Register(){
                     dirty,
                     isValid
                 }) => (
-                    <div style={{display: 'flex', justifyContent: 'center', maxWidth: '100vw'}}>
-                        <Form className="register-form" style={formStyle} onSubmit={handleSubmit}> 
+                    <div className = "mx-auto" id = "main-cont-register" >
+                        <Form id="register-form" onSubmit={handleSubmit}> 
                             <Form.Row>
                                 <Form.Group as={Col} controlId="formFirstName">
                                     <Form.Label>First Name</Form.Label>
@@ -392,7 +393,7 @@ function Register(){
                         </Form>
                     </div>
                 )}</Formik>
-        </>
+        </div>
     )
 }
 
