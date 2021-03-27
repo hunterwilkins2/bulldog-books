@@ -1,0 +1,20 @@
+
+
+#title-checkout {
+    color: white;
+    text-align: center;
+}
+
+#main-cont-checkout {
+    background: #ffffff;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-bottom: 2%;
+    border-radius: 25px;
+}
+
+#h2-checkout {
+    margin-top:5%;
+    margin-bottom: 4%;
+    text-align: center;
+}

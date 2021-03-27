@@ -3,6 +3,8 @@ import {Button, Card, Col, Container, Form, Row, ListGroup} from 'react-bootstra
 
 import StoreNavbar from '../StoreNavbar'
 import { booksData } from '../../data/books'
+import './../styles/Checkout.css' 
+import './../styles/Background.css'
 
 function Checkout(){
     let orderData = booksData.slice(1,4)
@@ -25,13 +27,13 @@ function Checkout(){
 
     console.log('checkout')
     return(
-        <div>
+        <div id = "background">
             <StoreNavbar/> 
-            <h1>Checkout</h1>
-            <Container>
+            <h1 id = "title-checkout">Checkout</h1>
+            <Container id = "main-cont-checkout">
                 <Row>
                     <Col>
-                        <h2>Delivery Information</h2>
+                        <h2 id = "h2-checkout">Delivery Information</h2>
                         <Form>
                             <Form.Row>
                                 <Form.Group as={Col}>
@@ -69,7 +71,7 @@ function Checkout(){
                                 </Form.Group>
                             </Form.Row>
                         </Form>
-                        <h2>Billing Information</h2>
+                        <h2 id = "h2-checkout">Billing Information</h2>
                         <Form>
                             <Form.Row>
                                 <Form.Group as={Col}>
@@ -109,7 +111,7 @@ function Checkout(){
                         </Form>
                     </Col>
                     <Col>
-                        <h2>Order Summary</h2>
+                        <h2 id = "h2-checkout">Order Summary</h2>
                         <Card>
                             <ListGroup variant="flush">
                                 <ListGroup.Item>Learning JavaScript Design Patterns: $23.21</ListGroup.Item>
@@ -121,7 +123,7 @@ function Checkout(){
                                 <ListGroup.Item>Grand Total: $92.62 </ListGroup.Item>
                             </ListGroup>
                         </Card>
-                        <h2>Payment Information</h2>
+                        <h2 id = "h2-checkout">Payment Information</h2>
                         <Form>
                             <Form.Group>
                                 <Form.Label>Credit Card Number</Form.Label>
