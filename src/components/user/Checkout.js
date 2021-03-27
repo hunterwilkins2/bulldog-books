@@ -1,7 +1,7 @@
 import React from 'react'
 import {Button, Card, Col, Container, Form, Row, ListGroup} from 'react-bootstrap'
 
-import UserNav from './UserNav'
+import UserNav from '../UserNav'
 import { booksData } from '../../data/books'
 
 function Checkout(){

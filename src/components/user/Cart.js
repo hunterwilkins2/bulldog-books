@@ -3,7 +3,7 @@ import { Card, ListGroup, ListGroupItem, Row, Col, Container, Form, Button } fro
 import { Link } from 'react-router-dom'
 import NumericInput from 'react-numeric-input'
 
-import UserNav from './UserNav'
+import UserNav from '../UserNav'
 import { booksData } from '../../data/books'
 
 function Cart(){

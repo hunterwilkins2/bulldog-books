@@ -3,7 +3,7 @@ import { Form, Row, Col, Button, Container } from 'react-bootstrap'
 import { Formik, ErrorMessage} from 'formik'
 import * as yup from 'yup'
 
-import UserNav from './UserNav'
+import UserNav from '../UserNav'
 import '../../styles.css'
 
 function Profile(){

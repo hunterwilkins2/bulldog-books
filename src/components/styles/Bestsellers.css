@@ -1,0 +1,29 @@
+
+
+#row-style-b {
+    border:2px solid #ffffff;
+    border-radius: 25px;
+    background: lightgray;
+    margin: 1%;
+
+
+    align-items: center;
+    text-align: center;
+
+    max-width: 79%;
+}
+
+#pic-b {
+    width: 100%;
+    height: 100%;
+}
+#col1-b {
+    margin: 2%;
+}
+#col2-b {
+    font-weight: bold;
+}
+
+#col3-b {
+    font-weight: bold;      
+}

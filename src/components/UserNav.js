@@ -3,7 +3,7 @@ import { Navbar, Form, FormControl, Button, Nav, Dropdown, DropdownButton } from
 import { Basket, Search } from 'react-bootstrap-icons'
 import { Link } from 'react-router-dom'
 
-import bulldawgbook from '../images/bulldawgbook.png' 
+import bulldawgbook from './images/bulldawgbook.png' 
 
 function UserNav(){
 

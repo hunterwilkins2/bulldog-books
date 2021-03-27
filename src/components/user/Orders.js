@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Col, Row, Container, Card } from 'react-bootstrap'
 
-import UserNav from './UserNav'
+import UserNav from '../UserNav'
 import '../../styles.css'
 import { ordersData } from '../../data/orderInfo'
 
