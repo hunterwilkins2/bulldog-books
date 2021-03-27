@@ -48,21 +48,19 @@ const verifyCustomer = (req, res, next) => {
 
 const verifyAdmin = (req, res, next) => {
     const token = req.cookies.jwt
-
     // check if token exist and is valid
     if(token) {
         jwt.verify(token, process.env.RSA_PRIVATE, (error, decodedToken) => {
             if(error) {
                 res.redirect(401, '/')
             } else {
-                if(decodedToken.userType !== 'admin') {
+                if(decodedToken.type !== 'admin') {
                     res.redirect('/')
                 }
 
                 if(decodedToken.status !== 'active') {
                     res.redirect(403, '/confirmation')
                 }
-                
                 next()
             }
         })
