@@ -32,21 +32,21 @@ function UserNav(){
             {/* {(type === 'user' || type ==='admin') &&   */}
             <Form inline id = "search-form-style" >
                 <FormControl type="text" placeholder="Title, Author, ISBN" id = "searchStyle" />
-                <Button className="but button-primary" id = "button-style" >
+                <Button id = "button-search" >
                     <Search></Search>
                 </Button>
             </Form>
 
             {/* {(type === 'user' || type === 'admin') && */}
             <Nav id = "nav-link-style" >
-                <DropdownButton id="dropdown-basic-button" title="Profile">
+                <DropdownButton id="button-profile" title="Profile">
                     <Dropdown.Item href="/user/Profile">Profile</Dropdown.Item>
                     <Dropdown.Item href="/user/Orders">Orders</Dropdown.Item>
                 </DropdownButton>
 
-                <Button href="/user/Cart" className="ml-2" variant="light"><Basket /> Cart</Button>{' '}
+                <Button id = "button-cart" href="/user/Cart" className="ml-2" variant="light"><Basket /> Cart</Button>{' '}
 
-                <Button onClick={logout}
+                <Button id = "button-login" onClick={logout}
                     href={!getCookie('jwt') ? '/login' : '/'} 
                     className="ml-2" 
                     variant="outline-info">

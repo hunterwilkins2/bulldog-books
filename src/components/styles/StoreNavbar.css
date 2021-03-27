@@ -14,7 +14,7 @@
 
     img {
         margin: 1%;
-        width: 38%;
+        width: 30%;
         border: 2px solid white;
     }
 
@@ -24,14 +24,14 @@
 
     #text_bulldawg {
         font-family: Bebas Neue;
-        font-size: 200%;
+        font-size: 150%;
         padding-top: 2%;
         margin-bottom: -2%;
     }
 
     #text_books {
         font-family: Bebas Neue;
-        font-size: 200%;
+        font-size: 150%;
         padding-top: 2%;
         margin-bottom: -2%;
     }
@@ -43,17 +43,34 @@
 
     #search-form-style {
         border-radius: .25rem 0 0 .25rem;
-        width: 40%;
+        width: 30%;
     }
 
     #searchStyle {
         border-radius: .25rem 0 0 .25rem;
-        width: 90%;
+        width: 85%;
+        font-size: x-small;
     }
 
-    #button-style {
+    #button-search {
         border-radius: 0 .25rem .25rem 0;
-        width: 10%;
+        width: 15%;
+        font-size: x-small;
+    }
+
+    #button-profile {
+        font-size: x-small;
+
+    }
+
+    #button-cart {
+        font-size:x-small;
+
+    }
+    
+
+    #button-login {
+        font-size:x-small;
     }
 
 
