@@ -10,7 +10,7 @@
     align-items: center;
     text-align: center;
 
-    max-width: 79%;
+    max-width:77%;
 }
 
 #pic-b {
@@ -22,8 +22,13 @@
 }
 #col2-b {
     font-weight: bold;
+    font-size: x-small;
 }
 
 #col3-b {
-    font-weight: bold;      
+    font-weight: bold;
+    font-size: x-small;
+    max-width: 30%;
+
+
 }
