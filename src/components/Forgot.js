@@ -6,6 +6,8 @@ import * as yup from 'yup'
 
 
 import StoreNavbar from './StoreNavbar'
+import './styles/Background.css'
+import './styles/ForgotPassword.css'
 
 function forgetEmail(userEmail){
     console.log('In forgetEmail()')
@@ -34,11 +36,11 @@ function forgetEmail(userEmail){
 
 function Forgot(){
 
-    const formStyle = {
-        border:'2px solid #ffffff',
-        background: '#ffffff',
-        borderRadius: '25px'
-    }
+    // const formStyle = {
+    //     border:'2px solid #ffffff',
+    //     background: '#ffffff',
+    //     borderRadius: '25px'
+    // }
 
     const validationSchema = yup.object().shape({
         email: yup.string().email('Invalid Email Format').required('Required'),
@@ -46,49 +48,51 @@ function Forgot(){
     })
 
     return(
-        <>
+        <div id = "background">
             <StoreNavbar />
-            <Formik 
-                initialValues={{email: '', password: ''}} 
-                onSubmit={(data, {setSubmitting}) => {
-                    setSubmitting(true)
-                    // make async call to DB eventually
-                    console.log(data)
-                    setSubmitting(false)
-                }}
-                validationSchema={validationSchema}
-            >{({ handleSubmit,
-                    handleChange,
-                    handleBlur,
-                    values,
-                    touched,
-                    errors,
-                    setSubmitting
-                }) => (
-                    <Form className="login-form" style={formStyle} onSubmit={handleSubmit}>
-                        <h1> Login </h1>
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control 
-                                name="email"
-                                placeholder="email@example.com"
-                                value={values.email}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                isValid={touched.email && !errors.email}
-                                isInvalid={touched.email && errors.email}
-                            />
-                            <Form.Text className="text-muted">
-                                If you have already submitted a request, please be patient.
-                            </Form.Text>
-                            <ErrorMessage name="email" />
-                        </Form.Group>
-                        <Button onClick={() => forgetEmail(values.email)} variant="primary" type="submit">
-                                Request Passsword Reset
-                        </Button>   
-                    </Form>
-                )}</Formik> 
-        </>
+            <div id = "main-cont-forgot">
+                <Formik 
+                    initialValues={{email: '', password: ''}} 
+                    onSubmit={(data, {setSubmitting}) => {
+                        setSubmitting(true)
+                        // make async call to DB eventually
+                        console.log(data)
+                        setSubmitting(false)
+                    }}
+                    validationSchema={validationSchema}
+                >{({ handleSubmit,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        touched,
+                        errors,
+                        setSubmitting
+                    }) => (
+                        <Form className="login-form" id = "form-style-forgot" onSubmit={handleSubmit}>
+                            <h1> Reset Password </h1>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Email address</Form.Label>
+                                <Form.Control 
+                                    name="email"
+                                    placeholder="email@example.com"
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    isValid={touched.email && !errors.email}
+                                    isInvalid={touched.email && errors.email}
+                                />
+                                <Form.Text className="text-muted">
+                                    If you have already submitted a request, please be patient.
+                                </Form.Text>
+                                <ErrorMessage name="email" />
+                            </Form.Group>
+                            <Button onClick={() => forgetEmail(values.email)} variant="primary" type="submit">
+                                    Request Passsword Reset
+                            </Button>   
+                        </Form>
+                    )}</Formik> 
+            </div>
+        </div>
     )
 }
 
