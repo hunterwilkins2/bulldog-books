@@ -31,6 +31,7 @@ function UserNav(){
                 <DropdownButton id="dropdown-basic-button" title="Profile">
                     <Dropdown.Item href="/user/Profile">Profile</Dropdown.Item>
                     <Dropdown.Item href="/user/Orders">Orders</Dropdown.Item>
+                    <Dropdown.Item href="/Login">Login</Dropdown.Item>
                     <Dropdown.Item href="/">Logout</Dropdown.Item>
                 </DropdownButton>
 

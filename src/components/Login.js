@@ -83,7 +83,7 @@ function Login(){
                             <br></br>
                             <Link to='/forgot'>Forgot Password?</Link>
                             <br></br>
-                            <Link to='user'>Continue Without an Account</Link>
+                            <Link to='/'>Continue Without an Account</Link>
                             <br></br>
                             <Link to='/admin'>Continue as Admin</Link>
                             <br></br>
