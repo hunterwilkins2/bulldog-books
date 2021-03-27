@@ -3,8 +3,7 @@ import { Card, ListGroup, ListGroupItem, Row, Col, Container, Form, Button } fro
 import { Link } from 'react-router-dom'
 import NumericInput from 'react-numeric-input'
 
-import UserNav from '../UserNav'
-// import StoreNavbar from '../StoreNavbar'
+import StoreNavbar from '../StoreNavbar'
 import { booksData } from '../../data/books'
 import './../styles/Cart.css' 
 
@@ -47,7 +46,7 @@ function Cart(){
     ))
     return(
         <div id = "background">
-            <UserNav/> 
+            <StoreNavbar/> 
             <h1 id = "h1-style-cart">Cart</h1>
             <Container>
                 <Row className="mx-auto" lg={3} id = "row-style-cart">

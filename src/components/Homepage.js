@@ -2,11 +2,9 @@
 import React, {useState, useEffect} from 'react'
 import { Card, ListGroup, ListGroupItem, Col, Row, Container } from 'react-bootstrap'
 
-import UserNav from './UserNav.js'
-
 import Promos from  './Promos'
 import BestSellers from './BestSeller'
-// import StoreNavbar from './StoreNavbar'
+import StoreNavbar from './StoreNavbar'
 // import { booksData } from '../data/books'
 import './styles/Homepage.css'
 import './styles/Background.css'
@@ -64,7 +62,7 @@ function User(){
 
     return (
         <div id = "background">
-            <UserNav/> 
+            <StoreNavbar/> 
             <Container id = "cont">
                 <Row className ="mx-auto" id = "promo-bestseller-row">
                     <Col className ="mx-auto" id = "col-onsale"> 

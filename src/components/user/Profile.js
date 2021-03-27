@@ -3,7 +3,7 @@ import { Form, Row, Col, Button, Container } from 'react-bootstrap'
 import { Formik, ErrorMessage} from 'formik'
 import * as yup from 'yup'
 
-import UserNav from '../UserNav'
+import StoreNavbar from '../StoreNavbar'
 import '../../styles.css'
 
 function Profile(){
@@ -78,7 +78,7 @@ function Profile(){
 
     return(
         <>
-            <UserNav/>
+            <StoreNavbar/>
             <Container>
                 <Row>
                     <Col>

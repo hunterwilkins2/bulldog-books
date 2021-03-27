@@ -1,66 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import { Col, Row, Container, Card } from 'react-bootstrap'
 
-import UserNav from '../UserNav'
-// import StoreNavbar from '../StoreNavbar'
+import StoreNavbar from '../StoreNavbar'
 import { ordersData } from '../../data/orderInfo'
 import './../styles/Orders.css' 
 
 
 
 function Orders(){
-
-    // const pageTitle = {
-    //     textAlign: 'left',
-    //     marginLeft: '6%',
-    //     marginTop: '1%',
-    //     marginBottom: '2%',
-    // }
-    
-    // const contStyle = {
-    //     border:'0.5px solid #ffffff',
-    //     background: '#ffffff',
-    //     borderRadius: '20px',
-    //     padding: '15px',
-    //     marginBottom: '1%',
-    // }
-
-    // const topBuffer = {
-    //     marginTop: '20px'
-    // }
-
-    // const cardStyle1 = {
-    //     padding: '10px',
-    //     maxHeight: '90%',
-    //     width: '100%',
-    //     height: '100%',
-    // }
-
-    // const cardStyle2 = {
-    //     padding: '10px',
-    //     maxHeight: '90%',
-    //     width: '100%',
-    //     height: '100%',
-    // }
-
-    // const cardStyle3 = {
-    //     padding: '10px',
-    //     maxHeight: '90%',
-    //     width: '100%',
-    //     height: '100%',
-    // }
-
-    // const cardTitle = {
-    //     padding: '15px',
-    // }
-
-    // const secTitle = {
-    //     fontWeight: 'bold',
-    // }
-
-    // const image = {
-    //     height: '85%',
-    // }
     
 
     const [orderInfo, setOrders] = useState([])
@@ -112,7 +59,7 @@ function Orders(){
 
     return(
         <div id = "background">
-            <UserNav/> 
+            <StoreNavbar/> 
             <h1 id = "page-title" >Order History</h1> 
                     
             {orderCards}

@@ -1,67 +1,33 @@
-/* eslint-disable react/prop-types */
 import React from 'react'
 import { Navbar, Form, FormControl, Button, Nav, Dropdown, DropdownButton } from 'react-bootstrap'
 import { Basket, Search } from 'react-bootstrap-icons'
 import { Link } from 'react-router-dom'
 
 import bulldawgbook from './images/bulldawgbook.png' 
+import './styles/StoreNavbar.css' 
 
-function StoreNavbar({ type }){
-
-    const linkStyle = {
-        fontFamily: 'Bebas Neue',
-        fontSize: '40px',
-        textDecoration: 'none', 
-        color: 'white' 
-    }
-
-    const navLinkStyle = {
-        color: 'white',
-        padding: '10px'
-    }
-
-    const searchFormStyle = {
-        borderRadius: '.25rem 0 0 .25rem',
-        width: '100%',
-    } 
-
-    const searchStyle = {
-        borderRadius: '.25rem 0 0 .25rem',
-        width: '100%',
-    }
-
-    const buttonStyle = {
-        borderRadius: '0 .25rem .25rem 0',
-        width: '100%',
-    }
+function UserNav(){
 
     return(
         <Navbar className="basic-nav" bg="dark">
             <Navbar.Brand className="navbar-brand" href="#home">
                 <Link to='/'>
-                    <img
-                        alt=""
-                        src={bulldawgbook}
-                        width="55"
-                        height="55"
-                    />{' '}
+                    <img alt="" src={bulldawgbook}/>{' '}
                 </Link>
-                <Link to='/user' style={linkStyle}>
-                    <span className="text-white">Bulldawg</span>
-                    <span className="text-danger"> Books</span> 
-                </Link>
+                <Link to='/' className="text-white"  id = "text_bulldawg"> BULLDAWG </Link>
+                <Link to='/' className="text-danger" id = "text_books">  BOOKS</Link>
             </Navbar.Brand>
 
-            {(type === 'user' || type ==='admin') &&  
-            <Form inline className="mx-auto" style={searchFormStyle}>
-                <FormControl type="text" placeholder="Title, Author, ISBN" style={searchStyle} />
-                <Button className="but button-primary" style={buttonStyle} >
+            {/* {(type === 'user' || type ==='admin') &&   */}
+            <Form inline id = "search-form-style" >
+                <FormControl type="text" placeholder="Title, Author, ISBN" id = "searchStyle" />
+                <Button className="but button-primary" id = "button-style" >
                     <Search></Search>
                 </Button>
-            </Form>}
+            </Form>
 
-            {(type === 'user' || type === 'admin') &&
-            <Nav className="ml-auto" style={navLinkStyle}>
+            {/* {(type === 'user' || type === 'admin') && */}
+            <Nav id = "nav-link-style" >
                 <DropdownButton id="dropdown-basic-button" title="Profile">
                     <Dropdown.Item href="/user/Profile">Profile</Dropdown.Item>
                     <Dropdown.Item href="/user/Orders">Orders</Dropdown.Item>
@@ -69,16 +35,9 @@ function StoreNavbar({ type }){
                 </DropdownButton>
 
                 <Button href="/user/Cart" className="ml-2" variant="light"><Basket /> Cart</Button>{' '}
-            </Nav>}
-         
-            
-         
-        
-            
-
-           
+            </Nav>
         </Navbar>
     )
 }
 
-export default StoreNavbar
+export default UserNav

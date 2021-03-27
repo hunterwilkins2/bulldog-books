@@ -1,7 +1,7 @@
 import React from 'react'
 import {Button, Card, Col, Container, Form, Row, ListGroup} from 'react-bootstrap'
 
-import UserNav from '../UserNav'
+import StoreNavbar from '../StoreNavbar'
 import { booksData } from '../../data/books'
 
 function Checkout(){
@@ -26,7 +26,7 @@ function Checkout(){
     console.log('checkout')
     return(
         <div>
-            <UserNav/> 
+            <StoreNavbar/> 
             <h1>Checkout</h1>
             <Container>
                 <Row>

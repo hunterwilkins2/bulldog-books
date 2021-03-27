@@ -7,41 +7,6 @@ import './styles/Promos.css'
 
 function Promos(){
 
-    // const  rowStyle = {
-    //     border:'2px solid #ffffff',
-    //     background: 'lightgray',
-    //     // borderRadius: '25px',
-    //     width: '100%',
-    //     margin: '1%',
-    //     height: '100%',
-    //     alignItems:'center',
-    //     textAlign:'center',
-    // }
-
-    // const pic = {
-    //     width: '100%',
-    //     height: '100%',
-    // }
-
-    // const col1 = {
-    //     margin: '2%',
-    //     maxWidth: '30%',
-    // }
-
-    // const col2 = {
-    //     fontWeight: 'bold',
-    //     maxWidth: '45%',
-    // }
-
-    // const col3 = {
-    //     fontWeight: 'bold',
-    //     fontSize: '180%',
-    //     maxWidth: '25%',
-    // }
-
-    // const pcode = {
-    //     paddingLeft: '33%'
-    // }
 
     const [promos, setPromos] = useState([])
 
