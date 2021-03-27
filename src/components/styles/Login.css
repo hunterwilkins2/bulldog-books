@@ -1,3 +1,27 @@
-.login-form{
-  padding: 25px;
+ 
+ 
+ .cont {
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  
 }
+
+.login-form {
+
+  border:2px solid #ffffff;
+  background: #ffffff;
+  border-radius: 25px;
+  height: 100%;
+  width: 100%;
+  min-width: 40%;
+  min-height: 60%;
+  max-width:40%;
+  max-height: 60%;
+  margin: 1%;
+  padding: 25px;
+
+}
+
+

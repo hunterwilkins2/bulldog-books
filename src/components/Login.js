@@ -5,37 +5,11 @@ import { Formik, ErrorMessage } from 'formik'
 import * as yup from 'yup'
 
 import BasicNav from './BasicNav'
-import Promos from './Promos'
-import BestSellers from './BestSeller'
-// import './styles/Login.css'
-import background from './images/background.jpg' 
-
-
+// import './styles/Login.css' 
+import './styles/Background.css'
+import './styles/Login.css'
 
 function Login(){
-
-    const cont = {
-        display: 'flex',
-        justifyContent: 'space-around',
-
-        minHeight: '100vh',
-
-        backgroundImage: `url(${background})`,
-        backgroundRepeat: 'repeat',
-        backgroundSize: 'cover',
-        backgroundAttachment: 'scroll',
-
-    }
-
-    const formStyle = {
-        border:'2px solid #ffffff',
-        background: '#ffffff',
-        borderRadius: '25px',
-        height: '100%',
-        width: '100%',
-        minWidth: '30%',
-        margin: '1%',
-    }
 
 
     const validationSchema = yup.object().shape({
@@ -48,13 +22,7 @@ function Login(){
         <>
 
             <BasicNav />
-            <div style = {cont}>
-
-                <Form style ={formStyle}>
-                    <h1>Promotions</h1>
-                    <Promos />
-                </Form>
-                
+            <div className = "cont" id = "background">
                 <Formik 
                     initialValues={{email: '', password: ''}} 
                     onSubmit={async (data, {setSubmitting}) => {
@@ -83,7 +51,7 @@ function Login(){
                         errors,
                         setSubmitting
                     }) => (
-                        <Form className="login-form" style={formStyle} onSubmit={handleSubmit}>
+                        <Form className="login-form" id = "form-style" onSubmit={handleSubmit}>
                             <h1> Login </h1>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
@@ -125,10 +93,6 @@ function Login(){
                             </Button>   
                         </Form>
                     )}</Formik>
-                <Form className="login-form" style={formStyle}>
-                    <h1>Best Sellers</h1>
-                    < BestSellers />
-                </Form>
             </div>
         </>
     )
