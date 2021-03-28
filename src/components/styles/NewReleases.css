@@ -1,11 +1,10 @@
 
 
-#row-style-b {
+#row-style-nr {
     border:2px solid #ffffff;
     border-radius: 15px;
     background: lightgray;
     margin: 1%;
-
 
     align-items: center;
     text-align: center;
@@ -13,25 +12,26 @@
     max-width:85%;
 }
 
-#pic-b {
+#pic-nr{
+
     max-height: 15vh;
     max-width: 6vw;
 
     min-height: 15vh;
     min-width: 6vw;
 }
-#col1-b {
+
+#col1-nr {
     padding: 2%;
     text-align: center;
-
 }
-#col2-b {
+
+#col2-nr {
     font-weight: bold;
     font-size: x-small;
 }
 
-#col3-b {
+#col3-nr {
     font-weight: bold;
     font-size: x-small;
-    max-width: 30%;
 }

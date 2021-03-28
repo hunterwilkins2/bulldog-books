@@ -2,8 +2,9 @@
 import React, {useState, useEffect} from 'react'
 import { Card, ListGroup, ListGroupItem, Col, Row, Container } from 'react-bootstrap'
 
-import Promos from  './Promos'
+// import Promos from  './Promos'
 import BestSellers from './BestSeller'
+import NewReleases from './NewReleases'
 import StoreNavbar from './StoreNavbar'
 // import { booksData } from '../data/books'
 import './styles/Homepage.css'
@@ -59,8 +60,8 @@ function User(){
             <Container id = "cont-hp">
                 <Row className ="mx-auto" id = "promo-bestseller-row-hp">
                     <Col className ="mx-auto" id = "col-onsale-hp"> 
-                        <div className="text-danger" id = "title-hp"> On Sale </div>
-                        <Promos/> 
+                        <div className="text-danger" id = "title-hp"> New Releases </div>
+                        <NewReleases/> 
                     </Col>
                     <Col className ="mx-auto" id = "col-bestseller-hp">
                         <div className="text-white" id = "title-hp"> Best Sellers </div> 
