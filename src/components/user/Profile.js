@@ -25,19 +25,6 @@ function Profile(){
         security: '123',
     }
 
-    // const formStyle = {
-    //     border:'0.5px solid #ffffff',
-    //     background: '#ffffff',
-    //     borderRadius: '20px',
-    //     padding: '15px',
-    //     margin: '2%',
-    //     height: '95%',
-    // }
-
-    // const h1Style = {
-    //     fontSize: '1.5em'
-    // }
-
     const editNameSchema = yup.object().shape({
         firstName: yup.string()
             .min(1, 'First Name must be betwen 1 and 100 characters')
@@ -110,7 +97,7 @@ function Profile(){
                                     <Form.Row>
                                         <Form.Group as={Col} controlId="formFirstName">
                                             <Form.Label>First Name</Form.Label>
-                                            <Form.Control 
+                                            <Form.Control id = "form-control-profile"
                                                 name="firstName"
                                                 value={values.firstName}
                                                 type="text" 
@@ -123,7 +110,7 @@ function Profile(){
                                         </Form.Group>
                                         <Form.Group as={Col} controlId="formLastName">
                                             <Form.Label>Last Name</Form.Label>
-                                            <Form.Control 
+                                            <Form.Control id = "form-control-profile" 
                                                 name="lastName"
                                                 value={values.lastName}
                                                 type="text" 
@@ -137,7 +124,7 @@ function Profile(){
                                     </Form.Row>
                                     <Form.Group controlId="formBasicEmail">
                                         <Form.Label>Email address</Form.Label>
-                                        <Form.Control 
+                                        <Form.Control id = "form-control-profile"
                                             name="email"
                                             value={values.email}
                                             type="text" 
@@ -155,9 +142,9 @@ function Profile(){
                                             onBlur={handleBlur}
                                             isValid={touched.receivePromos && !errors.receivePromos}
                                             isInvalid={touched.receivePromos && errors.receivePromos} 
-                                        /></Form.Group>
+                                        /></Form.Group> 
                                     <Button id = "button1-profile" variant="primary" type="submit" disabled={!(dirty && isValid)}>
-                                Save Changes
+                                        Save Changes
                                     </Button>
                                 </Form>
                             )}</Formik>
@@ -189,7 +176,7 @@ function Profile(){
                                     <h1 id = "h1-style-profile">Update Payment</h1>
                                     <Form.Group controlId="formCardType">
                                         <Form.Label>Card Type</Form.Label>
-                                        <Form.Control 
+                                        <Form.Control id = "form-control-profile"
                                             as="select" 
                                             defaultValue={mockProfile.cardType}
                                             name="cardType"
@@ -208,7 +195,7 @@ function Profile(){
                                     </Form.Group>
                                     <Form.Group controlID="formCardNumber">
                                         <Form.Label>Credit Card Number</Form.Label>
-                                        <Form.Control 
+                                        <Form.Control id = "form-control-profile"
                                             name="cardNumber"
                                             value={values.cardNumber}
                                             type="text" 
@@ -222,7 +209,7 @@ function Profile(){
                                     <Form.Row>
                                         <Form.Group as={Col} controlId="formCardExpiration">
                                             <Form.Label>Expiration Date</Form.Label>
-                                            <Form.Control 
+                                            <Form.Control id = "form-control-profile"
                                                 name="expiration"
                                                 type="date"
                                                 value={values.expiration}
@@ -235,7 +222,7 @@ function Profile(){
                                         </Form.Group>
                                         <Form.Group as={Col} controlId="formCardCode">
                                             <Form.Label>Security Code</Form.Label>
-                                            <Form.Control 
+                                            <Form.Control id = "form-control-profile"
                                                 name="security"
                                                 value={values.security}
                                                 type="text" 
@@ -283,7 +270,7 @@ function Profile(){
                                     <h1 id = "h1-style-profile">Update Address</h1>
                                     <Form.Group controlId="formAddress1">
                                         <Form.Label>Address Line 1</Form.Label>
-                                        <Form.Control 
+                                        <Form.Control id = "form-control-profile"
                                             name="address1"
                                             value={values.address1}
                                             type="text" 
@@ -296,7 +283,7 @@ function Profile(){
                                     </Form.Group>
                                     <Form.Group controlId="formAddress2">
                                         <Form.Label>Address Line 2</Form.Label>
-                                        <Form.Control
+                                        <Form.Control id = "form-control-profile"
                                             name="address2"
                                             value={values.address2}
                                             type="text" 
@@ -310,7 +297,7 @@ function Profile(){
                                     <Form.Row>
                                         <Form.Group as={Col} controlId="formCity">
                                             <Form.Label>City</Form.Label>
-                                            <Form.Control 
+                                            <Form.Control id = "form-control-profile"
                                                 name="city"
                                                 value={values.city}
                                                 type="text" 
@@ -323,7 +310,7 @@ function Profile(){
                                         </Form.Group>
                                         <Form.Group as={Col} controlId="formState">
                                             <Form.Label>State</Form.Label>
-                                            <Form.Control
+                                            <Form.Control id = "form-control-profile"
                                                 as="select" 
                                                 defaultValue={mockProfile.state}
                                                 name="state"
@@ -390,7 +377,7 @@ function Profile(){
                                         </Form.Group>
                                         <Form.Group as={Col} controlId="formZip">
                                             <Form.Label>Zip</Form.Label>
-                                            <Form.Control 
+                                            <Form.Control id = "form-control-profile"
                                                 name="zip"
                                                 value={values.zip}
                                                 type="text" 
@@ -402,7 +389,7 @@ function Profile(){
                                             <ErrorMessage name="zip" />
                                         </Form.Group>
                                     </Form.Row>
-                                    <Button id = "button-profile" variant="primary" type="submit" disabled={!(dirty && isValid)}>
+                                    <Button id = "button3-profile" variant="primary" type="submit" disabled={!(dirty && isValid)}>
                                 Save Changes
                                     </Button>
                                 </Form>
@@ -434,7 +421,7 @@ function Profile(){
                                     <h1 id = "h1-style-profile">Update Password</h1>
                                     <Form.Group controlId="formOldPassword">
                                         <Form.Label>Old Password</Form.Label>
-                                        <Form.Control 
+                                        <Form.Control id = "form-control-profile"
                                             type="password" 
                                             name="oldPassword"
                                             value={values.oldPassword}
@@ -447,7 +434,7 @@ function Profile(){
                                     </Form.Group>
                                     <Form.Group controlId="formNewPassword">
                                         <Form.Label>New Password</Form.Label>
-                                        <Form.Control 
+                                        <Form.Control id = "form-control-profile"
                                             type="password" 
                                             name="newPassword"
                                             value={values.newPassword}
@@ -460,7 +447,7 @@ function Profile(){
                                     </Form.Group>
                                     <Form.Group controlId="formConfirmPassword">
                                         <Form.Label>Confirm Password</Form.Label>
-                                        <Form.Control 
+                                        <Form.Control id = "form-control-profile"
                                             type="password" 
                                             name="confirmPassword"
                                             value={values.confirmPassword}
@@ -471,7 +458,7 @@ function Profile(){
                                         />
                                         <ErrorMessage name="confirmPassword" />
                                     </Form.Group>
-                                    <Button id = "button-profile" variant="primary" type="submit" disabled={!(dirty && isValid)}>
+                                    <Button id = "button4-profile" variant="primary" type="submit" disabled={!(dirty && isValid)}>
                     Save Changes
                                     </Button>
                                 </Form>

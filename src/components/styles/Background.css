@@ -8,5 +8,7 @@
         min-height: 100vh;
         min-width: 100vw;
 
+        padding-bottom: 5%;
+
         font-family: Verdana, Geneva, Tahoma, sans-serif;
     }

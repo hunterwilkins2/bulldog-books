@@ -2,11 +2,15 @@
 
     #row1-profile {
         padding:2%;
+        padding-top: 5%;
         padding-bottom:0;
+        font-size: small;
     }
 
     #row2-profile {
         padding:2%;
+        padding-bottom:0;
+        font-size: small;
     }
 
     #form-style-profile {
@@ -20,9 +24,36 @@
     }
 
     #h1-style-profile {
-        font-size: 1.5em;
+        font-size: 2em;
+    }
+
+    #but1-cont-profile {
+        border: 2px solid black;
+        height: 100%;
+
     }
 
     #button1-profile {
-        margin-top: 8.5%;              
+        font-size: small;
+        left: 0;
+        bottom: 0;
+        position: absolute;
+        margin-left: 6%;
+        margin-bottom: 2%;
     }
+
+    #button2-profile {
+        font-size: small;
+    }
+
+    #button3-profile {
+        font-size: small;
+    }
+    #button4-profile {
+        font-size: small;
+    }
+
+    #form-control-profile {
+        font-size: x-small;
+    }
+
