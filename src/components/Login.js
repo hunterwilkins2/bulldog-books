@@ -41,6 +41,8 @@ function Login(){
                         })
                         console.log(data)
                         setSubmitting(false)
+
+                        window.location.href='/'
                     }}
                     validationSchema={validationSchema}
                 >{({ handleSubmit,
@@ -82,10 +84,6 @@ function Login(){
                             <Link to='/register'>Register</Link>
                             <br></br>
                             <Link to='/forgot'>Forgot Password?</Link>
-                            <br></br>
-                            <Link to='/'>Continue Without an Account</Link>
-                            <br></br>
-                            <Link to='/admin'>Continue as Admin</Link>
                             <br></br>
                             <br></br>
                             <Button disabled={setSubmitting} variant="primary" type="submit">
