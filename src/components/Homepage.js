@@ -26,12 +26,6 @@ function User(){
     console.log(books)
     const bookCards = books.map(book => (
         <>
-            {/* <Col key={book.isbn} xs='3' >
-                <Card >
-                    <Card.Img variant="top" src={book.image} />
-                    <ListGroup id = "lG-hp"  className="list-group-flush"/>
-                </Card>
-            </Col> */}
             <Col key={book.isbn} xs='3' id = "column-hp">
                 <Card id = "card-style-hp">
                     <Card.Img className = "mx-auto" id = "image-hp" src={book.cover} />
