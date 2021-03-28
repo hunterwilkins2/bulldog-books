@@ -10,10 +10,23 @@ import './../styles/Background.css'
 function Orders(){
     
 
+    // const [orderInfo, setOrders] = useState([])
+    
+    // useEffect(() => {
+    //     async function fetchOrders(){
+    //         const response = await fetch('http://localhost:3000/api/Orders')
+    //         const ordersData = await response.json()
+    //         setOrders(ordersData)
+    //     }
+    //     fetchOrders()
+    // }, [])
+
     const [orderInfo, setOrders] = useState([])
     
     useEffect(() => {
+
         setOrders(ordersData)
+        
     }, [])
         
     
