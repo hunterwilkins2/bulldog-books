@@ -34,8 +34,6 @@ router.post('/register', async (req, res, next) => {
         const cookieOptions = { 
             path: '/', 
             domain: 'localhost', 
-            httpOnly: true 
-        
         }
 
         if(stayLoggedIn) {
@@ -69,8 +67,6 @@ router.post('/login', async (req, res, next) => {
         const cookieOptions = { 
             path: '/', 
             domain: 'localhost', 
-            httpOnly: true 
-        
         }
 
         if(stayLoggedIn) {
@@ -127,8 +123,6 @@ router.patch('/reset-password', async (req, res, next) => {
         const cookieOptions = { 
             path: '/', 
             domain: 'localhost', 
-            httpOnly: true 
-        
         }
         
         res.cookie('jwt', token, cookieOptions)
