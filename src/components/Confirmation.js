@@ -19,6 +19,26 @@ function Confirmation(){
         code: yup.string().length(6, 'Must be length 6').required('Required')
     })
 
+    async function resendEmail(){
+
+        let resendData = {
+            method: 'GET',
+            withCredentials: true,
+            credentials: 'include',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                'Access-Control-Allow-Credentials': true,
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+        }
+        const response = await (await fetch('http://localhost:3000/resend-confirmation', resendData)).json()
+        console.log(response)
+    }
+
 
     return(
         <>
@@ -85,6 +105,7 @@ function Confirmation(){
                                     <Button 
                                         variant="secondary" 
                                         type="submit"
+                                        onClick={async () => {await resendEmail()}}
                                     >
                                 Resend email
                                     </Button>
