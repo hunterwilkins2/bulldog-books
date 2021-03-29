@@ -6,7 +6,7 @@
 }
 
 #title-hp {
-    font-size: xx-large;
+    font-size: large;
     font-weight: bold;
     background-color:rgb(61, 65, 65);
     border: 2px solid white;
@@ -61,8 +61,8 @@
     }
 
 #image-hp {
-    max-height: 30%;
-    max-width: 40%;
+    max-height: 45%;
+    max-width: 55%;
     align-content: center
 }
 

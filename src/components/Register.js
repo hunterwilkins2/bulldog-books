@@ -117,11 +117,83 @@ function Register(){
                     expiration: '',
                     security: ''
                 }}
-                onSubmit={(data, {setSubmitting}) => {
-                    setSubmitting(true)
-                    // make async call to DB eventually
-                    console.log(data)
-                    setSubmitting(false)
+                onSubmit={ async (data) => {
+                    let registerData = {
+                        method: 'POST',
+                        withCredentials: true,
+                        credentials: 'include',
+                        mode: 'cors',
+                        cache: 'no-cache',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': 'https://localhost:3000',
+                            'Access-Control-Allow-Credentials': true,
+                        },
+                        redirect: 'follow',
+                        referrerPolicy: 'no-referrer',
+                        body: JSON.stringify({
+                            'firstName': data.firstName,
+                            'lastName': data.lastName,
+                            'password': data.password,
+                            'email': data.email,
+                            'recievePromotions': data.recievePromos,
+                            'stayLoggedIn': true
+                        })
+                    }
+
+                    let addressData = {
+                        method: 'POST',
+                        withCredentials: true,
+                        credentials: 'include',
+                        mode: 'cors',
+                        cache: 'no-cache',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': 'https://localhost:3000',
+                            'Access-Control-Allow-Credentials': true,
+                        },
+                        redirect: 'follow',
+                        referrerPolicy: 'no-referrer',
+                        body: JSON.stringify({
+                            'street': data.address1,
+                            'city': data.city,
+                            'state': data.state,
+                            'zipcode': data.zip
+                        })
+                    }
+
+
+                    let paymentData = {
+                        method: 'POST',
+                        withCredentials: true,
+                        credentials: 'include',
+                        mode: 'cors',
+                        cache: 'no-cache',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': 'https://localhost:3000',
+                            'Access-Control-Allow-Credentials': true,
+                        },
+                        redirect: 'follow',
+                        referrerPolicy: 'no-referrer',
+                        body: JSON.stringify({
+                            'cardNumber': data.cardNumber,
+                            'type': data.cardType,
+                            'expirationDate': data.expiration
+                        })
+                    }
+                    const registerResponse = await (await fetch('http://localhost:3000/register', registerData)).json()
+                    console.log(registerResponse)
+
+                    if(data.address1 && data.city && data.state && data.zip){
+                        const addressResponse = await (await fetch('http://localhost:3000/api/address', addressData)).json()
+                        console.log(addressResponse)
+                    }
+
+                    if(data.cardNumber && data.cardType && data.expiration){
+                        const paymentResponse = await (await fetch('http://localhost:3000/api/payment', paymentData)).json()
+                        console.log(paymentResponse)
+                    }
                 }}
                 validationSchema={validationSchema}
             >
@@ -133,7 +205,8 @@ function Register(){
                     errors,
                     setSubmitting,
                     dirty,
-                    isValid
+                    isValid,
+                    submitForm
                 }) => (
                     <div className = "mx-auto" id = "main-cont-register" >
                         <Form id="register-form" onSubmit={handleSubmit}> 
@@ -386,6 +459,7 @@ function Register(){
                                     variant="primary" 
                                     type="submit" 
                                     disabled={!(dirty && isValid)}
+                                    onClick={submitForm}
                                 >
                             Submit
                                 </Button>

@@ -12,24 +12,32 @@ function Cart(){
 
     let orderData = booksData.slice(1,4)
 
-    // keep books in state
-    const [books, setBooks] = useState([])
+    const [cart, setBooks] = useState([])
 
-    // when component renders, put this data from ../../data/books into state (array of JSON objects)
     useEffect(() => {
         setBooks(orderData)
     }, [])
 
-    const bookCards = books.map(book => (
-        <Col id = "col-style-cart" key={book.isbn} xs='3'>
+    // const [cart, setCart] = useState([])
+
+    // useEffect(() => {
+    //     async function fetchCart(){
+    //         const response = await fetch('http://localhost:3000/api/cartitems')
+    //         const cartData = await response.json()
+    //         setCart(cartData)
+    //     }
+    //     fetchCart()
+    // }, [])
+
+    const cartCards = cart.map(cart => (
+        <Col id = "col-style-cart" key={cart.isbn} xs='3'>
             <Card id = "card-style-cart">
-                <Card.Img variant="top" src={book.image} id = "card-image-cart" />
+                <Card.Img variant="top" src={cart.image} id = "card-image-cart" />
                 <Card.Body>
-                    <Card.Title>{book.title}</Card.Title>
-                    <Card.Subtitle className="text-muted">{book.subtitle}</Card.Subtitle>
+                    <Card.Title>{cart.title}</Card.Title>
                 </Card.Body>  
                 <ListGroup className="list-group-flush" >
-                    <ListGroupItem>Author: {book.author}</ListGroupItem>
+                    <ListGroupItem>Author: {cart.author}</ListGroupItem>
                 </ListGroup>
                 <ListGroup>
                     <Form>
@@ -51,7 +59,7 @@ function Cart(){
             <h1 id = "h1-style-cart">Cart</h1>
             <Container>
                 <Row className="mx-auto" lg={3} id = "row-style-cart">
-                    {bookCards}
+                    {cartCards}
                 </Row>
                 <Link to='/user/checkout'>
                     <Button variant="primary" type="submit" id = "button-style-cart">
