@@ -10,9 +10,8 @@ import './styles/Background.css'
 import './styles/ForgotPassword.css'
 
 function forgetEmail(userEmail){
-    console.log('In forgetEmail()')
     let fetchData = {
-        method: 'POST',
+        method: 'PATCH',
         mode: 'cors',
         cache: 'no-cache',
         credentials: 'same-origin',
@@ -25,11 +24,8 @@ function forgetEmail(userEmail){
             email: userEmail
         })
     }
-    console.log(fetchData)
-    // Change Pasword
-    // TODO: make route which changes password
-    // Send Email
-    fetch('http://localhost:3000/forgetEmail', fetchData)
+
+    fetch('http://localhost:3000/forgot-password', fetchData)
         .then(response => response.json())
         .then(data => console.log(data))
 }
