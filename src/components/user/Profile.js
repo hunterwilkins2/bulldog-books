@@ -7,13 +7,20 @@ import StoreNavbar from '../StoreNavbar'
 import './../styles/Profile.css' 
 import './../styles/Background.css'
 
+
 function Profile(){
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
-    const [promos, setPromos] = useState()
+    const [promos, setPromos] = useState(false)
+    const [payments, setPayments] = useState([])
+    const [address1, setAddress1] = useState('')
+    const [city, setCity] = useState('')
+    const [state, setState] = useState('')
+    const [zip, setZip] = useState('')
 
+    
     useEffect(() => {
         async function fetchData(){
 
@@ -33,32 +40,74 @@ function Profile(){
             }
 
             const infoResponse = await (await fetch('http://localhost:3000/api/profile', headers)).json()
+            const paymentResponse = await (await fetch('http://localhost:3000/api/payment', headers)).json()
+            const addressResponse = await (await fetch('http://localhost:3000/api/address', headers)).json()
+
+
             setFirstName(infoResponse.firstName)
             setLastName(infoResponse.lastName)
             setEmail(infoResponse.email)
             setPromos(infoResponse.recievePromotions)
-            console.log(infoResponse)
-            
+            setPayments(paymentResponse)
+            setAddress1(addressResponse.street)
+            setCity(addressResponse.city)
+            setState(addressResponse.state)
+            setZip(addressResponse.zipcode)            
         }
         fetchData()
 
     }, [])
 
-    const mockProfile = {
-        firstName: 'Gary',
-        lastName: 'Barnes',
-        email: 'gary.barnes@uga.edu',
-        recievePromos: true,
-        address1: '260 North Church Streeet',
-        address2: '',
-        city: 'Athens',
-        state: 'GA',
-        zip: '30601',
-        cardType: 'Visa',
-        cardNumber: '1234123412341234',
-        expiration: '2021-05-06',
-        security: '123',
+    const paymentRows = payments.map(payment => (
+        <Row key={payments.id}> 
+            <Col>
+                {payment.type}
+            </Col>
+            <Col>
+                {payment.expirationDate.slice(0,10)}
+            </Col>
+            <Col>
+                <Button 
+                    variant='outline-danger' 
+                    size='sm'
+                    onClick={async () => {await deletePayment(payment)}}
+                >
+                    Delete
+                </Button>{' '}
+            </Col>
+        </Row>
+    ))
+
+    async function deletePayment(payment){
+        let paymentData = {
+            method: 'DELETE',
+            withCredentials: true,
+            credentials: 'include',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                'Access-Control-Allow-Credentials': true,
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify({
+                'paymentId': payment._id
+            })
+        }
+
+        let idToRemove = payment._id
+
+        setPayments(payments.filter(function(payment) {
+            return payment._id != idToRemove
+        }))
+
+
+        const paymentResponse = await (await fetch('http://localhost:3000/api/payment', paymentData)).json()
+        console.log(paymentResponse)
     }
+
 
     const editNameSchema = yup.object().shape({
         firstName: yup.string()
@@ -76,7 +125,6 @@ function Profile(){
     // eslint-disable-next-line no-unused-vars
     const editPaymentSchema = yup.object().shape({
         cardNumber: yup.string().length(16, 'Must be 16 digits').matches('^[0-9]*$', 'Can only contain numbers').required(),
-        security: yup.string().min(3, 'Minimum length of 3').max(4, 'Maximum length of 4').matches('^[0-9]*$', 'card number can only contain numbers').required(),
         expiration: yup.date().required(),
         cardType: yup.string().required()
     })
@@ -84,7 +132,6 @@ function Profile(){
     // eslint-disable-next-line no-unused-vars
     const editAddressSchema = yup.object().shape({
         address1: yup.string().min(1, 'Minimum 1 Character').max(100,'Max 100 Characters').required('Address Line 1 is Required'),
-        address2: yup.string().min(1, 'Address Line 2 must be betwen 1 and 100 characters').max(100, 'Address Line 2 must be betwen 1 and 100 characters'),
         city:  yup.string().min(1, 'Minimum 1 Character').max(23,'Max 23 Characters').required('City is Required'),
         zip: yup.string().length(5, 'Must be length 5').matches('^[0-9]*$', 'Must contain only contain numbers').required(),
         state: yup.string().required()
@@ -148,7 +195,7 @@ function Profile(){
                                 submitForm
                             }) => (
                                 <Form id = "form-style-profile">
-                                    <h1 id = "h1-style-profile">Update Info</h1>
+                                    <h1 id = "h1-style-profile">Profile Info</h1>
                                     <Form.Row>
                                         <Form.Group as={Col}>
                                             <Form.Label>First Name</Form.Label>
@@ -207,15 +254,34 @@ function Profile(){
                         <Formik 
                             enableReinitialize
                             initialValues={{
-                                cardType: mockProfile.cardType,
-                                cardNumber: mockProfile.cardNumber,
-                                expiration: mockProfile.expiration,
-                                security: mockProfile.security
+                                cardType: '',
+                                cardNumber: '',
+                                expiration: '',
                             }}
-                            onSubmit={async (data, {setSubmitting}) => {
-                                setSubmitting(true)
-                                console.log(data)
-                                setSubmitting(false)
+                            onSubmit={async (data) => {
+                                let paymentData = {
+                                    method: 'POST',
+                                    withCredentials: true,
+                                    credentials: 'include',
+                                    mode: 'cors',
+                                    cache: 'no-cache',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Access-Control-Allow-Origin': 'https://localhost:3000',
+                                        'Access-Control-Allow-Credentials': true,
+                                    },
+                                    redirect: 'follow',
+                                    referrerPolicy: 'no-referrer',
+                                    body: JSON.stringify({
+                                        'cardNumber': data.cardNumber,
+                                        'type': data.cardType,
+                                        'expirationDate': data.expiration
+                                    })
+                                }
+
+                                const paymentResponse = await (await fetch('http://localhost:3000/api/payment', paymentData)).json()
+                                console.log(paymentResponse)
+
                             }}
                             validationSchema={editPaymentSchema}
                         >{({
@@ -226,27 +292,16 @@ function Profile(){
                                 errors,
                                 dirty,
                                 isValid,
+                                submitForm
                             }) => (
                                 <Form className="edit-card-form" id = "form-style-profile">
-                                    <h1 id = "h1-style-profile">Update Payment</h1>
-                                    <Form.Group >
-                                        <Form.Label>Card Type</Form.Label>
-                                        <Form.Control id ="form-control-profile"
-                                            as="select" 
-                                            name="cardType"
-                                            value={values.cardType}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            isValid={touched.cardType && !errors.cardType}
-                                            isInvalid={touched.cardType && errors.cardType}
-                                        >
-                                            <option value=''>Choose...</option>
-                                            <option value='Visa'>Visa</option>
-                                            <option value='American Express'>American Express</option>
-                                            <option value='Mastercard'>MasterCard</option>
-                                        </Form.Control>
-                                        <ErrorMessage name="cardType" />
-                                    </Form.Group>
+                                    <h1 id = "h1-style-profile">
+                                        Payment Info
+                                    </h1>
+                                    <h2 className='h2-style-profile'>Current Payments</h2>
+                                    {paymentRows}
+                                    <h2 className='h2-style-profile'>Add New Payment</h2>
+                                   
                                     <Form.Group>
                                         <Form.Label>Credit Card Number</Form.Label>
                                         <Form.Control id = "form-control-profile"
@@ -261,6 +316,24 @@ function Profile(){
                                         <ErrorMessage name="cardNumber" />
                                     </Form.Group>
                                     <Form.Row>
+                                        <Form.Group as={Col} >
+                                            <Form.Label>Card Type</Form.Label>
+                                            <Form.Control id ="form-control-profile"
+                                                as="select" 
+                                                name="cardType"
+                                                value={values.cardType}
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                isValid={touched.cardType && !errors.cardType}
+                                                isInvalid={touched.cardType && errors.cardType}
+                                            >
+                                                <option value=''>Choose...</option>
+                                                <option value='Visa'>Visa</option>
+                                                <option value='American Express'>American Express</option>
+                                                <option value='Mastercard'>MasterCard</option>
+                                            </Form.Control>
+                                            <ErrorMessage name="cardType" />
+                                        </Form.Group>
                                         <Form.Group as={Col}>
                                             <Form.Label>Expiration Date</Form.Label>
                                             <Form.Control id="form-control-profile"
@@ -274,21 +347,8 @@ function Profile(){
                                             />
                                             <ErrorMessage name="expiration" />
                                         </Form.Group>
-                                        <Form.Group as={Col}>
-                                            <Form.Label>Security Code</Form.Label>
-                                            <Form.Control id = "form-control-profile"
-                                                name="security"
-                                                value={values.security}
-                                                type="text" 
-                                                onChange={handleChange}
-                                                onBlur={handleBlur}
-                                                isValid={touched.security && !errors.security}
-                                                isInvalid={touched.security && errors.security} 
-                                            />
-                                            <ErrorMessage name="security" />
-                                        </Form.Group>
                                     </Form.Row>
-                                    <Button id = "button2-profile"  variant="primary" type="submit" disabled={!(dirty && isValid)}>
+                                    <Button id = "button2-profile"  variant="primary" type="submit" disabled={!(dirty && isValid)} onClick={submitForm}>
                                         Save Changes
                                     </Button>
                                 </Form>
@@ -300,16 +360,35 @@ function Profile(){
                         <Formik 
                             enableReinitialize
                             initialValues={{
-                                address1: mockProfile.address1,
-                                address2: mockProfile.address2,
-                                city: mockProfile.city,
-                                state: mockProfile.state,
-                                zip: mockProfile.zip
+                                address1: address1,
+                                city: city,
+                                state: state,
+                                zip: zip
                             }}
-                            onSubmit={async (data, {setSubmitting}) => {
-                                setSubmitting(true)
-                                console.log(data)
-                                setSubmitting(false)
+                            onSubmit={async (data) => {
+                                let addressData = {
+                                    method: 'PATCH',
+                                    withCredentials: true,
+                                    credentials: 'include',
+                                    mode: 'cors',
+                                    cache: 'no-cache',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Access-Control-Allow-Origin': 'https://localhost:3000',
+                                        'Access-Control-Allow-Credentials': true,
+                                    },
+                                    redirect: 'follow',
+                                    referrerPolicy: 'no-referrer',
+                                    body: JSON.stringify({
+                                        'street': data.address1,
+                                        'city': data.city,
+                                        'state': data.state,
+                                        'zipcode': data.zip
+                                    })
+                                }
+
+                                const addressResponse = await (await fetch('http://localhost:3000/api/address', addressData)).json()
+                                console.log(addressResponse)
                             }}
                             validationSchema={editAddressSchema}
                         >{({
@@ -320,6 +399,7 @@ function Profile(){
                                 errors,
                                 dirty,
                                 isValid,
+                                submitForm
                             }) => (
                                 <Form id="form-style-profile">
                                     <h1 id = "h1-style-profile">Update Address</h1>
@@ -336,19 +416,6 @@ function Profile(){
                                         />
                                         <ErrorMessage name="address1" />
                                     </Form.Group>
-                                    <Form.Group>
-                                        <Form.Label>Address Line 2</Form.Label>
-                                        <Form.Control id = "form-control-profile"
-                                            name="address2"
-                                            value={values.address2}
-                                            type="text" 
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            isValid={touched.address2 && !errors.address2}
-                                            isInvalid={touched.address2 && errors.address2} 
-                                        />
-                                        <ErrorMessage name="address2" />
-                                    </Form.Group>
                                     <Form.Row>
                                         <Form.Group as={Col}>
                                             <Form.Label>City</Form.Label>
@@ -363,6 +430,8 @@ function Profile(){
                                             />
                                             <ErrorMessage name="city" />
                                         </Form.Group>
+                                    </Form.Row>
+                                    <Form.Row>
                                         <Form.Group as={Col}>
                                             <Form.Label>State</Form.Label>
                                             <Form.Control id = "form-control-profile"
@@ -443,7 +512,7 @@ function Profile(){
                                             <ErrorMessage name="zip" />
                                         </Form.Group>
                                     </Form.Row>
-                                    <Button id = "button3-profile" variant="primary" type="submit" disabled={!(dirty && isValid)}>
+                                    <Button id = "button3-profile" variant="primary" type="submit" disabled={!(dirty && isValid)} onClick={submitForm}>
                                 Save Changes
                                     </Button>
                                 </Form>
