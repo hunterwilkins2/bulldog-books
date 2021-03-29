@@ -16,12 +16,12 @@ const sendMail = (userEmail, subject, text) => {
         subject: subject,
         text: text
     }
+
+    // eslint-disable-next-line no-unused-vars
     transporter.sendMail(mailOptions, (err, response) => {
         if (err) {
             console.log('Error: ' + err)
-        } else {
-            console.log('Success: ' + response)
-        }
+        } 
     })
 }
 
