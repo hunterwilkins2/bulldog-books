@@ -111,6 +111,9 @@ router.patch('/reset-password', async (req, res, next) => {
     try {
         const { email, oldPassword, newPassword } = req.body
 
+        console.log(oldPassword)
+        console.log(newPassword)
+
         const user = await User.login(email, oldPassword)
 
         await User.findOne({ email : email }, function (err, doc) {

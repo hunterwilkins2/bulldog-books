@@ -28,6 +28,8 @@ function forgetEmail(userEmail){
     fetch('http://localhost:3000/forgot-password', fetchData)
         .then(response => response.json())
         .then(data => console.log(data))
+    
+    window.location.href='/reset-password'
 }
 
 function Forgot(){
@@ -65,7 +67,7 @@ function Forgot(){
                         setSubmitting
                     }) => (
                         <Form className="login-form" id = "form-style-forgot" onSubmit={handleSubmit}>
-                            <h1> Reset Password </h1>
+                            <h1> Forgot Password </h1>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control 
