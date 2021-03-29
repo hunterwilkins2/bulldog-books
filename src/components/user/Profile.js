@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { Form, Row, Col, Button, Container } from 'react-bootstrap'
 import { Formik, ErrorMessage} from 'formik'
 import * as yup from 'yup'
@@ -8,6 +8,41 @@ import './../styles/Profile.css'
 import './../styles/Background.css'
 
 function Profile(){
+
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [promos, setPromos] = useState()
+
+    useEffect(() => {
+        async function fetchData(){
+
+            const headers =  {
+                method: 'GET',
+                withCredentials: true,
+                credentials: 'include',
+                mode: 'cors',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': 'https://localhost:3000',
+                    'Access-Control-Allow-Credentials': true,
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+            }
+
+            const infoResponse = await (await fetch('http://localhost:3000/api/profile', headers)).json()
+            setFirstName(infoResponse.firstName)
+            setLastName(infoResponse.lastName)
+            setEmail(infoResponse.email)
+            setPromos(infoResponse.recievePromotions)
+            console.log(infoResponse)
+            
+        }
+        fetchData()
+
+    }, [])
 
     const mockProfile = {
         firstName: 'Gary',
@@ -71,16 +106,35 @@ function Profile(){
                 <Row id = "row1-profile">
                     <Col>
                         <Formik 
+                            enableReinitialize
                             initialValues={{
-                                firstName: mockProfile.firstName,
-                                lastName: mockProfile.lastName,
-                                email: mockProfile.email,
-                                receivePromos: mockProfile.recievePromos
+                                firstName: firstName,
+                                lastName: lastName,
+                                email: email,
+                                promos: promos
                             }}
-                            onSubmit={async (data, {setSubmitting}) => {
-                                setSubmitting(true)
-                                console.log(data)
-                                setSubmitting(false)
+                            onSubmit={async (data) => {
+                                let infoData = {
+                                    method: 'PATCH',
+                                    withCredentials: true,
+                                    credentials: 'include',
+                                    mode: 'cors',
+                                    cache: 'no-cache',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Access-Control-Allow-Origin': 'https://localhost:3000',
+                                        'Access-Control-Allow-Credentials': true,
+                                    },
+                                    redirect: 'follow',
+                                    referrerPolicy: 'no-referrer',
+                                    body: JSON.stringify({
+                                        firstName: data.firstName,
+                                        lastName: data.lastName,
+                                        recievePromotions: data.promos
+                                    })
+                                }
+                                const infoResponse = await (await fetch('http://localhost:3000/api/profile', infoData)).json()
+                                console.log(infoResponse)
                             }}
                             validationSchema={editNameSchema}
                         >{({
@@ -91,30 +145,30 @@ function Profile(){
                                 errors,
                                 dirty,
                                 isValid,
+                                submitForm
                             }) => (
                                 <Form id = "form-style-profile">
                                     <h1 id = "h1-style-profile">Update Info</h1>
                                     <Form.Row>
-                                        <Form.Group as={Col} controlId="formFirstName">
+                                        <Form.Group as={Col}>
                                             <Form.Label>First Name</Form.Label>
                                             <Form.Control id = "form-control-profile"
                                                 name="firstName"
                                                 value={values.firstName}
                                                 type="text" 
-                                                placeholder="First Name" 
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 isValid={touched.firstName && !errors.firstName}
                                                 isInvalid={touched.firstName && errors.firstName}
                                             />
                                         </Form.Group>
-                                        <Form.Group as={Col} controlId="formLastName">
+                                        <Form.Group as={Col}>
                                             <Form.Label>Last Name</Form.Label>
                                             <Form.Control id = "form-control-profile" 
                                                 name="lastName"
                                                 value={values.lastName}
                                                 type="text" 
-                                                placeholder="Last Name" 
+                                                placeholder={values.lastName}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 isValid={touched.lastName && !errors.lastName}
@@ -122,7 +176,7 @@ function Profile(){
                                             />
                                         </Form.Group>
                                     </Form.Row>
-                                    <Form.Group controlId="formBasicEmail">
+                                    <Form.Group>
                                         <Form.Label>Email address</Form.Label>
                                         <Form.Control id = "form-control-profile"
                                             name="email"
@@ -132,18 +186,18 @@ function Profile(){
                                             readOnly
                                         />
                                     </Form.Group> 
-                                    <Form.Group controlId="formPromoCheckbox">
+                                    <Form.Group>
                                         <Form.Check 
-                                            name='recievePromos'
-                                            type="switch"
+                                            name='promos'
                                             label="Recieve Promo Codes via Email"
-                                            value={values.receivePromos}
+                                            value={values.promos}
+                                            checked={values.promos}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            isValid={touched.receivePromos && !errors.receivePromos}
-                                            isInvalid={touched.receivePromos && errors.receivePromos} 
+                                            isValid={touched.promos && !errors.promos}
+                                            isInvalid={touched.promos && errors.promos} 
                                         /></Form.Group> 
-                                    <Button id = "button1-profile" variant="primary" type="submit" disabled={!(dirty && isValid)}>
+                                    <Button id = "button1-profile" variant="primary" type="submit" disabled={!(dirty && isValid)} onClick={submitForm}>
                                         Save Changes
                                     </Button>
                                 </Form>
@@ -151,6 +205,7 @@ function Profile(){
                     </Col>
                     <Col>
                         <Formik 
+                            enableReinitialize
                             initialValues={{
                                 cardType: mockProfile.cardType,
                                 cardNumber: mockProfile.cardNumber,
@@ -174,11 +229,10 @@ function Profile(){
                             }) => (
                                 <Form className="edit-card-form" id = "form-style-profile">
                                     <h1 id = "h1-style-profile">Update Payment</h1>
-                                    <Form.Group controlId="formCardType">
+                                    <Form.Group >
                                         <Form.Label>Card Type</Form.Label>
-                                        <Form.Control id = "form-control-profile"
+                                        <Form.Control id ="form-control-profile"
                                             as="select" 
-                                            defaultValue={mockProfile.cardType}
                                             name="cardType"
                                             value={values.cardType}
                                             onChange={handleChange}
@@ -193,7 +247,7 @@ function Profile(){
                                         </Form.Control>
                                         <ErrorMessage name="cardType" />
                                     </Form.Group>
-                                    <Form.Group controlID="formCardNumber">
+                                    <Form.Group>
                                         <Form.Label>Credit Card Number</Form.Label>
                                         <Form.Control id = "form-control-profile"
                                             name="cardNumber"
@@ -207,9 +261,9 @@ function Profile(){
                                         <ErrorMessage name="cardNumber" />
                                     </Form.Group>
                                     <Form.Row>
-                                        <Form.Group as={Col} controlId="formCardExpiration">
+                                        <Form.Group as={Col}>
                                             <Form.Label>Expiration Date</Form.Label>
-                                            <Form.Control id = "form-control-profile"
+                                            <Form.Control id="form-control-profile"
                                                 name="expiration"
                                                 type="date"
                                                 value={values.expiration}
@@ -220,7 +274,7 @@ function Profile(){
                                             />
                                             <ErrorMessage name="expiration" />
                                         </Form.Group>
-                                        <Form.Group as={Col} controlId="formCardCode">
+                                        <Form.Group as={Col}>
                                             <Form.Label>Security Code</Form.Label>
                                             <Form.Control id = "form-control-profile"
                                                 name="security"
@@ -244,6 +298,7 @@ function Profile(){
                 <Row id = "row2-profile">
                     <Col>   
                         <Formik 
+                            enableReinitialize
                             initialValues={{
                                 address1: mockProfile.address1,
                                 address2: mockProfile.address2,
@@ -266,9 +321,9 @@ function Profile(){
                                 dirty,
                                 isValid,
                             }) => (
-                                <Form classname="edit-address-form" id = "form-style-profile">
+                                <Form id="form-style-profile">
                                     <h1 id = "h1-style-profile">Update Address</h1>
-                                    <Form.Group controlId="formAddress1">
+                                    <Form.Group>
                                         <Form.Label>Address Line 1</Form.Label>
                                         <Form.Control id = "form-control-profile"
                                             name="address1"
@@ -281,7 +336,7 @@ function Profile(){
                                         />
                                         <ErrorMessage name="address1" />
                                     </Form.Group>
-                                    <Form.Group controlId="formAddress2">
+                                    <Form.Group>
                                         <Form.Label>Address Line 2</Form.Label>
                                         <Form.Control id = "form-control-profile"
                                             name="address2"
@@ -295,7 +350,7 @@ function Profile(){
                                         <ErrorMessage name="address2" />
                                     </Form.Group>
                                     <Form.Row>
-                                        <Form.Group as={Col} controlId="formCity">
+                                        <Form.Group as={Col}>
                                             <Form.Label>City</Form.Label>
                                             <Form.Control id = "form-control-profile"
                                                 name="city"
@@ -308,11 +363,10 @@ function Profile(){
                                             />
                                             <ErrorMessage name="city" />
                                         </Form.Group>
-                                        <Form.Group as={Col} controlId="formState">
+                                        <Form.Group as={Col}>
                                             <Form.Label>State</Form.Label>
                                             <Form.Control id = "form-control-profile"
                                                 as="select" 
-                                                defaultValue={mockProfile.state}
                                                 name="state"
                                                 value={values.state}
                                                 onChange={handleChange}
@@ -375,7 +429,7 @@ function Profile(){
                                             </Form.Control>
                                             <ErrorMessage name="state" />
                                         </Form.Group>
-                                        <Form.Group as={Col} controlId="formZip">
+                                        <Form.Group as={Col}>
                                             <Form.Label>Zip</Form.Label>
                                             <Form.Control id = "form-control-profile"
                                                 name="zip"
@@ -397,6 +451,7 @@ function Profile(){
                     </Col>
                     <Col>
                         <Formik 
+                            enableReinitialize
                             initialValues={{
                                 oldPassword: '',
                                 newPassword: '',
@@ -417,9 +472,9 @@ function Profile(){
                                 dirty,
                                 isValid,
                             }) => (
-                                <Form classname="edit-password-form" id = "form-style-profile">
+                                <Form id = "form-style-profile">
                                     <h1 id = "h1-style-profile">Update Password</h1>
-                                    <Form.Group controlId="formOldPassword">
+                                    <Form.Group>
                                         <Form.Label>Old Password</Form.Label>
                                         <Form.Control id = "form-control-profile"
                                             type="password" 
@@ -432,7 +487,7 @@ function Profile(){
                                         />
                                         <ErrorMessage name="oldPassword" />
                                     </Form.Group>
-                                    <Form.Group controlId="formNewPassword">
+                                    <Form.Group>
                                         <Form.Label>New Password</Form.Label>
                                         <Form.Control id = "form-control-profile"
                                             type="password" 
@@ -445,7 +500,7 @@ function Profile(){
                                         />
                                         <ErrorMessage name="newPassword" />
                                     </Form.Group>
-                                    <Form.Group controlId="formConfirmPassword">
+                                    <Form.Group>
                                         <Form.Label>Confirm Password</Form.Label>
                                         <Form.Control id = "form-control-profile"
                                             type="password" 
