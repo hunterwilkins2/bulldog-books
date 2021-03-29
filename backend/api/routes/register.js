@@ -144,6 +144,17 @@ router.post('/confirmation', async (req, res, next) => {
 
         if(user.confirmationCode == confirmationCode) {
             await User.findOneAndUpdate( { _id: id}, { status: 'active' })
+
+            const token = auth.createToken(user._id, user.status, user.userType)
+
+            const cookieOptions = { 
+                path: '/', 
+                domain: 'localhost', 
+            }
+    
+            res.cookie('jwt', token, cookieOptions)
+            res.cookie('userType', user.userType, cookieOptions)
+
             res.status(200).json( { message: 'Confirmation successful'})
         } else {
             throw Error('Incorrect confirmation code')
