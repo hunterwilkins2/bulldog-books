@@ -1,5 +1,5 @@
-import React from 'react'
-import {Form, Button, } from 'react-bootstrap'
+import React, { useState } from 'react'
+import {Form, Button, Alert } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { Formik, ErrorMessage } from 'formik'
 import * as yup from 'yup'
@@ -10,13 +10,18 @@ import './styles/Background.css'
 import './styles/Login.css'
 
 function Login(){
-
+    const [errors, setErrors] = useState([])
 
     const validationSchema = yup.object().shape({
         email: yup.string().email('Invalid Email Format').required('Required'),
         password: yup.string().required('Required')
     })
 
+    const alerts = errors.map(error => 
+        <Alert key={error} variant='danger'>
+            {error}
+        </Alert>
+    )
 
     return(
         <>
@@ -28,7 +33,7 @@ function Login(){
                     onSubmit={async (data, {setSubmitting}) => {
                         setSubmitting(true)
                         
-                        await fetch('http://localhost:3000/login', {
+                        const response = await fetch('http://localhost:3000/login', {
                             method: 'POST',
                             withCredentials: true,
                             credentials: 'include',
@@ -39,10 +44,16 @@ function Login(){
                             },
                             body: JSON.stringify(data)
                         })
-                        console.log(data)
                         setSubmitting(false)
 
-                        window.location.href='/'
+                        const messages = await response.json()
+
+                        if(messages.errors) {
+                            console.log(messages.errors.split(';'))
+                            setErrors(messages.errors.split(';'))
+                        } else {
+                            window.location.href='/'
+                        }
                     }}
                     validationSchema={validationSchema}
                 >{({ handleSubmit,
@@ -55,6 +66,7 @@ function Login(){
                     }) => (
                         <Form className="login-form" id = "form-style" onSubmit={handleSubmit}>
                             <h1> Login </h1>
+                            {alerts}
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control 

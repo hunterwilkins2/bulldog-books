@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
-import { Form, Button } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Form, Button, Alert } from 'react-bootstrap'
 import { Formik, ErrorMessage } from 'formik'
 import * as yup from 'yup'
 
@@ -10,6 +10,8 @@ import './styles/Background.css'
 import './styles/ForgotPassword.css'
 
 function Forgot(){
+
+    const [errors, setErrors] = useState([])
 
     // const formStyle = {
     //     border:'2px solid #ffffff',
@@ -23,6 +25,12 @@ function Forgot(){
         newPassword: yup.string().required('Required')
     })
 
+    const alerts = errors.map(error => 
+        <Alert key={error} variant='danger'>
+            {error}
+        </Alert>
+    )
+
     return(
         <div id = "background">
             <StoreNavbar />
@@ -32,7 +40,7 @@ function Forgot(){
                     onSubmit={async (data, {setSubmitting}) => {
                         setSubmitting(true)
                         
-                        await fetch('http://localhost:3000/reset-password', {
+                        const response = await fetch('http://localhost:3000/reset-password', {
                             method: 'PATCH',
                             withCredentials: true,
                             credentials: 'include',
@@ -43,10 +51,16 @@ function Forgot(){
                             },
                             body: JSON.stringify(data)
                         })
-                        console.log(data)
                         setSubmitting(false)
 
-                        window.location.href='/'
+                        const messages = await response.json()
+
+                        if(messages.errors) {
+                            console.log(messages.errors.split(';'))
+                            setErrors(messages.errors.split(';'))
+                        } else {
+                            window.location.href='/'
+                        }
                     }}
                     validationSchema={validationSchema}
                 >{({ handleSubmit,
@@ -59,6 +73,7 @@ function Forgot(){
                     }) => (
                         <Form className="login-form" id = "form-style-forgot" onSubmit={handleSubmit}>
                             <h1> Reset Password </h1>
+                            {alerts}
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Confirm your email address</Form.Label>
                                 <Form.Control 
