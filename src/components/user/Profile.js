@@ -526,10 +526,9 @@ function Profile(){
                                 newPassword: '',
                                 confirmPassword: ''
                             }}
-                            onSubmit={async (data, {setSubmitting}) => {
-                                setSubmitting(true)
+                            onSubmit={async (data) => {
+                                // Nathan - this is where the bulk of your work should go (I think)
                                 console.log(data)
-                                setSubmitting(false)
                             }}
                             validationSchema={editPasswordSchema}
                         >{({
@@ -540,6 +539,7 @@ function Profile(){
                                 errors,
                                 dirty,
                                 isValid,
+                                submitForm
                             }) => (
                                 <Form id = "form-style-profile">
                                     <h1 id = "h1-style-profile">Update Password</h1>
@@ -582,7 +582,7 @@ function Profile(){
                                         />
                                         <ErrorMessage name="confirmPassword" />
                                     </Form.Group>
-                                    <Button id = "button4-profile" variant="primary" type="submit" disabled={!(dirty && isValid)}>
+                                    <Button id = "button4-profile" variant="primary" type="submit" disabled={!(dirty && isValid)} onClick={submitForm}>
                     Save Changes
                                     </Button>
                                 </Form>
