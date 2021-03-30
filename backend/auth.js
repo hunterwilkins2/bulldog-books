@@ -29,20 +29,20 @@ const verifyCustomer = (req, res, next) => {
     if(token) {
         jwt.verify(token, process.env.RSA_PRIVATE, (error, decodedToken) => {
             if(error) {
-                res.status(401).json( { errors: 'Must be logged in'})
-                res.redirect('/')
+                res.status(401)
+                next(Error('Must be logged in'))
             } else {
                 if(decodedToken.status !== 'active') {
-                    res.status(403)
-                    res.redirect('/confirmation')
+                    res.status(401)
+                    next(Error('User must confirm their email'))
                 }
 
                 next()
             }
         })
     } else {
-        res.status(401).json( { errors: 'Must be logged in'})
-        res.redirect('/')
+        res.status(401)
+        next(Error('Must be logged in'))
     }
 }
 
@@ -52,20 +52,24 @@ const verifyAdmin = (req, res, next) => {
     if(token) {
         jwt.verify(token, process.env.RSA_PRIVATE, (error, decodedToken) => {
             if(error) {
-                res.redirect(401, '/')
+                res.status(401)
+                next(Error('Must be logged in'))
             } else {
                 if(decodedToken.type !== 'admin') {
-                    res.redirect('/')
+                    res.status(403)
+                    next(Error('Only admins can access that route'))
                 }
 
                 if(decodedToken.status !== 'active') {
-                    res.redirect(403, '/confirmation')
+                    res.status(401)
+                    next(Error('User must confirm their email'))
                 }
                 next()
             }
         })
     } else {
-        res.redirect(401, '/')
+        res.status(401)
+        next(Error('Must be logged in'))
     }
 }
 
