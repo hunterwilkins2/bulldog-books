@@ -146,15 +146,16 @@ router.post('/confirmation', async (req, res, next) => {
         const user = await User.findById(id)
 
         if(user.confirmationCode == confirmationCode) {
-            await User.findOneAndUpdate( { _id: id}, { status: 'active' })
+            const activeUser = await User.findOneAndUpdate( { _id: id}, { status: 'active' }, { new: true })
 
-            const token = auth.createToken(user._id, user.status, user.userType)
+            const token = auth.createToken(activeUser._id, activeUser.status, activeUser.userType)
 
             const cookieOptions = { 
                 path: '/', 
                 domain: 'localhost', 
             }
     
+            console.log(activeUser)
             res.cookie('jwt', token, cookieOptions)
             res.cookie('userType', user.userType, cookieOptions)
 
