@@ -8,7 +8,7 @@ router.get('/', auth.verifyCustomer, async (req, res, next) => {
     try {
         const id = auth.getId(req.cookies.jwt)
         const address = await Address.findOne({ customer: id }, 'street city state zipcode')
-        res.status(200).json(address)
+        res.status(200).json(address ? address : { })
     } catch(error) {
         next(error)
     }
@@ -38,12 +38,16 @@ router.patch('/', auth.verifyCustomer, async (req, res, next) => {
         const id = auth.getId(req.cookies.jwt)
 
         const patchData = req.body
+        console.log(patchData)
         const address = await Address.findOneAndUpdate({ customer: id }, patchData, { new: true })
+        console.log(address)
 
         if(address) {
             res.status(200).json({message: 'Succesfully updated address'})
         } else {
-            throw Error('Could not find address')
+            const { street, city, state, zipcode } = patchData
+            await Address.create({ customer: id, street, city, state, zipcode})
+            res.status(200).json({message: 'Succesfully added address'})
         }
         
     } catch (error) {
