@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
-import { Redirect } from 'react-router-dom'
 import { Form, Row, Col, Button, Container, Alert } from 'react-bootstrap'
 import { Formik, ErrorMessage} from 'formik'
 import * as yup from 'yup'
 
 import StoreNavbar from '../StoreNavbar'
+import Reroute from '../Reroute'
 import './../styles/Profile.css' 
 import './../styles/Background.css'
 
@@ -23,8 +23,6 @@ function Profile(){
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
     const [zip, setZip] = useState('')
-    // eslint-disable-next-line no-unused-vars
-    const [redirectConfirmation, setRedirectConfirmation] = useState(false)
 
     const infoAlerts = infoErrors.map(error => 
         <Alert key={error} variant='danger'>
@@ -73,9 +71,6 @@ function Profile(){
             const addressResponse = await (await fetch('http://localhost:3000/api/address', headers)).json()
             if(infoResponse && infoResponse.errors) {
                 setInfoErrors(infoResponse.errors.split(';'))
-                if(infoResponse.errors.includes('User must confirm their email')){
-                    setRedirectConfirmation(true)
-                }
             } else if(infoResponse){
                 setFirstName(infoResponse.firstName)
                 setLastName(infoResponse.lastName)
@@ -199,7 +194,9 @@ function Profile(){
 
     return(
         <>
-            {redirectConfirmation && <Redirect to="/confirmation" />}
+            <Reroute errors={infoErrors}/>
+            <Reroute errors={addressErrors}/>
+            <Reroute errors={paymentErrors}/>
             <StoreNavbar/>
             <Container id = "background">
                 <Row id = "row1-profile">
