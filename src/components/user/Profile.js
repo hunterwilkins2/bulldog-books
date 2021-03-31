@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { Form, Row, Col, Button, Container } from 'react-bootstrap'
+import { Form, Row, Col, Button, Container, Alert } from 'react-bootstrap'
 import { Formik, ErrorMessage} from 'formik'
 import * as yup from 'yup'
 
@@ -9,6 +9,31 @@ import './../styles/Background.css'
 
 
 function Profile(){
+    const [infoErrors, setInfoErrors] = useState([])
+    const [paymentErrors, setPaymentErrors] = useState([])
+    const [addressErrors, setAddressErrors] = useState([])
+    const [passwordErrors, setPasswordErrors] = useState([])
+
+    const infoAlerts = infoErrors.map(error => 
+        <Alert key={error} variant='danger'>
+            {error}
+        </Alert>
+    )
+    const paymentAlerts = paymentErrors.map(error => 
+        <Alert key={error} variant='danger'>
+            {error}
+        </Alert>
+    )
+    const addressAlerts = addressErrors.map(error => 
+        <Alert key={error} variant='danger'>
+            {error}
+        </Alert>
+    )
+    const passwordAlerts = passwordErrors.map(error => 
+        <Alert key={error} variant='danger'>
+            {error}
+        </Alert>
+    )
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -42,7 +67,30 @@ function Profile(){
             const infoResponse = await (await fetch('http://localhost:3000/api/profile', headers)).json()
             const paymentResponse = await (await fetch('http://localhost:3000/api/payment', headers)).json()
             const addressResponse = await (await fetch('http://localhost:3000/api/address', headers)).json()
-
+            if(infoResponse.errors) {
+                console.log('there are errors')
+                console.log(infoResponse.errors.split(';'))
+                setInfoErrors(infoResponse.errors.split(';'))
+            }
+            else {
+                console.log('no errors')
+            }
+            if(paymentResponse.errors) {
+                console.log('there are errors')
+                console.log(paymentResponse.errors.split(';'))
+                setPaymentErrors(paymentResponse.errors.split(';'))
+            }
+            else {
+                console.log('no errors')
+            }
+            if(addressResponse.errors) {
+                console.log('there are errors')
+                console.log(addressResponse.errors.split(';'))
+                setInfoErrors(addressResponse.errors.split(';'))
+            }
+            else {
+                console.log('no errors')
+            }
 
             setFirstName(infoResponse.firstName)
             setLastName(infoResponse.lastName)
@@ -106,6 +154,13 @@ function Profile(){
 
         const paymentResponse = await (await fetch('http://localhost:3000/api/payment', paymentData)).json()
         console.log(paymentResponse)
+        if(paymentResponse.errors) {
+            console.log(paymentResponse.errors.split(';'))
+            paymentErrors(paymentResponse.errors.split(';'))
+        }
+        else {
+            console.log('no errors')
+        }
     }
 
 
@@ -149,6 +204,7 @@ function Profile(){
     return(
         <>
             <StoreNavbar/>
+            {infoAlerts}
             <Container id = "background">
                 <Row id = "row1-profile">
                     <Col>
@@ -181,6 +237,13 @@ function Profile(){
                                     })
                                 }
                                 const infoResponse = await (await fetch('http://localhost:3000/api/profile', infoData)).json()
+                                if(infoResponse.errors) {
+                                    console.log(infoResponse.errors.split(';'))
+                                    setInfoErrors(infoResponse.errors.split(';'))
+                                }
+                                else {
+                                    console.log('no errors')
+                                }
                                 console.log(infoResponse)
                             }}
                             validationSchema={editNameSchema}
@@ -251,6 +314,7 @@ function Profile(){
                             )}</Formik>
                     </Col>
                     <Col>
+                        {paymentAlerts}
                         <Formik 
                             enableReinitialize
                             initialValues={{
@@ -280,6 +344,13 @@ function Profile(){
                                 }
 
                                 const paymentResponse = await (await fetch('http://localhost:3000/api/payment', paymentData)).json()
+                                if(paymentResponse.errors) {
+                                    console.log(paymentResponse.errors.split(';'))
+                                    setPaymentErrors(paymentResponse.errors.split(';'))
+                                }
+                                else {
+                                    console.log('no errors')
+                                }
                                 console.log(paymentResponse)
 
                             }}
@@ -357,6 +428,7 @@ function Profile(){
                 </Row>
                 <Row id = "row2-profile">
                     <Col>   
+                        {addressAlerts}
                         <Formik 
                             enableReinitialize
                             initialValues={{
@@ -388,6 +460,13 @@ function Profile(){
                                 }
 
                                 const addressResponse = await (await fetch('http://localhost:3000/api/address', addressData)).json()
+                                if(addressResponse.errors) {
+                                    console.log(addressResponse.errors.split(';'))
+                                    setAddressErrors(addressResponse.errors.split(';'))
+                                }
+                                else {
+                                    console.log('no errors')
+                                }
                                 console.log(addressResponse)
                             }}
                             validationSchema={editAddressSchema}
@@ -519,6 +598,7 @@ function Profile(){
                             )}</Formik>
                     </Col>
                     <Col>
+                        {passwordAlerts}
                         <Formik 
                             enableReinitialize
                             initialValues={{
@@ -548,6 +628,13 @@ function Profile(){
                                 }
 
                                 const passwordResponse = await (await fetch('http://localhost:3000/reset-password', passwordData)).json()
+                                if(passwordResponse.errors) {
+                                    console.log(passwordResponse.errors.split(';'))
+                                    setPasswordErrors(passwordResponse.errors.split(';'))
+                                }
+                                else {
+                                    console.log('no errors')
+                                }
                                 console.log(passwordResponse)
                             }}
                             validationSchema={editPasswordSchema}
