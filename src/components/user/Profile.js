@@ -527,8 +527,28 @@ function Profile(){
                                 confirmPassword: ''
                             }}
                             onSubmit={async (data) => {
-                                // Nathan - this is where the bulk of your work should go (I think)
-                                console.log(data)
+                                let passwordData = {
+                                    method: 'PATCH',
+                                    withCredentials: true,
+                                    credentials: 'include',
+                                    mode: 'cors',
+                                    cache: 'no-cache',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Access-Control-Allow-Origin': 'https://localhost:3000',
+                                        'Access-Control-Allow-Credentials': true,
+                                    },
+                                    redirect: 'follow',
+                                    referrerPolicy: 'no-referrer',
+                                    body: JSON.stringify({
+                                        email: email,
+                                        oldPassword: data.oldPassword,
+                                        newPassword: data.newPassword
+                                    })
+                                }
+
+                                const passwordResponse = await (await fetch('http://localhost:3000/reset-password', passwordData)).json()
+                                console.log(passwordResponse)
                             }}
                             validationSchema={editPasswordSchema}
                         >{({

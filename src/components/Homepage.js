@@ -30,20 +30,20 @@ function User(){
             <Col key={book.isbn} xs='3' id = "column-hp">
                 <Card id = "card-style-hp">
                     <Card.Img className = "mx-auto" id = "image-hp" src={book.cover} />
-                    <ListGroup className="list-group-flush" >
-                        <ListGroupItem>
+                    <ListGroup id = "lG-hp" className="list-group-flush" >
+                        <ListGroupItem id = "lGI-title-hp">
                             <Card.Title>{book.title}</Card.Title>
                             <Card.Subtitle className="text-muted">{book.subtitle}</Card.Subtitle>
                         </ListGroupItem>
                     </ListGroup>  
                     <ListGroup id = "lG-hp" className="list-group-flush">
-                        <ListGroupItem>Author: {book.author}</ListGroupItem>
+                        <ListGroupItem id = "lGI-hp">Author: {book.author}</ListGroupItem>
                     </ListGroup>
                     <ListGroup id = "lG-hp" className="list-group-flush">
-                        <ListGroupItem>Price: ${book.buyPrice}</ListGroupItem>
+                        <ListGroupItem id = "lGI-hp">Price: ${book.buyPrice}</ListGroupItem>
                     </ListGroup>
                     <ListGroup className="list-group-flush">
-                        <ListGroupItem>
+                        <ListGroupItem id = "lGI-links-hp">
                             <Card.Link href={book.website}>More Info</Card.Link>
                             <Card.Link href="">Add To Cart</Card.Link>
                         </ListGroupItem>                   
