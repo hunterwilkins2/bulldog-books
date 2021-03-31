@@ -67,40 +67,29 @@ function Profile(){
             const infoResponse = await (await fetch('http://localhost:3000/api/profile', headers)).json()
             const paymentResponse = await (await fetch('http://localhost:3000/api/payment', headers)).json()
             const addressResponse = await (await fetch('http://localhost:3000/api/address', headers)).json()
-            if(infoResponse.errors) {
-                console.log('there are errors')
-                console.log(infoResponse.errors.split(';'))
+            if(infoResponse && infoResponse.errors) {
                 setInfoErrors(infoResponse.errors.split(';'))
-            }
-            else {
-                console.log('no errors')
-            }
-            if(paymentResponse.errors) {
-                console.log('there are errors')
-                console.log(paymentResponse.errors.split(';'))
-                setPaymentErrors(paymentResponse.errors.split(';'))
-            }
-            else {
-                console.log('no errors')
-            }
-            if(addressResponse.errors) {
-                console.log('there are errors')
-                console.log(addressResponse.errors.split(';'))
-                setInfoErrors(addressResponse.errors.split(';'))
-            }
-            else {
-                console.log('no errors')
+            } else if(infoResponse){
+                setFirstName(infoResponse.firstName)
+                setLastName(infoResponse.lastName)
+                setEmail(infoResponse.email)
+                setPromos(infoResponse.recievePromotions)
             }
 
-            setFirstName(infoResponse.firstName)
-            setLastName(infoResponse.lastName)
-            setEmail(infoResponse.email)
-            setPromos(infoResponse.recievePromotions)
-            setPayments(paymentResponse)
-            setAddress1(addressResponse.street)
-            setCity(addressResponse.city)
-            setState(addressResponse.state)
-            setZip(addressResponse.zipcode)            
+            if(paymentResponse && paymentResponse.errors) {
+                setPaymentErrors(paymentResponse.errors.split(';'))
+            } else if(paymentResponse){
+                setPayments(paymentResponse)
+            }
+
+            if(addressResponse && addressResponse.errors) {
+                setInfoErrors(addressResponse.errors.split(';'))
+            } else if(addressResponse){
+                setAddress1(addressResponse.street)
+                setCity(addressResponse.city)
+                setState(addressResponse.state)
+                setZip(addressResponse.zipcode)       
+            }         
         }
         fetchData()
 
@@ -438,6 +427,7 @@ function Profile(){
                                 zip: zip
                             }}
                             onSubmit={async (data) => {
+
                                 let addressData = {
                                     method: 'PATCH',
                                     withCredentials: true,
@@ -458,7 +448,9 @@ function Profile(){
                                         'zipcode': data.zip
                                     })
                                 }
-
+                                if(address1 === '' && city === '' && state === '' && zip === ''){
+                                    addressData.method = 'POST'
+                                }
                                 const addressResponse = await (await fetch('http://localhost:3000/api/address', addressData)).json()
                                 if(addressResponse.errors) {
                                     console.log(addressResponse.errors.split(';'))
