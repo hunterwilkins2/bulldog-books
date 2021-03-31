@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import { Redirect } from 'react-router-dom'
 import { Form, Row, Col, Button, Container, Alert } from 'react-bootstrap'
 import { Formik, ErrorMessage} from 'formik'
 import * as yup from 'yup'
@@ -13,6 +14,17 @@ function Profile(){
     const [paymentErrors, setPaymentErrors] = useState([])
     const [addressErrors, setAddressErrors] = useState([])
     const [passwordErrors, setPasswordErrors] = useState([])
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [promos, setPromos] = useState(false)
+    const [payments, setPayments] = useState([])
+    const [address1, setAddress1] = useState('')
+    const [city, setCity] = useState('')
+    const [state, setState] = useState('')
+    const [zip, setZip] = useState('')
+    // eslint-disable-next-line no-unused-vars
+    const [redirectConfirmation, setRedirectConfirmation] = useState(false)
 
     const infoAlerts = infoErrors.map(error => 
         <Alert key={error} variant='danger'>
@@ -35,15 +47,7 @@ function Profile(){
         </Alert>
     )
 
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [email, setEmail] = useState('')
-    const [promos, setPromos] = useState(false)
-    const [payments, setPayments] = useState([])
-    const [address1, setAddress1] = useState('')
-    const [city, setCity] = useState('')
-    const [state, setState] = useState('')
-    const [zip, setZip] = useState('')
+    
 
     
     useEffect(() => {
@@ -69,6 +73,9 @@ function Profile(){
             const addressResponse = await (await fetch('http://localhost:3000/api/address', headers)).json()
             if(infoResponse && infoResponse.errors) {
                 setInfoErrors(infoResponse.errors.split(';'))
+                if(infoResponse.errors.includes('User must confirm their email')){
+                    setRedirectConfirmation(true)
+                }
             } else if(infoResponse){
                 setFirstName(infoResponse.firstName)
                 setLastName(infoResponse.lastName)
@@ -192,11 +199,12 @@ function Profile(){
 
     return(
         <>
+            {redirectConfirmation && <Redirect to="/confirmation" />}
             <StoreNavbar/>
-            {infoAlerts}
             <Container id = "background">
                 <Row id = "row1-profile">
                     <Col>
+                        {infoAlerts}
                         <Formik 
                             enableReinitialize
                             initialValues={{
