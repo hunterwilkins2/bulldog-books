@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
-import { Form, Col, Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import React, {useState} from 'react'
+import { Form, Col, Button, Alert } from 'react-bootstrap'
+import { Redirect } from 'react-router-dom'
 import { Formik, ErrorMessage} from 'formik'
 import * as yup from 'yup'
 
@@ -11,11 +11,14 @@ import './styles/Register.css'
 
 function Register(){
 
-    // const formStyle = {
-    //     border:'2px solid #ffffff',
-    //     background: '#ffffff',
-    //     borderRadius: '25px'
-    // }
+    const [errors, setErrors] = useState([])
+    const [noErrors, setNoErrors] = useState(false)
+
+    const alerts = errors.map(error => 
+        <Alert key={error} variant='danger'>
+            {error}
+        </Alert>
+    )
 
     const validationSchema = yup.object().shape({
         firstName: yup.string()
@@ -185,15 +188,39 @@ function Register(){
                     const registerResponse = await (await fetch('http://localhost:3000/register', registerData)).json()
                     console.log(registerResponse)
 
+                    let addressResponse, paymentResponse
+                   
                     if(data.address1 && data.city && data.state && data.zip){
-                        const addressResponse = await (await fetch('http://localhost:3000/api/address', addressData)).json()
+                        addressResponse = await (await fetch('http://localhost:3000/api/address', addressData)).json()
                         console.log(addressResponse)
+                        
                     }
 
                     if(data.cardNumber && data.cardType && data.expiration){
-                        const paymentResponse = await (await fetch('http://localhost:3000/api/payment', paymentData)).json()
+                        paymentResponse = await (await fetch('http://localhost:3000/api/payment', paymentData)).json()
                         console.log(paymentResponse)
                     }
+
+                    if(registerResponse.errors && addressResponse && addressResponse.errors && paymentResponse && paymentResponse.errors){
+                        setErrors(registerResponse.errors.split(';').concat(addressResponse.errors.split(';')).concat(paymentResponse.errors.split(';')))
+                        setNoErrors(false)
+                    }
+                    else if(registerResponse.errors && addressResponse && addressResponse.errors){
+                        setErrors(registerResponse.errors.split(';').concat(addressResponse.errors.split(';')))
+                        setNoErrors(false)
+                    }
+                    else if(registerResponse.errors && paymentResponse && paymentResponse.errors){
+                        setErrors(registerResponse.errors.split(';').concat(paymentResponse.errors.split(';')))
+                        setNoErrors(false)
+                    }
+                    else if(registerResponse.errors){
+                        setErrors(registerResponse.errors.split(';'))
+                        setNoErrors(false)
+                    } 
+                    else {
+                        setNoErrors(true)
+                    }
+
                 }}
                 validationSchema={validationSchema}
             >
@@ -209,6 +236,7 @@ function Register(){
                     submitForm
                 }) => (
                     <div className = "mx-auto" id = "main-cont-register" >
+                        {alerts}
                         <Form id="register-form" onSubmit={handleSubmit}> 
                             <Form.Row>
                                 <Form.Group as={Col} controlId="formFirstName">
@@ -454,17 +482,16 @@ function Register(){
                                     <ErrorMessage name="security" />
                                 </Form.Group>
                             </Form.Row>
-                            <Link to='/confirmation'>
-                                <Button 
-                                    variant="primary" 
-                                    type="submit" 
-                                    disabled={!(dirty && isValid)}
-                                    onClick={submitForm}
-                                >
+                            <Button 
+                                variant="primary" 
+                                type="submit" 
+                                disabled={!(dirty && isValid)}
+                                onClick={submitForm}
+                            >
                             Submit
-                                </Button>
-                            </Link>
+                            </Button>
                         </Form>
+                        {noErrors && <Redirect to='/confirmation'/>}
                     </div>
                 )}</Formik>
         </div>

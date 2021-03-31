@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {Row, Col } from 'react-bootstrap'
+import {Row, Col, Button } from 'react-bootstrap'
 
 // import { bsellerData } from '../data/bsellerData'
 import './styles/Bestsellers.css' 
@@ -26,6 +26,15 @@ function BestSellers(){
             </Col>
             <Col id = "col2-b"> {bseller.title}</Col>
             <Col id = "col3-b"> {bseller.author}</Col>
+            <Col id = "col3-nr">
+                <Row>
+                    <Button size='sm'>More Info..</Button>
+                </Row>
+                <br></br>
+                <Row>
+                    <Button size='sm'>Add to Cart</Button>
+                </Row>
+            </Col>
         </Row>
 
     ))

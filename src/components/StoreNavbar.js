@@ -1,8 +1,10 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import { Navbar, Form, FormControl, Button, Nav, Dropdown, DropdownButton } from 'react-bootstrap'
 import { Basket, Search } from 'react-bootstrap-icons'
 import { Link } from 'react-router-dom'
 import { getCookie, deleteCookie } from './cookie-parser'
+import Cookies from 'js-cookie'
 
 import bulldawgbook from './images/bulldawgbook.png' 
 import './styles/StoreNavbar.css' 
@@ -14,7 +16,7 @@ function logout() {
     }
 }
 
-function UserNav(){
+function UserNav({homePage=false}){
 
     return(
         <Navbar className="basic-nav" bg="dark">
@@ -29,7 +31,7 @@ function UserNav(){
                 </Link>
             </Navbar.Brand>
 
-            {/* {(type === 'user' || type ==='admin') &&   */}
+            {homePage && 
             <Form inline id = "search-form-style" >
                 <FormControl type="text" placeholder="Title, Author, ISBN" id = "searchStyle" />
                 <Button id = "button-search" >
@@ -37,7 +39,7 @@ function UserNav(){
                 </Button>
             </Form>
 
-            {/* {(type === 'user' || type === 'admin') && */}
+            }
             <Nav id = "nav-link-style" >
                 <DropdownButton id="button-profile" title="Profile">
                     <Dropdown.Item href="/user/Profile">Profile</Dropdown.Item>
@@ -45,6 +47,13 @@ function UserNav(){
                 </DropdownButton>
 
                 <Button id = "button-cart" href="/user/Cart" className="ml-2" variant="light"><Basket /> Cart</Button>{' '}
+
+                {Cookies.get('userType') === 'admin' && 
+                <>
+                    <Button  id = "button-cart" className="ml-2" variant="light"> Manage Users</Button>
+                    <Button  id = "button-cart" className="ml-2" variant="light">Manage Promotions</Button>
+                </>
+                }
 
                 <Button id = "button-login" onClick={logout}
                     href={!getCookie('jwt') ? '/login' : '/'} 

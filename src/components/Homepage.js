@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React, {useState, useEffect} from 'react'
 import { Card, ListGroup, ListGroupItem, Col, Row, Container, Alert } from 'react-bootstrap'
+import Cookies from 'js-cookie'
 
 // import Promos from  './Promos'
 import BestSellers from './BestSeller'
 import NewReleases from './NewReleases'
 import StoreNavbar from './StoreNavbar'
-// import { booksData } from '../data/books'
 import './styles/Homepage.css'
 import './styles/Background.css'
 
@@ -60,6 +60,9 @@ function User(){
                     </ListGroup>
                     <ListGroup className="list-group-flush">
                         <ListGroupItem id = "lGI-links-hp">
+                            {Cookies.get('userType') === 'admin' && 
+                             <Card.Link href="">Manage Book</Card.Link>
+                            }
                             <Card.Link href={book.website}>More Info</Card.Link>
                             <Card.Link href="">Add To Cart</Card.Link>
                         </ListGroupItem>                   
@@ -72,7 +75,7 @@ function User(){
 
     return (
         <div id = "background">
-            <StoreNavbar/> 
+            <StoreNavbar homePage={true}/> 
             {alerts}
             <Container id = "cont-hp">
                 <Row className ="mx-auto" id = "promo-bestseller-row-hp">
