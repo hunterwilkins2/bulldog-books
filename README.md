@@ -2,11 +2,12 @@
 This is a oneline bookstore project created for UGA CSCI 4050 using the MERN stack. 
 
 # Getting Started
-For instructions on installing the project checkout our github wiki.
-
-# Dependencies
+## Dependencies
 - npm
-- MongoDB
+- Run `npm install`
+
+## To run
+- Run `npm run web`
 
 # Authors
 - Gary Barns
