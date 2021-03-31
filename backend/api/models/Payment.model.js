@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose')
 const bcrypt = require('bcrypt')
-const { isCreditCard } = require('validator')
+const { isLength } = require('validator')
 
 const OBJECT_ID = Schema.Types.ObjectId
 
@@ -11,7 +11,8 @@ const paymentSchema = Schema({
         type: String, 
         required: [true, 'Must enter credit card number'],
         unique: true,
-        validate: [isCreditCard, 'Credit card number is not valid']
+        validate: [(str) => isLength(str, { min: 16, max: 16 }), 'Not a valid credit card. Must be 16 digits long']
+
     },
     type: 
     { 
