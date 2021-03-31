@@ -111,16 +111,17 @@ router.patch('/reset-password', async (req, res, next) => {
     try {
         const { email, oldPassword, newPassword } = req.body
 
-        console.log(oldPassword)
-        console.log(newPassword)
+        if(newPassword.length < 6) throw Error('Password must be at least 6 characters long')
 
         const user = await User.login(email, oldPassword)
 
         await User.findOne({ email : email }, function (err, doc) {
-            if(err) return false
+            if(err) throw Error(err)
             doc.password = newPassword
             doc.save()
         })
+
+        mailer.sendMail(user.email, 'Bulldawg Books password reset', 'Your password has been reset.')
 
         const token = auth.createToken(user._id, user.status, user.userType)
         const cookieOptions = { 
@@ -155,7 +156,6 @@ router.post('/confirmation', async (req, res, next) => {
                 domain: 'localhost', 
             }
     
-            console.log(activeUser)
             res.cookie('jwt', token, cookieOptions)
             res.cookie('userType', user.userType, cookieOptions)
 

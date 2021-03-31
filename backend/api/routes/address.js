@@ -1,6 +1,8 @@
 const express = require('express')
 const Address = require('../models/Address.model')
+const User = require('../models/User.model')
 const auth = require('../../auth')
+const mailer = require('../../email')
 
 const router = express.Router()
 
@@ -40,7 +42,6 @@ router.patch('/', auth.verifyCustomer, async (req, res, next) => {
         const patchData = req.body
         console.log(patchData)
         const address = await Address.findOneAndUpdate({ customer: id }, patchData, { new: true })
-        console.log(address)
 
         if(address) {
             res.status(200).json({message: 'Succesfully updated address'})
@@ -49,6 +50,10 @@ router.patch('/', auth.verifyCustomer, async (req, res, next) => {
             await Address.create({ customer: id, street, city, state, zipcode})
             res.status(200).json({message: 'Succesfully added address'})
         }
+
+        const user = await User.findById(id)
+        mailer.sendMail(user.email, 'Bulldawg Books address updated', 'Your address has been updated.')
+
         
     } catch (error) {
         next(error)

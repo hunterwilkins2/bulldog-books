@@ -1,6 +1,8 @@
 const express = require('express')
 const Payment = require('../models/Payment.model')
+const User = require('../models/User.model')
 const auth = require('../../auth')
+const mailer = require('../../email')
 
 const router = express.Router()
 
@@ -25,6 +27,12 @@ router.post('/', async (req, res, next) => {
             const { cardNumber, type, expirationDate } = req.body
         
             await Payment.create({ customer: id, cardNumber, type, expirationDate })
+
+            const user = await User.findById(id)
+            console.log(id)
+            console.log(user)
+            mailer.sendMail(user.email, 'Bulldawg Books card added', 'A new payment card has been added to your account.')
+
         
             res.status(200).json({ message: 'Sucessfully added card' })
         } else {
@@ -38,9 +46,14 @@ router.post('/', async (req, res, next) => {
 
 router.delete('/', auth.verifyCustomer, async (req, res, next) => {
     try {
+        const id = auth.getId(req.cookies.jwt)
         const { paymentId } = req.body
 
         await Payment.findByIdAndDelete(paymentId)
+
+        const user = await User.findById(id)
+        mailer.sendMail(user.email, 'Bulldawg Books card deleted', 'A payment card has been deleted from your account.')
+
         res.status(200).json({ message: 'Successfully deleted card' })
     } catch(error) {
         next(error)
