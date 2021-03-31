@@ -40,7 +40,6 @@ router.patch('/', auth.verifyCustomer, async (req, res, next) => {
         const id = auth.getId(req.cookies.jwt)
 
         const patchData = req.body
-        console.log(patchData)
         const address = await Address.findOneAndUpdate({ customer: id }, patchData, { new: true })
 
         if(address) {

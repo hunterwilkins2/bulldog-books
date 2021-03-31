@@ -396,7 +396,7 @@ function Profile(){
                                                 <option value=''>Choose...</option>
                                                 <option value='Visa'>Visa</option>
                                                 <option value='American Express'>American Express</option>
-                                                <option value='Mastercard'>MasterCard</option>
+                                                <option value='MasterCard'>MasterCard</option>
                                             </Form.Control>
                                             <ErrorMessage name="cardType" />
                                         </Form.Group>
