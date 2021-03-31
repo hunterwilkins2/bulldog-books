@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React, {useState, useEffect} from 'react'
-import { Card, ListGroup, ListGroupItem, Col, Row, Container } from 'react-bootstrap'
+import { Card, ListGroup, ListGroupItem, Col, Row, Container, Alert } from 'react-bootstrap'
 
 // import Promos from  './Promos'
 import BestSellers from './BestSeller'
@@ -12,6 +12,13 @@ import './styles/Background.css'
 
 
 function User(){
+    const [errors, setErrors] = useState([])
+
+    const alerts = errors.map(error => 
+        <Alert key={error} variant='danger'>
+            {error}
+        </Alert>
+    )
 
     const [books, setBooks] = useState([])
 
@@ -19,6 +26,15 @@ function User(){
         async function fetchBooks(){
             const response = await fetch('http://localhost:3000/api/books')
             const data = await response.json()
+            if(data.errors) {
+                console.log('in if:')
+                console.log(data.errors.split(';'))
+                setErrors(data.errors.split(';'))
+            }
+            else {
+                console.log('in else:')
+                console.log('no errors')
+            }
             setBooks(data)
         }
         fetchBooks()
@@ -57,6 +73,7 @@ function User(){
     return (
         <div id = "background">
             <StoreNavbar/> 
+            {alerts}
             <Container id = "cont-hp">
                 <Row className ="mx-auto" id = "promo-bestseller-row-hp">
                     <Col className ="mx-auto" id = "col-onsale-hp"> 
