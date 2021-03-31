@@ -20,7 +20,7 @@ router.post('/', async (req, res, next) => {
     try {
         const id = auth.getId(req.cookies.jwt) 
         const cardCount = await Payment.countDocuments({ customer: id }).exec()
-        
+
         if(cardCount < 3) {        
             const { cardNumber, type, expirationDate } = req.body
         
