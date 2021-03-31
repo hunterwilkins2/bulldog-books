@@ -28,7 +28,7 @@ function Login(){
             <BasicNav />
             <div className = "cont" id = "background">
                 <Formik 
-                    initialValues={{email: '', password: ''}} 
+                    initialValues={{email: '', password: '', stayLoggedIn: true}} 
                     onSubmit={async (data, {setSubmitting}) => {
                         setSubmitting(true)
                         
@@ -66,7 +66,7 @@ function Login(){
                         <Form className="login-form" id = "form-style" onSubmit={handleSubmit}>
                             <h1> Login </h1>
                             {alerts}
-                            <Form.Group controlId="formBasicEmail">
+                            <Form.Group>
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control 
                                     name="email"
@@ -79,7 +79,7 @@ function Login(){
                                 />
                                 <ErrorMessage name="email" />
                             </Form.Group>
-                            <Form.Group controlId="formBasicPassword">
+                            <Form.Group>
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control 
                                     name='password'
@@ -92,6 +92,15 @@ function Login(){
                                 />
                                 <ErrorMessage name="password" /> 
                             </Form.Group>
+                            <Form.Group>
+                                <Form.Check 
+                                    name='stayLoggedIn'
+                                    label="Stay Logged In"
+                                    value={values.stayLoggedIn}
+                                    checked={values.stayLoggedIn}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                /></Form.Group> 
                             <Link to='/register'>Register</Link>
                             <br></br>
                             <Link to='/forgot'>Forgot Password?</Link>
