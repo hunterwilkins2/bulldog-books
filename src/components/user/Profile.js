@@ -45,9 +45,6 @@ function Profile(){
         </Alert>
     )
 
-    
-
-    
     useEffect(() => {
         async function fetchData(){
 
@@ -154,6 +151,10 @@ function Profile(){
         }
     }
 
+    function reloadPage(){
+        window.location.reload()
+    }
+
 
     const editNameSchema = yup.object().shape({
         firstName: yup.string()
@@ -201,7 +202,6 @@ function Profile(){
             <Container id = "background">
                 <Row id = "row1-profile">
                     <Col>
-                        {infoAlerts}
                         <Formik 
                             enableReinitialize
                             initialValues={{
@@ -242,17 +242,18 @@ function Profile(){
                             }}
                             validationSchema={editNameSchema}
                         >{({
+                                handleSubmit,
                                 handleChange, 
                                 handleBlur,
                                 values,
                                 touched,
                                 errors,
                                 dirty,
-                                isValid,
-                                submitForm
+                                isValid
                             }) => (
-                                <Form id = "form-style-profile">
+                                <Form id = "form-style-profile" onSubmit={handleSubmit}>
                                     <h1 id = "h1-style-profile">Profile Info</h1>
+                                    {infoAlerts}
                                     <Form.Row>
                                         <Form.Group as={Col}>
                                             <Form.Label>First Name</Form.Label>
@@ -301,14 +302,13 @@ function Profile(){
                                             isValid={touched.promos && !errors.promos}
                                             isInvalid={touched.promos && errors.promos} 
                                         /></Form.Group> 
-                                    <Button id = "button1-profile" variant="primary" type="submit" disabled={!(dirty && isValid)} onClick={submitForm}>
+                                    <Button id = "button1-profile" variant="primary" type="submit" disabled={!(dirty && isValid)}>
                                         Save Changes
                                     </Button>
                                 </Form>
                             )}</Formik>
                     </Col>
                     <Col>
-                        {paymentAlerts}
                         <Formik 
                             enableReinitialize
                             initialValues={{
@@ -350,19 +350,20 @@ function Profile(){
                             }}
                             validationSchema={editPaymentSchema}
                         >{({
+                                handleSubmit,
                                 handleChange, 
                                 handleBlur,
                                 values,
                                 touched,
                                 errors,
                                 dirty,
-                                isValid,
-                                submitForm
+                                isValid
                             }) => (
-                                <Form className="edit-card-form" id = "form-style-profile">
+                                <Form className="edit-card-form" id = "form-style-profile" onSubmit={handleSubmit}>
                                     <h1 id = "h1-style-profile">
                                         Payment Info
                                     </h1>
+                                    {paymentAlerts}
                                     <h2 className='h2-style-profile'>Current Payments</h2>
                                     {paymentRows}
                                     <h2 className='h2-style-profile'>Add New Payment</h2>
@@ -413,7 +414,7 @@ function Profile(){
                                             <ErrorMessage name="expiration" />
                                         </Form.Group>
                                     </Form.Row>
-                                    <Button id = "button2-profile"  variant="primary" type="submit" disabled={!(dirty && isValid)} onClick={submitForm}>
+                                    <Button id = "button2-profile"  variant="primary" type="submit" disabled={!(dirty && isValid)}>
                                         Save Changes
                                     </Button>
                                 </Form>
@@ -422,7 +423,6 @@ function Profile(){
                 </Row>
                 <Row id = "row2-profile">
                     <Col>   
-                        {addressAlerts}
                         <Formik 
                             enableReinitialize
                             initialValues={{
@@ -468,17 +468,18 @@ function Profile(){
                             }}
                             validationSchema={editAddressSchema}
                         >{({
+                                handleSubmit,
                                 handleChange, 
                                 handleBlur,
                                 values,
                                 touched,
                                 errors,
                                 dirty,
-                                isValid,
-                                submitForm
+                                isValid
                             }) => (
-                                <Form id="form-style-profile">
+                                <Form id="form-style-profile" onSubmit={handleSubmit}>
                                     <h1 id = "h1-style-profile">Update Address</h1>
+                                    {addressAlerts}
                                     <Form.Group>
                                         <Form.Label>Address Line 1</Form.Label>
                                         <Form.Control id = "form-control-profile"
@@ -588,14 +589,15 @@ function Profile(){
                                             <ErrorMessage name="zip" />
                                         </Form.Group>
                                     </Form.Row>
-                                    <Button id = "button3-profile" variant="primary" type="submit" disabled={!(dirty && isValid)} onClick={submitForm}>
+                                    <Button id = "button3-profile" variant="primary" type="submit" disabled={!(dirty && isValid)}>
                                 Save Changes
                                     </Button>
                                 </Form>
                             )}</Formik>
+                        <br/>
+                        <Button id = "button4-profile" onClick={reloadPage}>Reload and View Changes</Button>
                     </Col>
                     <Col>
-                        {passwordAlerts}
                         <Formik 
                             enableReinitialize
                             initialValues={{
@@ -636,17 +638,18 @@ function Profile(){
                             }}
                             validationSchema={editPasswordSchema}
                         >{({
+                                handleSubmit,
                                 handleChange, 
                                 handleBlur,
                                 values,
                                 touched,
                                 errors,
                                 dirty,
-                                isValid,
-                                submitForm
+                                isValid
                             }) => (
-                                <Form id = "form-style-profile">
+                                <Form id = "form-style-profile" onSubmit={handleSubmit}>
                                     <h1 id = "h1-style-profile">Update Password</h1>
+                                    {passwordAlerts}
                                     <Form.Group>
                                         <Form.Label>Old Password</Form.Label>
                                         <Form.Control id = "form-control-profile"
@@ -686,7 +689,7 @@ function Profile(){
                                         />
                                         <ErrorMessage name="confirmPassword" />
                                     </Form.Group>
-                                    <Button id = "button4-profile" variant="primary" type="submit" disabled={!(dirty && isValid)} onClick={submitForm}>
+                                    <Button id = "button4-profile" variant="primary" type="submit" disabled={!(dirty && isValid)}>
                     Save Changes
                                     </Button>
                                 </Form>
