@@ -8,6 +8,7 @@ This is a oneline bookstore project created for UGA CSCI 4050 using the MERN sta
 
 ## To run
 - Run `npm run web`
+- Our website is hosted at http://localhost:5000
 
 # Authors
 - Gary Barns
