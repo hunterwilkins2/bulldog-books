@@ -2,6 +2,10 @@
 This is a oneline bookstore project created for UGA CSCI 4050 using the MERN stack. 
 
 # Getting Started
+
+## Sofware Requirements
+-must have node.js installed
+
 ## Dependencies
 - npm
 - Run `npm install`
