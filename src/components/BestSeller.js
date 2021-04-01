@@ -21,20 +21,21 @@ function BestSellers(){
     const bookCards = bSellers.map(bseller => (
 
         <Row className = "mx-auto" id = "row-style-b" key={bseller.title}>
-            <Col id = "col1-b">
-                <img id = "pic-b" src={bseller.cover} alt = "book" />
-            </Col>
-            <Col id = "col2-b"> {bseller.title}</Col>
-            <Col id = "col3-b"> {bseller.author}</Col>
-            <Col id = "col3-nr">
-                <Row>
-                    <Button size='sm'>More Info..</Button>
-                </Row>
-                <br></br>
-                <Row>
-                    <Button size='sm'>Add to Cart</Button>
-                </Row>
-            </Col>
+            <Row id = "row1-bs"> 
+                <Col id = "col1-b">
+                    <img className = "mx-auto" id = "pic-b" src={bseller.cover} alt = "book" />
+                </Col>
+                <Col id = "col2-b"> {bseller.title}</Col>
+                <Col id = "col3-b"> {bseller.author}</Col>
+            </Row>
+            <Row id = "row2-buttons-bs" className = "mx-auto">
+                <div>
+                    <Button id = "button-mi-bs" size='sm'>More Info..</Button>
+                </div>
+                <div>
+                    <Button id = "button-atc-bs" size='sm'>Add to Cart</Button>
+                </div>
+            </Row>
         </Row>
 
     ))

@@ -6,10 +6,16 @@
     background: lightgray;
     margin: 1%;
 
-    align-items: center;
-    text-align: center;
+    /* align-items: center;
+    text-align: center; */
 
     max-width:85%;
+}
+
+#row1-nr {
+    display: flex;
+    justify-content: space-evenly;
+    min-width: 100%;
 }
 
 #pic-nr{
@@ -22,16 +28,44 @@
 }
 
 #col1-nr {
-    padding: 2%;
-    text-align: center;
+    padding: 3%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 #col2-nr {
+    padding: 3%;
     font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     font-size: x-small;
 }
 
 #col3-nr {
+    padding: 3%;
     font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     font-size: x-small;
+}
+
+#row2-buttons-nr {
+    text-align: center;
+    min-width: 50%;
+    display: flex;
+    justify-content: space-between;
+    padding: 1%;
+
+}
+
+#button-mi-nr {
+    font-size: xx-small;
+
+}
+
+#button-atc-nr {
+    font-size: xx-small;
 }

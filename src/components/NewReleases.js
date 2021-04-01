@@ -20,20 +20,21 @@ function NewReleases(){
     const bookCards = nReleases.map(nReleases => (
 
         <Row className = "mx-auto" id = "row-style-nr" key={nReleases.title}>
-            <Col id = "col1-nr">
-                <img id = "pic-nr" src={nReleases.cover} alt = "book" />
-            </Col>
-            <Col id = "col2-nr"> {nReleases.title}</Col>
-            <Col id = "col3-nr"> {nReleases.author}</Col>
-            <Col id = "col3-nr">
-                <Row>
-                    <Button size='sm'>More Info..</Button>
-                </Row>
-                <br></br>
-                <Row>
-                    <Button size='sm'>Add to Cart</Button>
-                </Row>
-            </Col>
+            <Row id = "row1-nr">
+                <Col  id = "col1-nr">
+                    <img className = "mx-auto" id = "pic-nr" src={nReleases.cover} alt = "book" />
+                </Col>
+                <Col id = "col2-nr"> {nReleases.title}</Col>
+                <Col id = "col3-nr"> {nReleases.author}</Col>
+            </Row>
+            <Row id = "row2-buttons-nr" className = "mx-auto">
+                <div>
+                    <Button id = "button-mi-nr" size='sm'>More Info..</Button>
+                </div>
+                <div>
+                    <Button id = "button-atc-nr" size='sm'>Add to Cart</Button>
+                </div>
+            </Row>
         </Row>
 
     ))

@@ -13,6 +13,12 @@
     max-width:85%;
 }
 
+#row1-bs {
+    display: flex;
+    justify-content: space-evenly;
+    min-width: 100%;
+}
+
 #pic-b {
     max-height: 15vh;
     max-width: 6vw;
@@ -21,17 +27,44 @@
     min-width: 6vw;
 }
 #col1-b {
-    padding: 2%;
-    text-align: center;
+    padding: 3%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
 }
 #col2-b {
+    padding: 3%;
     font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     font-size: x-small;
 }
 
 #col3-b {
+    padding: 3%;
     font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     font-size: x-small;
-    max-width: 30%;
+}
+
+#row2-buttons-bs {
+    text-align: center;
+    min-width: 50%;
+    display: flex;
+    justify-content: space-between;
+    padding: 1%;
+
+}
+
+#button-mi-bs {
+    font-size: xx-small;
+
+}
+
+#button-atc-bs {
+    font-size: xx-small;
 }
