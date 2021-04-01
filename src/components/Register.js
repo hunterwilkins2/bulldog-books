@@ -109,6 +109,7 @@ function Register(){
                     cardType: '',
                     cardNumber: '',
                     expiration: '',
+                    stayLoggedIn: true
                 }}
                 onSubmit={ async (data) => {
                     let registerData = {
@@ -130,7 +131,7 @@ function Register(){
                             'password': data.password,
                             'email': data.email,
                             'recievePromotions': data.recievePromos,
-                            'stayLoggedIn': true
+                            'stayLoggedIn': data.stayLoggedIn
                         })
                     }
 
@@ -460,6 +461,16 @@ function Register(){
                                     />
                                 </Form.Group>
                             </Form.Row>
+                            <Form.Group>
+                                <Form.Check 
+                                    name='stayLoggedIn'
+                                    label="Stay Logged In"
+                                    value={values.stayLoggedIn}
+                                    checked={values.stayLoggedIn}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                            </Form.Group> 
                             <Button 
                                 variant="primary" 
                                 type="submit" 
