@@ -59,26 +59,20 @@ function Register(){
                 otherwise: yup.string().required()
             }),
         cardNumber: yup.string()
-            .when(['security', 'expiration', 'cardType'], {
-                is: (security, cardType, expiration) => security === undefined && cardType === undefined && expiration === undefined,
+            .when(['expiration', 'cardType'], {
+                is: (cardType, expiration) => cardType === undefined && expiration === undefined,
                 then: yup.string().length(16, 'Must be 16 digits').matches('^[0-9]*$', 'Can only contain numbers').notRequired(),
                 otherwise: yup.string().length(16, 'Must be 16 digits').matches('^[0-9]*$', 'Can only contain numbers').required()
             }),
-        security: yup.string()
-            .when(['cardNumber', 'expiration', 'cardType'], {
-                is: (cardNumber, cardType, expiration) => cardNumber === undefined && cardType === undefined && expiration === undefined,
-                then: yup.string().min(3, 'Minimum length of 3').max(4, 'Maximum length of 4').matches('^[0-9]*$', 'card number can only contain numbers').notRequired(),
-                otherwise: yup.string().min(3, 'Minimum length of 3').max(4, 'Maximum length of 4').matches('^[0-9]*$', 'card number can only contain numbers').required()
-            }),
         expiration: yup.date()
-            .when(['cardNumber', 'security', 'cardType'], {
-                is: (cardNumber, cardType, security) => cardNumber === undefined && cardType === undefined && security === undefined,
+            .when(['cardNumber', 'cardType'], {
+                is: (cardNumber, cardType) => cardNumber === undefined && cardType === undefined,
                 then: yup.date().notRequired(),
                 otherwise: yup.date().required()
             }),
         cardType: yup.string()
-            .when(['cardNumber', 'security', 'expiration'], {
-                is: (cardNumber, expiration, security) => cardNumber === undefined && expiration === undefined && security === undefined,
+            .when(['cardNumber', 'expiration'], {
+                is: (cardNumber, expiration) => cardNumber === undefined && expiration === undefined,
                 then: yup.string().notRequired(),
                 otherwise: yup.string().required()
             })
@@ -92,11 +86,8 @@ function Register(){
         ['address2', 'address1'],
         ['address2', 'zip'],
         ['address2', 'state'],
-        ['cardNumber', 'security'],
         ['cardNumber', 'expiration'],
         ['cardNumber', 'cardType'],
-        ['security', 'expiration'],
-        ['security', 'cardType'],
         ['expiration', 'cardType'],
         ['expiration', 'cardNumber']
     ])
@@ -118,7 +109,7 @@ function Register(){
                     cardType: '',
                     cardNumber: '',
                     expiration: '',
-                    security: ''
+                    stayLoggedIn: true
                 }}
                 onSubmit={ async (data) => {
                     let registerData = {
@@ -140,7 +131,7 @@ function Register(){
                             'password': data.password,
                             'email': data.email,
                             'recievePromotions': data.recievePromos,
-                            'stayLoggedIn': true
+                            'stayLoggedIn': data.stayLoggedIn
                         })
                     }
 
@@ -469,19 +460,17 @@ function Register(){
                                         isInvalid={errors.expiration}
                                     />
                                 </Form.Group>
-                                <Form.Group as={Col}>
-                                    <Form.Label>Code</Form.Label>
-                                    <Form.Control 
-                                        name="security"
-                                        value={values.security}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        isValid={touched.security && !errors.security}
-                                        isInvalid={errors.security}
-                                    />
-                                    <ErrorMessage name="security" />
-                                </Form.Group>
                             </Form.Row>
+                            <Form.Group>
+                                <Form.Check 
+                                    name='stayLoggedIn'
+                                    label="Stay Logged In"
+                                    value={values.stayLoggedIn}
+                                    checked={values.stayLoggedIn}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                            </Form.Group> 
                             <Button 
                                 variant="primary" 
                                 type="submit" 
