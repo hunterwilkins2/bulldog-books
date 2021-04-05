@@ -29,7 +29,7 @@ router.post('/', async (req, res, next) => {
             await Payment.create({ customer: id, cardNumber, type, expirationDate })
 
             const user = await User.findById(id)
-            mailer.sendMail(user.email, 'Bulldawg Books card added', 'A new payment card has been added to your account.')
+            await mailer.sendMail(user.email, 'Bulldawg Books card added', 'A new payment card has been added to your account.')
         
             res.status(200).json({ message: 'Sucessfully added card' })
         } else {
@@ -49,7 +49,7 @@ router.delete('/', auth.verifyCustomer, async (req, res, next) => {
         await Payment.findByIdAndDelete(paymentId)
 
         const user = await User.findById(id)
-        mailer.sendMail(user.email, 'Bulldawg Books card deleted', 'A payment card has been deleted from your account.')
+        await mailer.sendMail(user.email, 'Bulldawg Books card deleted', 'A payment card has been deleted from your account.')
 
         res.status(200).json({ message: 'Successfully deleted card' })
     } catch(error) {

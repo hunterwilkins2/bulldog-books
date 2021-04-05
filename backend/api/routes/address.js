@@ -51,7 +51,7 @@ router.patch('/', auth.verifyCustomer, async (req, res, next) => {
         }
 
         const user = await User.findById(id)
-        mailer.sendMail(user.email, 'Bulldawg Books address updated', 'Your address has been updated.')
+        await mailer.sendMail(user.email, 'Bulldawg Books address updated', 'Your address has been updated.')
 
         
     } catch (error) {

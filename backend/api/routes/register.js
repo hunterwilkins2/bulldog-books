@@ -28,7 +28,7 @@ router.post('/register', async (req, res, next) => {
 
         await Cart.create({ user: user._id })
 
-        mailer.sendMail(user.email, 'Active you Bulldawg Books account', `Thanks for registering for Bulldawg Books. Here is your confirmation code: ${user.confirmationCode}`)
+        await mailer.sendMail(user.email, 'Active you Bulldawg Books account', `Thanks for registering for Bulldawg Books. Here is your confirmation code: ${user.confirmationCode}`)
 
         const token = auth.createToken(user._id, user.status, user.userType)
         const cookieOptions = { 
@@ -96,7 +96,7 @@ router.patch('/forgot-password', async (req, res, next) => {
             doc.save()
         })
 
-        mailer.sendMail(userEmail, 'New Password', `Your password for Bulldawg Books has been reset to ${newPassword}`)
+        await mailer.sendMail(userEmail, 'New Password', `Your password for Bulldawg Books has been reset to ${newPassword}`)
 
         res.status(200).json({ message: 'Password was sent to your email' })
 
@@ -121,7 +121,7 @@ router.patch('/reset-password', async (req, res, next) => {
             doc.save()
         })
 
-        mailer.sendMail(user.email, 'Bulldawg Books password reset', 'Your password has been reset.')
+        await mailer.sendMail(user.email, 'Bulldawg Books password reset', 'Your password has been reset.')
 
         const token = auth.createToken(user._id, user.status, user.userType)
         const cookieOptions = { 
@@ -173,7 +173,7 @@ router.get('/resend-confirmation', async (req, res, next) => {
         const id = auth.getId(req.cookies.jwt)
         const user = await User.findById(id)
 
-        mailer.sendMail(user.email, 'Active you Bulldawg Books account', `Thanks for registering for Bulldawg Books. Here is your confirmation code: ${user.confirmationCode}`)
+        await mailer.sendMail(user.email, 'Active you Bulldawg Books account', `Thanks for registering for Bulldawg Books. Here is your confirmation code: ${user.confirmationCode}`)
 
         res.status(200).json({ message: 'Password was sent to your email' })
 
