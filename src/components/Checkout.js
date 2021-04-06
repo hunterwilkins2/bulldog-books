@@ -1,10 +1,10 @@
 import React from 'react'
 import {Button, Card, Col, Container, Form, Row, ListGroup} from 'react-bootstrap'
 
-import StoreNavbar from '../StoreNavbar'
-import { booksData } from '../../data/books'
-import './../styles/Checkout.css' 
-import './../styles/Background.css'
+import StoreNavbar from './StoreNavbar'
+import { booksData } from '../data/books'
+import './styles/Checkout.css' 
+import './styles/Background.css'
 
 function Checkout(){
     let orderData = booksData.slice(1,4)

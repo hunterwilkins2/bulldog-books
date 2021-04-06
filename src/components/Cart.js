@@ -3,10 +3,10 @@ import { Card, ListGroup, ListGroupItem, Row, Col, Container, Form, Button } fro
 import { Link } from 'react-router-dom'
 import NumericInput from 'react-numeric-input'
 
-import StoreNavbar from '../StoreNavbar'
-import { booksData } from '../../data/books'
-import './../styles/Cart.css' 
-import './../styles/Background.css'
+import StoreNavbar from './StoreNavbar'
+import { booksData } from '../data/books'
+import './styles/Cart.css' 
+import './styles/Background.css'
 
 function Cart(){
 

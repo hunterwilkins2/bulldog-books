@@ -16,7 +16,7 @@ function logout() {
     }
 }
 
-function UserNav({homePage=false}){
+function UserNav({homePage=false, login=false}){
 
     return(
         <Navbar className="basic-nav" bg="dark">
@@ -40,6 +40,9 @@ function UserNav({homePage=false}){
             </Form>
 
             }
+
+            {!login && 
+
             <Nav id = "nav-link-style" >
                 <DropdownButton id="button-profile" title="Profile">
                     <Dropdown.Item href="/user/Profile">Profile</Dropdown.Item>
@@ -62,6 +65,8 @@ function UserNav({homePage=false}){
                     {!getCookie('jwt') ? 'Login' : 'Logout'}
                 </Button>{' '}
             </Nav>
+            }
+
         </Navbar>
     )
 }
