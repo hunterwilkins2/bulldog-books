@@ -16,11 +16,11 @@ function logout() {
     }
 }
 
-function UserNav({homePage=false, login=false}){
+function StoreNavbar({homePage=false, login=false}){
 
     return(
         <Navbar className="basic-nav" bg="dark">
-            <Navbar.Brand className="navbar-brand" href="#home">
+            <Navbar.Brand className="navbar-brand" >
                 <Link to='/'>
                     <img alt="" src={bulldawgbook}/>{' '}
                 </Link>
@@ -71,4 +71,4 @@ function UserNav({homePage=false, login=false}){
     )
 }
 
-export default UserNav
+export default StoreNavbar
