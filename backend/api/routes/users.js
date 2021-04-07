@@ -4,6 +4,16 @@ const auth = require('../../auth')
 
 const router = express.Router()
 
+router.get('/', auth.verifyEmployee, async (req, res, next) => {
+    try {
+        const users = await User.find({}, 'status userType firstName lastName email dateJoined')
+
+        res.json(users)
+    } catch (error) {
+        next(error)
+    }
+})
+
 router.patch('/promote', auth.verifyAdmin, async (req, res, next) => {
     try {
         const { email } = req.body
