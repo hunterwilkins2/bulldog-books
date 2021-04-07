@@ -55,7 +55,7 @@ const verifyEmployee = (req, res, next) => {
                 res.status(401)
                 next(Error('Must be logged in'))
             } else {
-                if(decodedToken.type !== 'admin' || decodedToken.type !== 'employee') {
+                if(decodedToken.type !== 'admin' && decodedToken.type !== 'employee') {
                     res.status(403)
                     next(Error('Only admins or employees can access that route'))
                 }
