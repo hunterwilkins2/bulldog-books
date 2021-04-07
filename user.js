@@ -10,20 +10,17 @@ router.patch('/suspendUser', auth.verifyAdmin, async (req, res, next) => {
 
         const user = await User.findOne({ name })
         if(user.userType === 'admin') 
-            throw Error('Cannot susbend an admin user')
+            throw Error('Cannot suspend an admin user')
 
-        const employee = await User.findOneAndUpdate({ name },
-            { userType: 'customer'},
+        const suspendedUser = await User.findOneAndUpdate({ name },
+            { status: 'suspended'},
             { projection: 'status userType firstName lastName email dateJoined', new: true },
         )
         
-        mailer.sendMail(userEmail, name+' is now suspended)
-
-        res.status(200).json({ message: 'suspend was sent to your email' })
-
+        mailer.sendMail(userEmail, name+' is now suspended')
     }
-        if(user) {
-            res.json(user)
+        if(suspendedUser) {
+            res.json(suspendedUser)
         } else {
             throw Error('Could not find user')
         }
@@ -35,19 +32,16 @@ router.patch('/suspendUser', auth.verifyAdmin, async (req, res, next) => {
 router.patch('/unsuspendUser', auth.verifyAdmin, async (req, res, next) => {
     try {
         const { name } = req.body
-        const employee = await User.findOne({ name })
-        if(employee.userType === 'admin') 
-            throw Error('Cannot unsusbend an admin user')
+        const suspendedUser = await User.findOne({ name })
+        if(suspendedUser.userType === 'admin') 
+            throw Error('Cannot unsuspend an admin user')
 
         const user = await User.findOneAndUpdate({ name }, 
-            { userType: 'customer'},
+            { status: 'active'},
             { projection: 'status userType firstName lastName email dateJoined', new: true },
         )
         
-         mailer.sendMail(userEmail, name+' is now unsuspended)
-
-        res.status(200).json({ message: 'unsuspend was sent to your email' })
-
+         mailer.sendMail(user.email, name+' is now unsuspended)
     }   
             if(user) {
                res.json(user)
