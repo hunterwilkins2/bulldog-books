@@ -17,13 +17,12 @@ router.get('/', async (req, res, next) => {
 // Create one promotion
 router.post('/', auth.verifyAdmin, async (req, res, next) => {
     try {
-        console.log('in post')
-        const { endDate, 
+        const { date, 
             title, 
             discount } = req.body
 
         const promotion = new Promotion({
-            endDate: endDate,
+            endDate: date,
             title: title,
             discount: discount })
 

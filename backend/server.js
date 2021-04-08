@@ -15,7 +15,7 @@ const address = require('./api/routes/address')
 const profile = require('./api/routes/profile')
 const bestSellers = require('./api/routes/bestSeller')
 const newRelases = require('./api/routes/newReleases')
-const promotions = require('./api/route/promotions')
+const promotions = require('./api/routes/promotions')
 
 mongoose.set('useFindAndModify', false)
 mongoose.set('useCreateIndex', true)

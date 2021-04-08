@@ -52,7 +52,6 @@ function ManagePromotions(){
                 }}
                 validationSchema={validationSchema}
                 onSubmit={async (data) => {
-                    console.log('onsubmit')
                     let promotionData={
                         method: 'POST',
                         withCredentials: true,
@@ -67,12 +66,12 @@ function ManagePromotions(){
                         redirect: 'follow',
                         referrerPolicy: 'no-referrer',
                         body: JSON.stringify({
-                            'title': data.title,
                             'date': data.date,
+                            'title': data.title,
                             'discount': data.discount
                         })
                     }
-                    const promotionResponse = await (await fetch('http://localhost:3000/api/promotion', promotionData)).json()
+                    const promotionResponse = await (await fetch('http://localhost:3000/api/promotions', promotionData)).json()
                     if(promotionResponse.errors) {
                         console.log(promotionResponse.errors.split(';'))
                     }
@@ -81,10 +80,10 @@ function ManagePromotions(){
                     }                   
                 }}
             >{({
-                    // eslint-disable-next-line no-unused-vars
                     handleSubmit,
                     handleChange, 
                     handleBlur,
+                    submitForm,
                     values,
                     // eslint-disable-next-line no-unused-vars
                     touched,
@@ -95,7 +94,7 @@ function ManagePromotions(){
                     // eslint-disable-next-line no-unused-vars
                     isValid
                 }) => ( 
-                    <Form id = "form-style-profile">
+                    <Form id = "form-style-profile" onSubmit={handleSubmit}>
                         <h1>Enter New Promotion</h1>
                         <Form.Row>
                             <Form.Group as={Col}>
@@ -134,7 +133,13 @@ function ManagePromotions(){
                             </Form.Group>
                         </Form.Row>
                         <Form.Row>
-                            <Button type='submit'>Submit</Button>
+                            <Button 
+                                variant="primary" 
+                                type="submit" 
+                                onClick={submitForm}
+                            >
+                            Submit
+                            </Button>
                         </Form.Row> 
                     </Form>
                 )}</Formik>
