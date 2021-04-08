@@ -6,10 +6,12 @@ const router = express.Router()
 
 // Read all promotions
 router.get('/', async (req, res, next) => {
+    console.log('in get')
     try {
         const promotions = await Promotion.find()
         res.json(promotions)
     } catch(error) {
+        console.log('error')
         next(error)
     }
 })

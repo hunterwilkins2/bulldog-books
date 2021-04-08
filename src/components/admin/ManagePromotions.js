@@ -1,12 +1,12 @@
-import {React} from 'react'
+import {React, useEffect, useState} from 'react'
 import { Formik } from 'formik'
-import {Button, Col, Form} from 'react-bootstrap'
+import {Button, Card, Col, ListGroup, ListGroupItem, Form, Row} from 'react-bootstrap'
 import * as yup from 'yup'
 
 import StoreNavbar from '../StoreNavbar'
 
 function ManagePromotions(){
-    //const [promotions, setPromotions] = useState([])
+    const [promotions, setPromotions] = useState([])
 
     const validationSchema = yup.object().shape({
         title: yup.string()
@@ -20,29 +20,61 @@ function ManagePromotions(){
             .max(1.00, 'Cannot be more than free')
             .required('Required'),
     })
-    /*
     useEffect(() => {
         async function fetchPromotions(){
-            const response = await fetch('http://localhost:3000/api/promotions') // TODO: implement this route
+            console.log('in fetchPromotions')
+            let promotionGetData={
+                method: 'GET',
+                withCredentials: true,
+                credentials: 'include',
+                mode: 'cors',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': 'https://localhost:3000',
+                    'Access-Control-Allow-Credentials': true,
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+            }
+            const response = await fetch('http://localhost:3000/api/promotions', promotionGetData)
             const data = await response.json()
             if(data.errors) {
                 console.log(data.errors.split(';')) // TODO: Add a set erros hook (see Homepage.js)
             }
             setPromotions(data)
         }
-        fetchPromotions
+        fetchPromotions()
     })
-    console.log(promotions)
-    */
 
-    // TODO: implement promotionCards
-    //const promotionCards = promotions.map(book => ())
+    const promotionCards = promotions.map(promotion => (
+        <>
+            <Col key={promotion.title} xs='3' id = "column-hp">
+                <Card id = "card-style-hp">
+                    <ListGroup id = "lG-hp" className="list-group-flush" >
+                        <ListGroupItem id = "lGI-title-hp">
+                            <Card.Title>{promotion.title}</Card.Title>
+                        </ListGroupItem>
+                    </ListGroup>  
+                    <ListGroup id = "lG-hp" className="list-group-flush">
+                        <ListGroupItem id = "lGI-hp">End Date: {promotion.endDate.substring(0,promotion.endDate.length - 14)}</ListGroupItem>
+                    </ListGroup>
+                    <ListGroup id = "lG-hp" className="list-group-flush">
+                        <ListGroupItem id = "lGI-hp">Discount: {promotion.discount * 100}%</ListGroupItem>
+                    </ListGroup>
+                </Card>
+            </Col>
+        </>
 
-    // TODO: render promotionCards
+    ))
+
     return(
         <div id = "background">
             <StoreNavbar/> 
             <h1 id = "h1-style-cart">Manage Promotions</h1>
+            <Row lg={3} >
+                {promotionCards}
+            </Row>
             <Formik
                 enableReinitialize
                 initialValues={{
