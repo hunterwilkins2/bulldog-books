@@ -1,12 +1,26 @@
+import {React} from 'react'
 import { Formik } from 'formik'
-import {Button, React, useState, useEffect} from 'react'
-import {Col, Form} from 'react-bootstrap'
+import {Button, Col, Form} from 'react-bootstrap'
+import * as yup from 'yup'
 
 import StoreNavbar from '../StoreNavbar'
 
 function ManagePromotions(){
-    const [promotions, setPromotions] = useState([])
+    //const [promotions, setPromotions] = useState([])
 
+    const validationSchema = yup.object().shape({
+        title: yup.string()
+            .min(1, 'Title must be betwen 1 and 100 characters')
+            .max(100, 'Title must be betwen 1 and 100 characters')
+            .required('Required'),
+        date: yup.date()
+            .required('Required'),
+        discount: yup.number()
+            .min(0.01, 'Must be at least 1% off')
+            .max(1.00, 'Cannot be more than free')
+            .required('Required'),
+    })
+    /*
     useEffect(() => {
         async function fetchPromotions(){
             const response = await fetch('http://localhost:3000/api/promotions') // TODO: implement this route
@@ -19,6 +33,7 @@ function ManagePromotions(){
         fetchPromotions
     })
     console.log(promotions)
+    */
 
     // TODO: implement promotionCards
     //const promotionCards = promotions.map(book => ())
@@ -35,7 +50,9 @@ function ManagePromotions(){
                     date: '',
                     discount: '',
                 }}
+                validationSchema={validationSchema}
                 onSubmit={async (data) => {
+                    console.log('onsubmit')
                     let promotionData={
                         method: 'POST',
                         withCredentials: true,
@@ -61,18 +78,13 @@ function ManagePromotions(){
                     }
                     else {
                         console.log('no errors')
-                    }
-                    // TODO: add validation schema
-                    
+                    }                   
                 }}
             >{({
                     // eslint-disable-next-line no-unused-vars
                     handleSubmit,
-                    // eslint-disable-next-line no-unused-vars
                     handleChange, 
-                    // eslint-disable-next-line no-unused-vars
                     handleBlur,
-                    // eslint-disable-next-line no-unused-vars
                     values,
                     // eslint-disable-next-line no-unused-vars
                     touched,
@@ -88,25 +100,41 @@ function ManagePromotions(){
                         <Form.Row>
                             <Form.Group as={Col}>
                                 <Form.Label>Promotion Title</Form.Label>
-                                <Form.Control id = "form-control-profile"></Form.Control>
+                                <Form.Control
+                                    name = 'title' 
+                                    placeholder = 'PROMOTITLE'
+                                    value={values.title}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
                             </Form.Group>
                         </Form.Row>
                         <Form.Row>
                             <Form.Group as={Col}>
-                                <Form.Label>ISBN</Form.Label>
-                                <Form.Control id = "form-control-profile"></Form.Control>
+                                <Form.Label>End Date</Form.Label>
+                                <Form.Control 
+                                    name='date'
+                                    type='date'
+                                    value={values.date}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
                             </Form.Group>
                         </Form.Row>
                         <Form.Row>
                             <Form.Group as={Col}>
                                 <Form.Label>Discount</Form.Label>
-                                <Form.Control id = "form-control-profile"></Form.Control>
+                                <Form.Control 
+                                    name='discount'
+                                    placeholder='0.20'
+                                    value={values.discount}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
                             </Form.Group>
                         </Form.Row>
                         <Form.Row>
-                            <Button>
-                                Button
-                            </Button>
+                            <Button type='submit'>Submit</Button>
                         </Form.Row> 
                     </Form>
                 )}</Formik>
