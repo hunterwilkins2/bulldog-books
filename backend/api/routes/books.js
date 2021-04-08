@@ -25,7 +25,7 @@ router.get('/:isbn', async (req, res, next) => {
 })
 
 // Create one
-router.post('/', auth.verifyAdmin, async (req, res, next) => {
+router.post('/', auth.verifyEmployee, async (req, res, next) => {
     try {
         const { title, 
             author, 
@@ -61,8 +61,25 @@ router.post('/', auth.verifyAdmin, async (req, res, next) => {
     }
 })
 
+router.patch('/:isbn', auth.verifyEmployee, async (req, res, next) => {
+    try {
+        const patchData = req.body
+        const isbn = req.params.isbn
+    
+        const book = await Book.findOneAndUpdate({ isbn }, patchData, { new: true })
+
+        if(book) {
+            res.json(book)
+        } else {
+            throw Error('Isbn not found')
+        }
+    } catch(error) {
+        next(error)
+    }
+})
+
 // Delete one
-router.delete('/:isbn', auth.verifyAdmin, async (req, res, next) => {
+router.delete('/:isbn', auth.verifyEmployee, async (req, res, next) => {
     try {
         await Book.deleteOne({ isbn: req.params.isbn })
         res.status(200).json({ message: 'Successfully deleted book'})
