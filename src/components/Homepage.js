@@ -11,7 +11,7 @@ import './styles/Homepage.css'
 import './styles/Background.css'
 
 
-function User(){
+function HomePage(){
     const [errors, setErrors] = useState([])
 
     const alerts = errors.map(error => 
@@ -27,49 +27,40 @@ function User(){
             const response = await fetch('http://localhost:3000/api/books')
             const data = await response.json()
             if(data.errors) {
-                console.log('in if:')
-                console.log(data.errors.split(';'))
                 setErrors(data.errors.split(';'))
-            }
-            else {
-                console.log('in else:')
-                console.log('no errors')
             }
             setBooks(data)
         }
         fetchBooks()
     }, [])
 
-    console.log(books)
     const bookCards = books.map(book => (
-        <>
-            <Col key={book.isbn} xs='3' id = "column-hp">
-                <Card id = "card-style-hp">
-                    <Card.Img className = "mx-auto" id = "image-hp" src={book.cover} />
-                    <ListGroup id = "lG-hp" className="list-group-flush" >
-                        <ListGroupItem id = "lGI-title-hp">
-                            <Card.Title>{book.title}</Card.Title>
-                            <Card.Subtitle className="text-muted">{book.subtitle}</Card.Subtitle>
-                        </ListGroupItem>
-                    </ListGroup>  
-                    <ListGroup id = "lG-hp" className="list-group-flush">
-                        <ListGroupItem id = "lGI-hp">Author: {book.author}</ListGroupItem>
-                    </ListGroup>
-                    <ListGroup id = "lG-hp" className="list-group-flush">
-                        <ListGroupItem id = "lGI-hp">Price: ${book.buyPrice}</ListGroupItem>
-                    </ListGroup>
-                    <ListGroup className="list-group-flush">
-                        <ListGroupItem id = "lGI-links-hp">
-                            {Cookies.get('userType') === 'admin' && 
+        <Col key={book.isbn} xs='3' id = "column-hp">
+            <Card id = "card-style-hp">
+                <Card.Img className = "mx-auto" id = "image-hp" src={book.cover} />
+                <ListGroup id = "lG-hp" className="list-group-flush" >
+                    <ListGroupItem id = "lGI-title-hp">
+                        <Card.Title>{book.title}</Card.Title>
+                        <Card.Subtitle className="text-muted">{book.subtitle}</Card.Subtitle>
+                    </ListGroupItem>
+                </ListGroup>  
+                <ListGroup id = "lG-hp" className="list-group-flush">
+                    <ListGroupItem id = "lGI-hp">Author: {book.author}</ListGroupItem>
+                </ListGroup>
+                <ListGroup id = "lG-hp" className="list-group-flush">
+                    <ListGroupItem id = "lGI-hp">Price: ${book.buyPrice}</ListGroupItem>
+                </ListGroup>
+                <ListGroup className="list-group-flush">
+                    <ListGroupItem id = "lGI-links-hp">
+                        {Cookies.get('userType') === 'admin' && 
                              <Card.Link href="">Manage Book</Card.Link>
-                            }
-                            <Card.Link href={book.website}>More Info</Card.Link>
-                            <Card.Link href="">Add To Cart</Card.Link>
-                        </ListGroupItem>                   
-                    </ListGroup>
-                </Card>
-            </Col>
-        </>
+                        }
+                        <Card.Link href={book.website}>More Info</Card.Link>
+                        <Card.Link href="">Add To Cart</Card.Link>
+                    </ListGroupItem>                   
+                </ListGroup>
+            </Card>
+        </Col>
 
     ))
 
@@ -98,4 +89,4 @@ function User(){
     
 }
 
-export default User
+export default HomePage

@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import { Col, Row, Container, Card } from 'react-bootstrap'
 
-import StoreNavbar from '../StoreNavbar'
-import { ordersData } from '../../data/orderInfo'
-import './../styles/Orders.css' 
-import './../styles/Background.css'
+import StoreNavbar from './StoreNavbar'
+import { ordersData } from '../data/orderInfo'
+import './styles/Orders.css' 
+import './styles/Background.css'
 
 
 function Orders(){

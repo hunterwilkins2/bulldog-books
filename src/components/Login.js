@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Formik, ErrorMessage } from 'formik'
 import * as yup from 'yup'
 
-import BasicNav from './BasicNav'
+import StoreNavbar from './StoreNavbar'
 import './styles/Background.css'
 import './styles/Login.css'
 
@@ -25,7 +25,7 @@ function Login(){
     return(
         <>
 
-            <BasicNav />
+            <StoreNavbar login={true} />
             <div className = "cont" id = "background">
                 <Formik 
                     initialValues={{email: '', password: '', stayLoggedIn: true}} 
