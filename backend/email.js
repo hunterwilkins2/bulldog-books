@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer')
 
-const sendMail = (userEmail, subject, text) => {
+const sendMail = async (userEmail, subject, text) => {
     // send email
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -18,11 +18,7 @@ const sendMail = (userEmail, subject, text) => {
     }
 
     // eslint-disable-next-line no-unused-vars
-    transporter.sendMail(mailOptions, (err, response) => {
-        if (err) {
-            console.log('Error: ' + err)
-        } 
-    })
+    await transporter.sendMail(mailOptions)
 }
 
 module.exports = { sendMail }

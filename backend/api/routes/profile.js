@@ -29,7 +29,7 @@ router.patch('/', auth.verifyCustomer, async (req, res, next) => {
         
         const user = await User.findByIdAndUpdate(id, { firstName, lastName, recievePromotions }, { new: true})
 
-        mailer.sendMail(user.email, 'Bulldawg Books profile has been update', 'Your profile information has been updated')
+        await mailer.sendMail(user.email, 'Bulldawg Books profile has been update', 'Your profile information has been updated')
 
         res.status(200).json({ message: 'Successfully updated user information' })
 
