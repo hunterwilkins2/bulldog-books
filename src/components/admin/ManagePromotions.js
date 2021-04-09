@@ -13,7 +13,9 @@ function ManagePromotions(){
             .min(1, 'Title must be betwen 1 and 100 characters')
             .max(100, 'Title must be betwen 1 and 100 characters')
             .required('Required'),
-        date: yup.date()
+        startDate: yup.date()
+            .required('Required'),
+        endDate: yup.date()
             .required('Required'),
         discount: yup.number()
             .min(0.01, 'Must be at least 1% off')
@@ -57,6 +59,9 @@ function ManagePromotions(){
                         </ListGroupItem>
                     </ListGroup>  
                     <ListGroup id = "lG-hp" className="list-group-flush">
+                        <ListGroupItem id = "lGI-hp">Start Date: {promotion.startDate.substring(0,promotion.startDate.length - 14)}</ListGroupItem>
+                    </ListGroup>
+                    <ListGroup id = "lG-hp" className="list-group-flush">
                         <ListGroupItem id = "lGI-hp">End Date: {promotion.endDate.substring(0,promotion.endDate.length - 14)}</ListGroupItem>
                     </ListGroup>
                     <ListGroup id = "lG-hp" className="list-group-flush">
@@ -79,7 +84,8 @@ function ManagePromotions(){
                 enableReinitialize
                 initialValues={{
                     title: '',
-                    date: '',
+                    startDate: '',
+                    endDate: '',
                     discount: '',
                 }}
                 validationSchema={validationSchema}
@@ -98,7 +104,8 @@ function ManagePromotions(){
                         redirect: 'follow',
                         referrerPolicy: 'no-referrer',
                         body: JSON.stringify({
-                            'date': data.date,
+                            'startDate': data.startDate,
+                            'endDate': data.endDate,
                             'title': data.title,
                             'discount': data.discount
                         })
@@ -144,15 +151,27 @@ function ManagePromotions(){
                         </Form.Row>
                         <Form.Row>
                             <Form.Group as={Col}>
-                                <Form.Label>End Date</Form.Label>
+                                <Form.Label>Start Date</Form.Label>
                                 <Form.Control 
-                                    name='date'
+                                    name='startDate'
                                     type='date'
-                                    value={values.date}
+                                    value={values.startDate}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    isValid={touched.date && !errors.date}
-                                    isInvalid={touched.date && errors.date}
+                                    isValid={touched.startDate && !errors.startDate}
+                                    isInvalid={touched.startDate && errors.startDate}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col}>
+                                <Form.Label>End Date</Form.Label>
+                                <Form.Control 
+                                    name='endDate'
+                                    type='date'
+                                    value={values.endDate}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    isValid={touched.endDate && !errors.endDate}
+                                    isInvalid={touched.endDate && errors.endDate}
                                 />
                             </Form.Group>
                         </Form.Row>
