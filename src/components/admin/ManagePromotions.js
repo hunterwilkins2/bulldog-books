@@ -173,7 +173,6 @@ function ManagePromotions(){
                         <Form.Row>
                             <Button 
                                 variant="primary" 
-                                type="submit" 
                                 disabled={!(dirty && isValid)}
                                 onClick={submitForm}
                             >
