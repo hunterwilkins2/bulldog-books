@@ -27,11 +27,7 @@ function User(){
             const response = await fetch('http://localhost:3000/api/books')
             const data = await response.json()
             if(data.errors) {
-                console.log(data.errors.split(';'))
                 setErrors(data.errors.split(';'))
-            }
-            else {
-                console.log('no errors')
             }
             setBooks(data)
         }
