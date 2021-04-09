@@ -137,6 +137,8 @@ function ManagePromotions(){
                                     value={values.title}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    isValid={touched.title && !errors.title}
+                                    isInvalid={touched.title && errors.title}
                                 />
                             </Form.Group>
                         </Form.Row>
@@ -149,6 +151,8 @@ function ManagePromotions(){
                                     value={values.date}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    isValid={touched.date && !errors.date}
+                                    isInvalid={touched.date && errors.date}
                                 />
                             </Form.Group>
                         </Form.Row>
@@ -161,6 +165,8 @@ function ManagePromotions(){
                                     value={values.discount}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    isValid={touched.discount && !errors.discount}
+                                    isInvalid={touched.discount && errors.discount}
                                 />
                             </Form.Group>
                         </Form.Row>
@@ -168,6 +174,7 @@ function ManagePromotions(){
                             <Button 
                                 variant="primary" 
                                 type="submit" 
+                                disabled={!(dirty && isValid)}
                                 onClick={submitForm}
                             >
                             Submit
