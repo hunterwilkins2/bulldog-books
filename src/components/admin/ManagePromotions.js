@@ -47,7 +47,7 @@ function ManagePromotions(){
             setPromotions(data)
         }
         fetchPromotions()
-    })
+    }, [])
 
     const promotionCards = promotions.map(promotion => (
         <>
