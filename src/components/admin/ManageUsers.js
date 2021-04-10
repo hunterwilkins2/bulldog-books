@@ -47,7 +47,8 @@ function ManagePromotions(){
             <Col className = "col-list-manusers"> {users.dateJoined} </Col>
             <Col className = "col-list-manusers"> {users.status} </Col>
             <Col className = "col-list-manusers"> {users.userType} </Col>
-            <Button className = "but-manusers"> Promote/Demote </Button>         
+            <Button className = "but-manusers"> Suspend/Unsuspend </Button>
+            <Button className = "but-manusers"> Promote/Demote </Button>            
         </Row>
     ))
 
