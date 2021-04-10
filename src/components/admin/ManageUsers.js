@@ -1,6 +1,6 @@
 import {React, useEffect, useState} from 'react'
-import {Row, Col, Button} from 'react-bootstrap'
-
+import {Row, Col} from 'react-bootstrap'
+import {Button, DropdownButton, Dropdown} from 'react-bootstrap'
 import StoreNavbar from '../StoreNavbar'
 import './../styles/ManageUsers.css'
 
@@ -35,21 +35,56 @@ function ManagePromotions(){
         fetchUsers()
     }, [])
 
+    // const adminT = (
+    //     <>
+    //         <Dropdown.Item> Employee </Dropdown.Item>  
+    //         <Dropdown.Item> Customer </Dropdown.Item>
+    //     </>
+    // )
+
+    // const employeeT = (
+    //     <>
+    //         <Dropdown.Item> Admin </Dropdown.Item>  
+    //         <Dropdown.Item> Customer </Dropdown.Item>
+    //     </>
+    // )
+
+    // const customerT = (
+    //     <>
+    //         <Dropdown.Item> Admin </Dropdown.Item>
+    //         <Dropdown.Item> Employee </Dropdown.Item>  
+    //     </>
+    // )
+
+
+
     const userCol = user.map( users => (
-        
 
         <Row className = "row-list-manusers" key = {users.email}>
             <Col className = "col-list-manusers"> {users.lastName} </Col>
             <Col className = "col-list-manusers"> {users.firstName} </Col>
             <Col id = "col-list-email-manusers"> {users.email} </Col>
-            <Col className = "col-list-manusers"> {String(users.recievePromotions)}  </Col>
-            {/* <Col className = "col-list-manusers"> {users.recievePromotions ? ('True') : ('False')}  </Col> */}
-            <Col className = "col-list-manusers"> {users.dateJoined} </Col>
+            <Col className = "col-list-manusers"> {users.recievePromotions ? ('Yes') : ('No')}  </Col>
+            <Col className = "col-list-manusers"> {users.dateJoined.substring(0,10)} </Col>
             <Col className = "col-list-manusers"> {users.status} </Col>
             <Col className = "col-list-manusers"> {users.userType} </Col>
-            <Button className = "but-manusers"> Suspend/Unsuspend </Button>
-            <Button className = "but-manusers"> Promote/Demote </Button>            
+            <div id = "but-cont-manusers">
+                <Col id = "col-susp-manusers">
+                    <Button id = "but-susp-manusers"> 
+                        {(users.status == 'suspended' ? ('Unsuspend') : ('Suspend'))}
+                    </Button>
+                </Col>
+                
+                <Col id = "col-type-manusers">
+                    <DropdownButton id = "but-type-manusers" title="Type">
+                        <Dropdown.Item> Admin </Dropdown.Item>  
+                        <Dropdown.Item> Employee </Dropdown.Item>  
+                        <Dropdown.Item> Customer </Dropdown.Item>
+                    </DropdownButton>
+                </Col>
+            </div>
         </Row>
+
     ))
 
 
