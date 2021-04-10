@@ -1,0 +1,25 @@
+
+
+.col-title-manusers {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    font-weight: bold;
+
+    font-size: medium;
+}
+
+.col-list-manusers {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    font-size: xx-small;
+}
+
+.but-manusers {
+    font-size: 5px;
+}

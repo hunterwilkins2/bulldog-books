@@ -53,7 +53,7 @@ function StoreNavbar({homePage=false, login=false}){
 
                 {Cookies.get('userType') === 'admin' && 
                 <>
-                    <Button  id = "button-cart" className="ml-2" variant="light"> Manage Users</Button>
+                    <Button href = "/admin/ManageUsers"  id = "button-cart" className="ml-2" variant="light" onClick={()=>console.log('clicked')}>Manage Users</Button>
                     <Button href = "/admin/ManagePromotions"  id = "button-cart" className="ml-2" variant="light" onClick={()=>console.log('clicked')}>Manage Promotions</Button>
                 </>
                 }
