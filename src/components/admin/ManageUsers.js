@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {React, useEffect, useState} from 'react'
 import {Row, Col} from 'react-bootstrap'
 import {Button, DropdownButton, Dropdown} from 'react-bootstrap'
@@ -11,7 +12,6 @@ function ManagePromotions(){
 
     useEffect(() => {
         async function fetchUsers(){
-            console.log('in fetchUsers')
             let usersGetData={
                 method: 'GET',
                 withCredentials: true,
@@ -53,7 +53,7 @@ function ManagePromotions(){
                     <Button 
                         id = "but-susp-manusers" 
                         value = {usersIndex} 
-                        onClick = {(f) => {handleClick(f.currentTarget.value)}} 
+                        onClick = {async (event) => {await handleClick(event)}} 
                     >     
                         {(users.status == 'suspended' ? ('Unsuspend') : ('Suspend'))}
                     </Button>
@@ -73,42 +73,45 @@ function ManagePromotions(){
     ))
 
 
-    function handleClick (curbutval) {
+    async function handleClick (event) {
 
-        let userEmail = user[curbutval].email
-        console.log(userEmail)
+        let userIndex = event.target.value
+        let userStatus = user[userIndex].status
+        let userEmail = user[userIndex].email
 
-        let userStatus= user[curbutval].status
-        console.log(userStatus)
 
-        async () => {
-            console.log('in patchUsers')
-            let usersData={
-                method: 'PATCH',
-                withCredentials: true,
-                credentials: 'include',
-                mode: 'cors',
-                cache: 'no-cache',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'https://localhost:3000',
-                    'Access-Control-Allow-Credentials': true,
-                },
-                redirect: 'follow',
-                referrerPolicy: 'no-referrer',
-                body: JSON.stringify({
-                    'email': userEmail,
-                })
-            }
-            const userResponse = await (await fetch('http://localhost:3000/api/users', usersData)).json()
-            if(userResponse.errors) {
-                console.log(userResponse.errors.split(';'))
-            }
-            else {
-                console.log('no errors')
-            } 
-
+        let usersData={
+            method: 'PATCH',
+            withCredentials: true,
+            credentials: 'include',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                'Access-Control-Allow-Credentials': true,
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify({
+                'email': userEmail,
+            })
         }
+
+        let userResponse
+
+        if(userStatus === 'active' || userStatus === 'inactive'){
+            userResponse = await (await fetch('http://localhost:3000/api/users/suspend', usersData)).json()
+        } else if(userStatus === 'suspended'){
+            userResponse = await (await fetch('http://localhost:3000/api/users/unsuspend', usersData)).json()
+        }
+
+        if(userResponse.errors) {
+            console.log(userResponse.errors.split(';'))
+        }
+        else {
+            console.log('no errors')
+        } 
 
 
     }
