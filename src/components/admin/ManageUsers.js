@@ -4,6 +4,7 @@ import {Button, DropdownButton, Dropdown} from 'react-bootstrap'
 import StoreNavbar from '../StoreNavbar'
 import './../styles/ManageUsers.css'
 
+
 function ManagePromotions(){
 
     const [user, setUsers] = useState([])
@@ -30,36 +31,14 @@ function ManagePromotions(){
             if(data.errors) {
                 console.log(data.errors.split(';')) // TODO: Add a set erros hook (see Homepage.js)
             }
-            setUsers(data)
+            await setUsers(data)
         }
         fetchUsers()
     }, [])
 
-    // const adminT = (
-    //     <>
-    //         <Dropdown.Item> Employee </Dropdown.Item>  
-    //         <Dropdown.Item> Customer </Dropdown.Item>
-    //     </>
-    // )
 
-    // const employeeT = (
-    //     <>
-    //         <Dropdown.Item> Admin </Dropdown.Item>  
-    //         <Dropdown.Item> Customer </Dropdown.Item>
-    //     </>
-    // )
-
-    // const customerT = (
-    //     <>
-    //         <Dropdown.Item> Admin </Dropdown.Item>
-    //         <Dropdown.Item> Employee </Dropdown.Item>  
-    //     </>
-    // )
-
-
-
-    const userCol = user.map( users => (
-
+    const userCol = user.map( (users, usersIndex)  => (
+    
         <Row className = "row-list-manusers" key = {users.email}>
             <Col className = "col-list-manusers"> {users.lastName} </Col>
             <Col className = "col-list-manusers"> {users.firstName} </Col>
@@ -70,9 +49,15 @@ function ManagePromotions(){
             <Col className = "col-list-manusers"> {users.userType} </Col>
             <div id = "but-cont-manusers">
                 <Col id = "col-susp-manusers">
-                    <Button id = "but-susp-manusers"> 
+                    {(users.userType != 'admin') &&
+                    <Button 
+                        id = "but-susp-manusers" 
+                        value = {usersIndex} 
+                        onClick = {(f) => {handleClick(f.currentTarget.value)}} 
+                    >     
                         {(users.status == 'suspended' ? ('Unsuspend') : ('Suspend'))}
                     </Button>
+                    }   
                 </Col>
                 
                 <Col id = "col-type-manusers">
@@ -86,6 +71,51 @@ function ManagePromotions(){
         </Row>
 
     ))
+
+
+    function handleClick (curbutval) {
+
+        let userEmail = user[curbutval].email
+        console.log(userEmail)
+
+        let userStatus= user[curbutval].status
+        console.log(userStatus)
+
+        async () => {
+            console.log('in patchUsers')
+            let usersData={
+                method: 'PATCH',
+                withCredentials: true,
+                credentials: 'include',
+                mode: 'cors',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': 'https://localhost:3000',
+                    'Access-Control-Allow-Credentials': true,
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify({
+                    'email': userEmail,
+                })
+            }
+            const userResponse = await (await fetch('http://localhost:3000/api/users', usersData)).json()
+            if(userResponse.errors) {
+                console.log(userResponse.errors.split(';'))
+            }
+            else {
+                console.log('no errors')
+            } 
+
+        }
+
+
+    }
+    
+
+
+
 
 
     return  (
