@@ -6,7 +6,7 @@ import Cookies from 'js-cookie'
 // import Promos from  './Promos'
 import StoreNavbar from '../StoreNavbar'
 import ManageBooksPopup from './ManageBooksPopup'
-import '../styles/Homepage.css'
+import '../styles/Admin.css'
 import '../styles/Background.css'
 
 function Admin(){
@@ -42,25 +42,25 @@ function Admin(){
     const closePopup = () => setShowPopup(false)
 
     const bookCards = books.map(book => (
-        <Col key={book.isbn} xs='3' id = "column-hp">
-            <Card id = "card-style-hp">
-                <Card.Img className = "mx-auto" id = "image-hp" src={book.cover} />
-                <ListGroup id = "lG-hp" className="list-group-flush" >
-                    <ListGroupItem id = "lGI-title-hp">
+        <Col key={book.isbn} xs='3' id = "column-ad">
+            <Card id = "card-style-ad">
+                <Card.Img className = "mx-auto" id = "image-ad" src={book.cover} />
+                <ListGroup id = "lG-ad" className="list-group-flush" >
+                    <ListGroupItem id = "lGI-title-ad">
                         <Card.Title>{book.title}</Card.Title>
                         <Card.Subtitle className="text-muted">{book.subtitle}</Card.Subtitle>
                     </ListGroupItem>
                 </ListGroup>  
-                <ListGroup id = "lG-hp" className="list-group-flush">
-                    <ListGroupItem id = "lGI-hp">Author: {book.author}</ListGroupItem>
+                <ListGroup id = "lG-ad" className="list-group-flush">
+                    <ListGroupItem id = "lGI-ad">Author: {book.author}</ListGroupItem>
                 </ListGroup>
-                <ListGroup id = "lG-hp" className="list-group-flush">
-                    <ListGroupItem id = "lGI-hp">Price: ${book.buyPrice}</ListGroupItem>
+                <ListGroup id = "lG-ad" className="list-group-flush">
+                    <ListGroupItem id = "lGI-ad">Price: ${book.buyPrice}</ListGroupItem>
                 </ListGroup>
                 <ListGroup className="list-group-flush">
-                    <ListGroupItem id = "lGI-links-hp">
+                    <ListGroupItem id = "lGI-links-ad">
                         {Cookies.get('userType') === 'admin' && 
-                             <Button onClick={() => makePopup(book)} >Manage Books</Button>
+                             <Button id = "but-mb-ad" onClick={() => makePopup(book)} >Edit Books</Button>
                         }
                         <Card.Link href={book.website}>More Info</Card.Link>
                         <Card.Link href="">Add To Cart</Card.Link>
@@ -71,11 +71,30 @@ function Admin(){
 
     ))
 
+    const manageBooksBar = (
+        <div id = "adddel-innercont-ad">
+            <div id = "titlecont-ad">
+                <h2>Manage Books</h2>
+            </div>
+            <div id = "buttoncont-ad">
+                <Button>
+                    Add Book
+                </Button>
+                <Button>
+                    Delete Book
+                </Button>
+            </div>
+        </div>
+    )
+
     return (
         <div id = "background">
             <StoreNavbar homePage={true}/> 
             {alerts}
-            <Container id = "cont-hp">
+            <div id = "adddel-outtercont-ad">
+                {manageBooksBar}
+            </div>
+            <Container id = "cont-ad">
                 <Row lg={3} >
                     {bookCards}
                 </Row>
