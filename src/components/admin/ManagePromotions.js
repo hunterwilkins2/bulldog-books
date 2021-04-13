@@ -14,8 +14,10 @@ function ManagePromotions(){
             .max(100, 'Title must be betwen 1 and 100 characters')
             .required('Required'),
         startDate: yup.date()
+            .min(new Date())
             .required('Required'),
         endDate: yup.date()
+            .min(yup.ref('startDate'))
             .required('Required'),
         discount: yup.number()
             .min(0.01, 'Must be at least 1% off')
