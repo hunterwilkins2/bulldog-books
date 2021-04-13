@@ -77,7 +77,7 @@ function Admin(){
                 <h2>Manage Books</h2>
             </div>
             <div id = "buttoncont-ad">
-                <Button>
+                <Button href = "/admin/AddBook"  >
                     Add Book
                 </Button>
                 <Button>

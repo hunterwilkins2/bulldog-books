@@ -1,0 +1,15 @@
+
+
+#form-cont-adbks {
+    display:flex;
+    justify-content:center;
+}
+
+#form-adbks {
+    padding: 25px;
+    border: 2px solid #ffffff;
+    background: #ffffff;
+    border-radius: 25px;
+    max-width: 80vw;
+    min-width: 80vw;
+}
