@@ -22,7 +22,8 @@ function ManagePromotions(){
         discount: yup.number()
             .min(0.01, 'Must be at least 1% off')
             .max(1.00, 'Cannot be more than free')
-            .required('Required'),
+            .required('Required'), 
+        isSent: yup.boolean().required()
     })
 
     async function fetchPromotions(){
@@ -204,7 +205,6 @@ function ManagePromotions(){
                                         />
                                     </Form.Group>
                                 </Form.Row>
-                                <pre>{JSON.stringify(values)}</pre>
                                 <Form.Row>
                                     <Button 
                                         variant="primary" 
