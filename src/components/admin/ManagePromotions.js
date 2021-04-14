@@ -4,6 +4,7 @@ import {Button, Card, Col, ListGroup, ListGroupItem, Form, Row} from 'react-boot
 import * as yup from 'yup'
 
 import StoreNavbar from '../StoreNavbar'
+import './../styles/ManagePromos.css'
 
 function ManagePromotions(){
     const [promotions, setPromotions] = useState([])
@@ -71,6 +72,17 @@ function ManagePromotions(){
                     <ListGroup id = "lG-hp" className="list-group-flush">
                         <ListGroupItem id = "lGI-hp">Discount: {promotion.discount * 100}%</ListGroupItem>
                     </ListGroup>
+                    <ListGroup >
+                        <div id = "lG-buttons-hp">
+                            <div>
+                                <Button>Update</Button>
+                            </div>
+                            <div>
+                                <Button>Delete</Button>
+                            </div>
+                        </div>
+                    </ListGroup>
+
                 </Card>
             </Col>
         </>
