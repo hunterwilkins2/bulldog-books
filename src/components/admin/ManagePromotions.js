@@ -24,30 +24,32 @@ function ManagePromotions(){
             .max(1.00, 'Cannot be more than free')
             .required('Required'),
     })
-    useEffect(() => {
-        async function fetchPromotions(){
-            console.log('in fetchPromotions')
-            let promotionGetData={
-                method: 'GET',
-                withCredentials: true,
-                credentials: 'include',
-                mode: 'cors',
-                cache: 'no-cache',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'https://localhost:3000',
-                    'Access-Control-Allow-Credentials': true,
-                },
-                redirect: 'follow',
-                referrerPolicy: 'no-referrer',
-            }
-            const response = await fetch('http://localhost:3000/api/promotions', promotionGetData)
-            const data = await response.json()
-            if(data.errors) {
-                console.log(data.errors.split(';')) // TODO: Add a set erros hook (see Homepage.js)
-            }
-            setPromotions(data)
+
+    async function fetchPromotions(){
+        console.log('in fetchPromotions')
+        let promotionGetData={
+            method: 'GET',
+            withCredentials: true,
+            credentials: 'include',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                'Access-Control-Allow-Credentials': true,
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
         }
+        const response = await fetch('http://localhost:3000/api/promotions', promotionGetData)
+        const data = await response.json()
+        if(data.errors) {
+            console.log(data.errors.split(';')) // TODO: Add a set erros hook (see Homepage.js)
+        }
+        setPromotions(data)
+    }
+
+    useEffect(() => {
         fetchPromotions()
     }, [])
 
@@ -79,125 +81,132 @@ function ManagePromotions(){
         <div id = "background">
             <StoreNavbar/> 
             <h1 id = "h1-style-cart">Manage Promotions</h1>
-            <Row lg={3} >
+            <Row className="justify-content-md-center">
+                <Col xs={6}>
+                    <Formik
+                        enableReinitialize
+                        initialValues={{
+                            title: '',
+                            startDate: '',
+                            endDate: '',
+                            discount: '',
+                        }}
+                        validationSchema={validationSchema}
+                        onSubmit={async (data) => {
+                            let promotionData={
+                                method: 'POST',
+                                withCredentials: true,
+                                credentials: 'include',
+                                mode: 'cors',
+                                cache: 'no-cache',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Access-Control-Allow-Origin': 'https://localhost:3000',
+                                    'Access-Control-Allow-Credentials': true,
+                                },
+                                redirect: 'follow',
+                                referrerPolicy: 'no-referrer',
+                                body: JSON.stringify({
+                                    'startDate': data.startDate,
+                                    'endDate': data.endDate,
+                                    'title': data.title,
+                                    'discount': data.discount
+                                })
+                            }
+                            const promotionResponse = await (await fetch('http://localhost:3000/api/promotions', promotionData)).json()
+                            if(promotionResponse.errors) {
+                                console.log(promotionResponse.errors.split(';'))
+                            }
+                            else {
+                                console.log('no errors')
+                            }    
+                            
+                            fetchPromotions()
+                        }}
+                    >{({
+                            handleSubmit,
+                            handleChange, 
+                            handleBlur,
+                            submitForm,
+                            values,
+                            touched,
+                            errors,
+                            dirty,
+                            isValid
+                        }) => ( 
+                            <Form id = "form-style-profile" onSubmit={handleSubmit}>
+                                <h3>Enter New Promotion</h3>
+                                <Form.Row>
+                                    <Form.Group as={Col}>
+                                        <Form.Label>Promotion Title</Form.Label>
+                                        <Form.Control
+                                            name = 'title' 
+                                            placeholder = 'PROMOTITLE'
+                                            value={values.title}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            isValid={touched.title && !errors.title}
+                                            isInvalid={touched.title && errors.title}
+                                        />
+                                    </Form.Group>
+                                </Form.Row>
+                                <Form.Row>
+                                    <Form.Group as={Col}>
+                                        <Form.Label>Start Date</Form.Label>
+                                        <Form.Control 
+                                            name='startDate'
+                                            type='date'
+                                            value={values.startDate}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            isValid={touched.startDate && !errors.startDate}
+                                            isInvalid={touched.startDate && errors.startDate}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group as={Col}>
+                                        <Form.Label>End Date</Form.Label>
+                                        <Form.Control 
+                                            name='endDate'
+                                            type='date'
+                                            value={values.endDate}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            isValid={touched.endDate && !errors.endDate}
+                                            isInvalid={touched.endDate && errors.endDate}
+                                        />
+                                    </Form.Group>
+                                </Form.Row>
+                                <Form.Row>
+                                    <Form.Group as={Col}>
+                                        <Form.Label>Discount</Form.Label>
+                                        <Form.Control 
+                                            name='discount'
+                                            placeholder='0.20'
+                                            value={values.discount}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            isValid={touched.discount && !errors.discount}
+                                            isInvalid={touched.discount && errors.discount}
+                                        />
+                                    </Form.Group>
+                                </Form.Row>
+                                <Form.Row>
+                                    <Button 
+                                        variant="primary" 
+                                        disabled={!(dirty && isValid)}
+                                        onClick={submitForm}
+                                    >
+                            Submit
+                                    </Button>
+                                </Form.Row> 
+                            </Form>
+                        )}</Formik>
+                </Col>
+            </Row>
+            <Row lg={4} >
                 {promotionCards}
             </Row>
-            <Formik
-                enableReinitialize
-                initialValues={{
-                    title: '',
-                    startDate: '',
-                    endDate: '',
-                    discount: '',
-                }}
-                validationSchema={validationSchema}
-                onSubmit={async (data) => {
-                    let promotionData={
-                        method: 'POST',
-                        withCredentials: true,
-                        credentials: 'include',
-                        mode: 'cors',
-                        cache: 'no-cache',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Access-Control-Allow-Origin': 'https://localhost:3000',
-                            'Access-Control-Allow-Credentials': true,
-                        },
-                        redirect: 'follow',
-                        referrerPolicy: 'no-referrer',
-                        body: JSON.stringify({
-                            'startDate': data.startDate,
-                            'endDate': data.endDate,
-                            'title': data.title,
-                            'discount': data.discount
-                        })
-                    }
-                    const promotionResponse = await (await fetch('http://localhost:3000/api/promotions', promotionData)).json()
-                    if(promotionResponse.errors) {
-                        console.log(promotionResponse.errors.split(';'))
-                    }
-                    else {
-                        console.log('no errors')
-                    }                   
-                }}
-            >{({
-                    handleSubmit,
-                    handleChange, 
-                    handleBlur,
-                    submitForm,
-                    values,
-                    touched,
-                    errors,
-                    dirty,
-                    isValid
-                }) => ( 
-                    <Form id = "form-style-profile" onSubmit={handleSubmit}>
-                        <h1>Enter New Promotion</h1>
-                        <Form.Row>
-                            <Form.Group as={Col}>
-                                <Form.Label>Promotion Title</Form.Label>
-                                <Form.Control
-                                    name = 'title' 
-                                    placeholder = 'PROMOTITLE'
-                                    value={values.title}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    isValid={touched.title && !errors.title}
-                                    isInvalid={touched.title && errors.title}
-                                />
-                            </Form.Group>
-                        </Form.Row>
-                        <Form.Row>
-                            <Form.Group as={Col}>
-                                <Form.Label>Start Date</Form.Label>
-                                <Form.Control 
-                                    name='startDate'
-                                    type='date'
-                                    value={values.startDate}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    isValid={touched.startDate && !errors.startDate}
-                                    isInvalid={touched.startDate && errors.startDate}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col}>
-                                <Form.Label>End Date</Form.Label>
-                                <Form.Control 
-                                    name='endDate'
-                                    type='date'
-                                    value={values.endDate}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    isValid={touched.endDate && !errors.endDate}
-                                    isInvalid={touched.endDate && errors.endDate}
-                                />
-                            </Form.Group>
-                        </Form.Row>
-                        <Form.Row>
-                            <Form.Group as={Col}>
-                                <Form.Label>Discount</Form.Label>
-                                <Form.Control 
-                                    name='discount'
-                                    placeholder='0.20'
-                                    value={values.discount}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    isValid={touched.discount && !errors.discount}
-                                    isInvalid={touched.discount && errors.discount}
-                                />
-                            </Form.Group>
-                        </Form.Row>
-                        <Form.Row>
-                            <Button 
-                                variant="primary" 
-                                disabled={!(dirty && isValid)}
-                                onClick={submitForm}
-                            >
-                            Submit
-                            </Button>
-                        </Form.Row> 
-                    </Form>
-                )}</Formik>
+            
         </div> 
     )
 }

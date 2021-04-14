@@ -10,29 +10,30 @@ function ManagePromotions(){
 
     const [user, setUsers] = useState([])
 
-    useEffect(() => {
-        async function fetchUsers(){
-            let usersGetData={
-                method: 'GET',
-                withCredentials: true,
-                credentials: 'include',
-                mode: 'cors',
-                cache: 'no-cache',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'https://localhost:3000',
-                    'Access-Control-Allow-Credentials': true,
-                },
-                redirect: 'follow',
-                referrerPolicy: 'no-referrer',
-            }
-            const response = await fetch('http://localhost:3000/api/users', usersGetData)
-            const data = await response.json()
-            if(data.errors) {
-                console.log(data.errors.split(';')) // TODO: Add a set erros hook (see Homepage.js)
-            }
-            await setUsers(data)
+    async function fetchUsers(){
+        let usersGetData={
+            method: 'GET',
+            withCredentials: true,
+            credentials: 'include',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                'Access-Control-Allow-Credentials': true,
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
         }
+        const response = await fetch('http://localhost:3000/api/users', usersGetData)
+        const data = await response.json()
+        if(data.errors) {
+            console.log(data.errors.split(';')) // TODO: Add a set erros hook (see Homepage.js)
+        }
+        await setUsers(data)
+    }
+
+    useEffect(() => {
         fetchUsers()
     }, [])
 
@@ -105,6 +106,8 @@ function ManagePromotions(){
         else {
             console.log('no errors')
         } 
+
+        fetchUsers()
 
 
     }
