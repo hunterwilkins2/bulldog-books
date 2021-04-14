@@ -22,16 +22,22 @@ router.post('/', auth.verifyAdmin, async (req, res, next) => {
         const { startDate, 
             endDate,
             title, 
-            discount } = req.body
+            discount,
+            isSent } = req.body
+        
         const promotion = new Promotion({
             startDate: startDate,
             endDate: endDate,
             title: title,
-            discount: discount })
-        await (await User.find({ recievePromotions : true })).forEach(function (doc) {
-            mailer.sendMail(doc.email, `New Promotion Code: ${promotion.title}`, `Use the promotion code ${promotion.title} from ${promotion.startDate} to ${promotion.endDate} for ${100 * promotion.discount}% off!`)
-        })
-        await promotion.save()
+            discount: discount,
+            isSent })
+
+        if(isSent) {
+            await (await User.find({ recievePromotions : true })).forEach(function (doc) {
+                mailer.sendMail(doc.email, `New Promotion Code: ${promotion.title}`, `Use the promotion code ${promotion.title} from ${promotion.startDate} to ${promotion.endDate} for ${100 * promotion.discount}% off!`)
+            })
+        }
+
         res.json(promotion)
     } catch(error) {
         next(error)

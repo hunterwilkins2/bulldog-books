@@ -5,7 +5,7 @@ const promoSchema = Schema({
     endDate: { type: Date, required: true },
     title: { type: String, required: true },
     discount: { type: Number, required: true },
-    isSent: { type: Boolean, required: true}
+    isSent: { type: Boolean, required: true, default: false }
 })
     
 module.exports = model('Promotion', promoSchema)
