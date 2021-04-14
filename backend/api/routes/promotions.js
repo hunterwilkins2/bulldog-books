@@ -25,7 +25,7 @@ router.post('/', auth.verifyAdmin, async (req, res, next) => {
             discount,
             isSent } = req.body
         
-        const promotion = new Promotion({
+        const promotion = await Promotion.create({
             startDate: startDate,
             endDate: endDate,
             title: title,
@@ -39,6 +39,63 @@ router.post('/', auth.verifyAdmin, async (req, res, next) => {
         }
 
         res.json(promotion)
+    } catch(error) {
+        next(error)
+    }
+})
+
+router.post('/send-promotion', async (req, res, next) => {
+    try {
+        const { id } = req.body
+
+        const promotion = await Promotion.findByIdAndUpdate(id, { isSent: true })
+
+        await (await User.find({ recievePromotions : true })).forEach(function (doc) {
+            mailer.sendMail(doc.email, `New Promotion Code: ${promotion.title}`, `Use the promotion code ${promotion.title} from ${promotion.startDate} to ${promotion.endDate} for ${100 * promotion.discount}% off!`)
+        })
+        
+        res.json({ message: `${promotion.title} has been emailed to customers`})
+        
+
+    } catch(error) {
+        next(error)
+    }
+})
+
+router.patch('/', async (req, res, next) => {
+    try {
+        const { id, 
+            startDate, 
+            endDate,
+            title,
+            discount
+        } = req.body
+
+        const promotion = await Promotion.findById(id)
+
+        if(!promotion.isSent) {
+            await Promotion.findByIdAndUpdate(id, { startDate, endDate, title, discount} )
+        } else {
+            throw Error('Cannot update a promotion that has already been sent to customers')
+        }
+
+    } catch(error) {
+        next(error)
+    }
+})
+
+router.delete('/', async (req, res, next) => {
+    try {
+        const { id } = req.body
+
+        const promotion = await Promotion.findById(id)
+
+        if(!promotion.isSent) { 
+            await Promotion.findByIdAndDelete(id)
+        } else {
+            throw Error('Cannot delete a promotion that has been sent to customers.')
+        }
+
     } catch(error) {
         next(error)
     }
