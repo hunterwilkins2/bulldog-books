@@ -36,7 +36,6 @@ function ManagePromotions(){
     })
 
     async function fetchPromotions(){
-        console.log('in fetchPromotions')
         let promotionGetData={
             method: 'GET',
             withCredentials: true,
@@ -64,7 +63,37 @@ function ManagePromotions(){
         fetchPromotions()
     }, [])
 
-    const promotionCards = promotions.map(promotion => (
+
+    async function handleDelete(event){
+        console.log(promotions[event.target.value]._id)
+
+        let promotionDeleteData={
+            method: 'DELETE',
+            withCredentials: true,
+            credentials: 'include',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                'Access-Control-Allow-Credentials': true,
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify({
+                'id': promotions[event.target.value]._id
+            })
+        }
+        const response = await fetch('http://localhost:3000/api/promotions', promotionDeleteData)
+        const data = await response.json()
+        if(data.errors) {
+            console.log(data.errors.split(';')) 
+            setErrors(data.errors.split(';'))
+        }
+        fetchPromotions()
+    }
+
+    const promotionCards = promotions.map((promotion, promotionIndex) => (
         <>
             <Col key={promotion.title} xs='3' id = "column-hp">
                 <Card id = "card-style-hp">
@@ -88,7 +117,10 @@ function ManagePromotions(){
                                 <Button>Update</Button>
                             </div>
                             <div>
-                                <Button>Delete</Button>
+                                <Button 
+                                    onClick={async (event) => {await handleDelete(event)}}
+                                    value={promotionIndex}
+                                >Delete</Button>
                             </div>
                         </div>
                     </ListGroup>
