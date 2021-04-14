@@ -1,6 +1,6 @@
 import {React, useEffect, useState} from 'react'
 import { Formik } from 'formik'
-import {Button, Card, Col, ListGroup, ListGroupItem, Form, Row} from 'react-bootstrap'
+import {Button, Card, Col, ListGroup, ListGroupItem, Form, Row, Alert} from 'react-bootstrap'
 import * as yup from 'yup'
 
 import StoreNavbar from '../StoreNavbar'
@@ -8,6 +8,13 @@ import './../styles/ManagePromos.css'
 
 function ManagePromotions(){
     const [promotions, setPromotions] = useState([])
+    const [errors, setErrors] = useState([])
+
+    const alerts = errors.map(error => 
+        <Alert key={error} variant='danger'>
+            {error}
+        </Alert>
+    )
 
     const validationSchema = yup.object().shape({
         title: yup.string()
@@ -46,7 +53,8 @@ function ManagePromotions(){
         const response = await fetch('http://localhost:3000/api/promotions', promotionGetData)
         const data = await response.json()
         if(data.errors) {
-            console.log(data.errors.split(';')) // TODO: Add a set erros hook (see Homepage.js)
+            console.log(data.errors.split(';')) 
+            setErrors(data.errors.split(';'))
         }
         setPromotions(data)
     }
@@ -94,6 +102,7 @@ function ManagePromotions(){
         <div id = "background">
             <StoreNavbar/> 
             <h1 id = "h1-style-cart">Manage Promotions</h1>
+            {alerts}
             <Row className="justify-content-md-center">
                 <Col xs={6}>
                     <Formik
