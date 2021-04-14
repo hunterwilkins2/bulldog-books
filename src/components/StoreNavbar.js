@@ -45,25 +45,32 @@ function StoreNavbar({homePage=false, login=false}){
 
             <Nav id = "nav-link-style" >
                 <DropdownButton id="button-profile" title="Profile">
-                    <Dropdown.Item href="/user/Profile">Profile</Dropdown.Item>
-                    <Dropdown.Item href="/user/Orders">Orders</Dropdown.Item>
+                    <Dropdown.Item  as={Link} to='/user/Profile'>Profile</Dropdown.Item>
+                    <Dropdown.Item  as={Link} to='/user/Orders'>Orders</Dropdown.Item>
                 </DropdownButton>
 
-                <Button id = "button-cart" href="/user/Cart" className="ml-2" variant="light"><Basket /> Cart</Button>{' '}
+                <Link to='/user/Cart'>
+                    <Button id="button-cart" className="ml-2" variant="light"><Basket /> Cart</Button>{' '}
+                </Link>
 
                 {Cookies.get('userType') === 'admin' && 
                 <>
-                    <Button href = "/admin/ManageUsers"  id = "button-cart" className="ml-2" variant="light" onClick={()=>console.log('clicked')}>Manage Users</Button>
-                    <Button href = "/admin/ManagePromotions"  id = "button-cart" className="ml-2" variant="light" onClick={()=>console.log('clicked')}>Manage Promotions</Button>
+                    <Link to='/admin/ManageUsers'>
+                        <Button id="button-cart" className="ml-2" variant="light" >Manage Users</Button>
+                    </Link>
+                    <Link to='/admin/ManagePromotions'>
+                        <Button id="button-cart" className="ml-2" variant="light" >Manage Promotions</Button>
+                    </Link>
                 </>
                 }
 
-                <Button id = "button-login" onClick={logout}
-                    href={!getCookie('jwt') ? '/login' : '/'} 
-                    className="ml-2" 
-                    variant="outline-info">
-                    {!getCookie('jwt') ? 'Login' : 'Logout'}
-                </Button>{' '}
+                <Link to={!getCookie('jwt') ? '/login' : '/'}>
+                    <Button id = "button-login" onClick={logout}
+                        className="ml-2" 
+                        variant="outline-info">
+                        {!getCookie('jwt') ? 'Login' : 'Logout'}
+                    </Button>{' '}
+                </Link>
             </Nav>
             }
 

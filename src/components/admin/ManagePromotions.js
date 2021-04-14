@@ -126,13 +126,9 @@ function ManagePromotions(){
                     handleBlur,
                     submitForm,
                     values,
-                    // eslint-disable-next-line no-unused-vars
                     touched,
-                    // eslint-disable-next-line no-unused-vars
                     errors,
-                    // eslint-disable-next-line no-unused-vars
                     dirty,
-                    // eslint-disable-next-line no-unused-vars
                     isValid
                 }) => ( 
                     <Form id = "form-style-profile" onSubmit={handleSubmit}>
