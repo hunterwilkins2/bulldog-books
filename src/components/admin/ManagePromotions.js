@@ -90,6 +90,7 @@ function ManagePromotions(){
                             startDate: '',
                             endDate: '',
                             discount: '',
+                            isSent: true
                         }}
                         validationSchema={validationSchema}
                         onSubmit={async (data) => {
@@ -110,7 +111,8 @@ function ManagePromotions(){
                                     'startDate': data.startDate,
                                     'endDate': data.endDate,
                                     'title': data.title,
-                                    'discount': data.discount
+                                    'discount': data.discount,
+                                    'isSent': data.isSent
                                 })
                             }
                             const promotionResponse = await (await fetch('http://localhost:3000/api/promotions', promotionData)).json()
@@ -190,6 +192,19 @@ function ManagePromotions(){
                                         />
                                     </Form.Group>
                                 </Form.Row>
+                                <Form.Row>
+                                    <Form.Group as={Col}>
+                                        <Form.Check 
+                                            name='isSent'
+                                            label="Send Promotion Now"
+                                            value={values.isSent}
+                                            checked={values.isSent}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                        />
+                                    </Form.Group>
+                                </Form.Row>
+                                <pre>{JSON.stringify(values)}</pre>
                                 <Form.Row>
                                     <Button 
                                         variant="primary" 
