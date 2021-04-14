@@ -10,6 +10,7 @@ function ManagePromotions(){
     const [promotions, setPromotions] = useState([])
     const [errors, setErrors] = useState([])
 
+
     const alerts = errors.map(error => 
         <Alert key={error} variant='danger'>
             {error}
@@ -102,7 +103,6 @@ function ManagePromotions(){
         <div id = "background">
             <StoreNavbar/> 
             <h1 id = "h1-style-cart">Manage Promotions</h1>
-            {alerts}
             <Row className="justify-content-md-center">
                 <Col xs={6}>
                     <Formik
@@ -140,6 +140,7 @@ function ManagePromotions(){
                             const promotionResponse = await (await fetch('http://localhost:3000/api/promotions', promotionData)).json()
                             if(promotionResponse.errors) {
                                 console.log(promotionResponse.errors.split(';'))
+                                setErrors(promotionResponse.errors.split(';'))
                             }
                             else {
                                 console.log('no errors')
@@ -160,6 +161,7 @@ function ManagePromotions(){
                         }) => ( 
                             <Form id = "form-style-profile" onSubmit={handleSubmit}>
                                 <h3>Enter New Promotion</h3>
+                                {alerts}
                                 <Form.Row>
                                     <Form.Group as={Col}>
                                         <Form.Label>Promotion Title</Form.Label>
