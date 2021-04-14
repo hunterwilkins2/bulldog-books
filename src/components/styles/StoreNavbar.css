@@ -58,9 +58,12 @@
         font-size: x-small;
     }
 
+    .button-navbar{
+        margin: 0px 3px 0px 3px;
+    }
+
     #button-profile {
         font-size: x-small;
-
     }
 
     #button-cart {
