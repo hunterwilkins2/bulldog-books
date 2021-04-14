@@ -1,12 +1,14 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React, {useState, useEffect} from 'react'
-import { Card, ListGroup, ListGroupItem, Col, Row, Container, Alert } from 'react-bootstrap'
+import { Card, ListGroup, ListGroupItem, Col, Row, Container, Alert, Button } from 'react-bootstrap'
 import Cookies from 'js-cookie'
 
 // import Promos from  './Promos'
 import BestSellers from './BestSeller'
 import NewReleases from './NewReleases'
 import StoreNavbar from './StoreNavbar'
+import ManageBooksPopup from './admin/ManageBooksPopup'
+
 import './styles/Homepage.css'
 import './styles/Background.css'
 
@@ -34,6 +36,15 @@ function HomePage(){
         fetchBooks()
     }, [])
 
+    const [showPopup, setShowPopup] = useState(false)
+    const [popupBook, setPopupBook] = useState(null)
+    function makePopup(book) {
+        setShowPopup(true)
+        setPopupBook(book)
+    }
+    const closePopup = () => setShowPopup(false)
+
+
     const bookCards = books.map(book => (
         <Col key={book.isbn} xs='3' id = "column-hp">
             <Card id = "card-style-hp">
@@ -53,7 +64,7 @@ function HomePage(){
                 <ListGroup className="list-group-flush">
                     <ListGroupItem id = "lGI-links-hp">
                         {Cookies.get('userType') === 'admin' && 
-                             <Card.Link href="">Manage Book</Card.Link>
+                             <Button id = "but-mb-hp" onClick={() => makePopup(book)} >Edit Books</Button>
                         }
                         <Card.Link href={book.website}>More Info</Card.Link>
                         <Card.Link href="">Add To Cart</Card.Link>
@@ -64,11 +75,32 @@ function HomePage(){
 
     ))
 
+    const manageBooksBar = (
+        <div id = "adddel-innercont-hp">
+            <div id = "titlecont-hp">
+                <h2>Manage Books</h2>
+            </div>
+            <div id = "buttoncont-hp">
+                <Button href = "/admin/AddBook"  >
+                    Add Book
+                </Button>
+                <Button>
+                    Delete Book
+                </Button>
+            </div>
+        </div>
+    )
+
     return (
         <div id = "background">
             <StoreNavbar homePage={true}/> 
             {alerts}
+            <div id = "adddel-outtercont-hp">
+                {Cookies.get('userType') === 'admin' &&
+                manageBooksBar}
+            </div>
             <Container id = "cont-hp">
+                {Cookies.get('userType') !== 'admin' &&
                 <Row className ="mx-auto" id = "promo-bestseller-row-hp">
                     <Col className ="mx-auto" id = "col-onsale-hp"> 
                         <div className="text-danger" id = "title-hp"> New Releases </div>
@@ -79,10 +111,12 @@ function HomePage(){
                         <BestSellers/>
                     </Col>
                 </Row>
+                }
                 <Row lg={3} >
                     {bookCards}
                 </Row>
             </Container>
+            <ManageBooksPopup show={showPopup} book={popupBook} close={closePopup}></ManageBooksPopup>
         </div>
     )
 

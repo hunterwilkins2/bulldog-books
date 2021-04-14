@@ -11,7 +11,6 @@ import Homepage from './components/Homepage'
 import Cart from './components/Cart'
 import Profile from './components/Profile'
 import Orders from './components/Orders'
-import Admin from './components/admin/Admin'
 import Checkout from './components/Checkout'
 import Login from './components/Login'
 import ManagePromotions from './components/admin/ManagePromotions'
@@ -33,7 +32,6 @@ function App() {
                 <Route path='/forgot' exact component={Forgot} />
                 <Route path='/reset-password' exact component={ResetPassword} />
                 <Route path='/confirmation' exact component={Confirmation} />
-                <Route path='/admin' exact component={Admin} />
                 <Route path='/user/cart' component={Cart}/>
                 <Route path='/user/checkout' component={Checkout}/>
                 <Route path='/user/orders' component={Orders}/>

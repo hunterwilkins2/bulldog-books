@@ -1,5 +1,6 @@
 
 
+
 #cont-hp {
     max-width: 90%;
     padding-bottom: 5%;
@@ -68,8 +69,16 @@
 }
 
 #lGI-links-hp {
+    /* background-color: transparent; */
+    text-align: center;
+}
+
+#but-mb-hp {
     background-color: transparent;
     text-align: center;
+    border: none;
+    color: rgb(15, 117, 241);
+
 }
 
 #image-hp {
@@ -78,4 +87,36 @@
     align-content: center
 }
 
+#adddel-outtercont-hp {
+    display: flex;
+    justify-content: center;
+    padding: 2vh;
+    margin-top: 2vh;
 
+
+}
+
+#adddel-innercont-hp {
+    background-color: rgb(53, 53, 53);
+    max-width: 80vh;
+    min-width: 80vh;
+
+    padding: 2vh;
+    border-radius: 5px;
+    border: 0.5px solid #ffffff;
+}
+
+#buttoncont-hp {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 1.5vh;
+
+
+}
+
+#titlecont-hp {
+    text-align: center;
+    padding-bottom: .5vh;
+    border-bottom: 2px solid black;
+    color: white;
+}
