@@ -4,6 +4,7 @@ import {Button, Card, Col, ListGroup, ListGroupItem, Form, Row} from 'react-boot
 import * as yup from 'yup'
 
 import StoreNavbar from '../StoreNavbar'
+import './../styles/ManagePromos.css'
 
 function ManagePromotions(){
     const [promotions, setPromotions] = useState([])
@@ -22,7 +23,8 @@ function ManagePromotions(){
         discount: yup.number()
             .min(0.01, 'Must be at least 1% off')
             .max(1.00, 'Cannot be more than free')
-            .required('Required'),
+            .required('Required'), 
+        isSent: yup.boolean().required()
     })
 
     async function fetchPromotions(){
@@ -71,6 +73,17 @@ function ManagePromotions(){
                     <ListGroup id = "lG-hp" className="list-group-flush">
                         <ListGroupItem id = "lGI-hp">Discount: {promotion.discount * 100}%</ListGroupItem>
                     </ListGroup>
+                    <ListGroup >
+                        <div id = "lG-buttons-hp">
+                            <div>
+                                <Button>Update</Button>
+                            </div>
+                            <div>
+                                <Button>Delete</Button>
+                            </div>
+                        </div>
+                    </ListGroup>
+
                 </Card>
             </Col>
         </>
@@ -204,7 +217,6 @@ function ManagePromotions(){
                                         />
                                     </Form.Group>
                                 </Form.Row>
-                                <pre>{JSON.stringify(values)}</pre>
                                 <Form.Row>
                                     <Button 
                                         variant="primary" 
