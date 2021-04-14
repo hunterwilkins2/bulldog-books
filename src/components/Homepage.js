@@ -75,30 +75,11 @@ function HomePage(){
 
     ))
 
-    const manageBooksBar = (
-        <div id = "adddel-innercont-hp">
-            <div id = "titlecont-hp">
-                <h2>Manage Books</h2>
-            </div>
-            <div id = "buttoncont-hp">
-                <Button href = "/admin/AddBook"  >
-                    Add Book
-                </Button>
-                <Button>
-                    Delete Book
-                </Button>
-            </div>
-        </div>
-    )
 
     return (
         <div id = "background">
             <StoreNavbar homePage={true}/> 
             {alerts}
-            <div id = "adddel-outtercont-hp">
-                {Cookies.get('userType') === 'admin' &&
-                manageBooksBar}
-            </div>
             <Container id = "cont-hp">
                 {Cookies.get('userType') !== 'admin' &&
                 <Row className ="mx-auto" id = "promo-bestseller-row-hp">
