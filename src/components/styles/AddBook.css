@@ -3,6 +3,7 @@
 #form-cont-adbks {
     display:flex;
     justify-content:center;
+    margin-top: 3vh;
 }
 
 #form-adbks {
@@ -12,4 +13,18 @@
     border-radius: 25px;
     max-width: 80vw;
     min-width: 80vw;
+}
+
+#title-adbks {
+    text-align: center;
+    margin-bottom: 3vh;
+}
+
+.form-row-adbks {
+    display:flex;
+    justify-content:space-between;
+}
+
+#addbut-adbks {
+    margin-top: 3vh;
 }
