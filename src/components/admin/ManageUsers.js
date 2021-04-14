@@ -49,24 +49,17 @@ function ManagePromotions(){
             <Col className = "col-list-manusers"> {users.userType} </Col>
             <div id = "but-cont-manusers">
                 <Col id = "col-susp-manusers">
-                    {(users.userType != 'admin') &&
                     <Button 
+                        disabled={users.userType === 'admin'}
                         id = "but-susp-manusers" 
                         value = {usersIndex} 
                         onClick = {async (event) => {await handleClick(event)}} 
                     >     
                         {(users.status == 'suspended' ? ('Unsuspend') : ('Suspend'))}
                     </Button>
-                    }   
                 </Col>
                 
-                <Col id = "col-type-manusers">
-                    <DropdownButton id = "but-type-manusers" title="Type">
-                        <Dropdown.Item> Admin </Dropdown.Item>  
-                        <Dropdown.Item> Employee </Dropdown.Item>  
-                        <Dropdown.Item> Customer </Dropdown.Item>
-                    </DropdownButton>
-                </Col>
+            
             </div>
         </Row>
 

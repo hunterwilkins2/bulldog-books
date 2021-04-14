@@ -40,11 +40,8 @@
     font-size: x-small;
 }
 
-#row-list-manusers {
-    max-width: 80vw;
-    padding: .25vh;
-    margin-top: .5vh;
-    margin-bottom: .5vh;
+.row-list-manusers {
+    margin: 5px
 }
 
 .col-list-manusers {
