@@ -42,8 +42,8 @@ function AddBook () {
             .max(100, 'Category must be betwen 1 and 100 characters')
             .required('Required'),
         cover: yup.string()
-            .min(1, 'Category must be betwen 1 and 200 characters')
-            .max(200, 'Category must be betwen 1 and 200 characters')
+            .min(1, 'Cover must be betwen 1 and 200 characters')
+            .max(200, 'Cover must be betwen 1 and 200 characters')
             .required('Required'),
         isbn: yup.string()
             .min(10, 'ISBN must be betwen 10 and 13 characters')
@@ -51,19 +51,22 @@ function AddBook () {
             .matches('^[0-9]*$', 'Can only contain numbers')
             .required('Required'),
         quantity: yup.string()
-            .min(1, 'ISBN must be betwen 1 and 6 characters')
-            .max(6, 'ISBN must be betwen 1 and 6 characters')
+            .min(1, 'Quantity must be betwen 1 and 6 digits')
+            .max(6, 'Quantity must be betwen 1 and 6 digits')
+            .matches('^[0-9]*$', 'Can only contain numbers')
+            .required('Required'),
+        threshold: yup.string()
+            .min(1, 'ISBN must be betwen 1 and 6 digits')
+            .max(6, 'ISBN must be betwen 1 and 6 digits')
             .matches('^[0-9]*$', 'Can only contain numbers')
             .required('Required'),
         buyPrice: yup.string()
-            .min(1, 'ISBN must be betwen 1 and 10 characters')
-            .max(10, 'ISBN must be betwen 1 and 10 characters')
-            // .matches('^(\d{1,5}|\d{0,5}\.\d{1,2})$', 'Can only contain numbers with 2 decimal places')
+            .min(1, 'buyPrice must be betwen 1 and 10 digits')
+            .max(10, 'buyPrice must be betwen 1 and 10 digits')
             .required('Required'),
         sellPrice: yup.string()
-            .min(1, 'ISBN must be betwen 1 and 10 characters')
-            .max(10, 'ISBN must be betwen 1 and 10 characters')
-            // .matches('^(\d{1,5}|\d{0,5}\.\d{1,2})$', 'Can only contain numbers with 2 decimal places')
+            .min(1, 'sellPrice must be betwen 1 and 10 digits')
+            .max(10, 'sellPrice must be betwen 1 and 10 digits')
             .required('Required'),
         publicationDate: yup.date()
             .max(currentDate, 'Cannot choose a future date')
@@ -90,6 +93,7 @@ function AddBook () {
                     sellPrice: '',
                     publicationDate: '',
                     publisher: '',
+                    threshold: ''
                 }}
                 onSubmit={ async (data) => {
                     let addBookData = {
@@ -142,7 +146,6 @@ function AddBook () {
                     values,
                     touched,
                     errors,
-                    // setSubmitting,
                     dirty,
                     isValid,
                 }) => (
@@ -155,7 +158,6 @@ function AddBook () {
                                     <Form.Label> Book Title </Form.Label>
                                     <Form.Control
                                         name="title"
-                                        placeholder="Learning JavaScript Design Patterns"
                                         value={values.title}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -168,7 +170,6 @@ function AddBook () {
                                     <Form.Label> Author </Form.Label>
                                     <Form.Control
                                         name="author"
-                                        placeholder="Addy Osmani"
                                         value={values.author}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -181,7 +182,6 @@ function AddBook () {
                                     <Form.Label> ISBN  </Form.Label>
                                     <Form.Control
                                         name="isbn"
-                                        placeholder="9781449331818"
                                         value={values.isbn}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -196,7 +196,6 @@ function AddBook () {
                                     <Form.Label> Edition </Form.Label>
                                     <Form.Control
                                         name="edition"
-                                        placeholder="2"
                                         value={values.edition}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -209,7 +208,6 @@ function AddBook () {
                                     <Form.Label> Category</Form.Label>
                                     <Form.Control
                                         name="category"
-                                        placeholder="Educational"
                                         value={values.category}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -222,7 +220,6 @@ function AddBook () {
                                     <Form.Label> Publisher </Form.Label>
                                     <Form.Control
                                         name="publisher"
-                                        placeholder="O Reilly Media"
                                         value={values.publisher}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -250,7 +247,7 @@ function AddBook () {
                                     <Form.Label> Cover </Form.Label>
                                     <Form.Control
                                         name="cover"
-                                        placeholder="https://addyosmani.com/resources/essentialjsdesignpatterns/cover/cover..."
+                                        placeholder="https://link-to-cover"
                                         value={values.cover}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -263,7 +260,6 @@ function AddBook () {
                                     <Form.Label> Quantity </Form.Label>
                                     <Form.Control
                                         name="quantity"
-                                        placeholder="50"
                                         value={values.quantity}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -278,7 +274,6 @@ function AddBook () {
                                     <Form.Label> Buy Price </Form.Label>
                                     <Form.Control
                                         name="buyPrice"
-                                        placeholder="10.59"
                                         value={values.buyPrice}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -291,7 +286,6 @@ function AddBook () {
                                     <Form.Label> Sell Price </Form.Label>
                                     <Form.Control
                                         name="sellPrice"
-                                        placeholder="11.52"
                                         value={values.sellPrice}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -303,8 +297,15 @@ function AddBook () {
                                 <Form.Group as={Col}>
                                     <Form.Label> Threshold </Form.Label>
                                     <Form.Control
+                                        name="threshold"
+                                        value={values.threshold}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        isValid={touched.threshold && !errors.threshold}
+                                        isInvalid={touched.threshold && errors.threshold} 
                                     />
                                 </Form.Group>
+                                <ErrorMessage name="threshold" />
                             </Form.Row>
                             <div id = "addbut-adbks">
                                 <Button 
