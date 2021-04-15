@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Form, Button, Alert } from 'react-bootstrap'
+import { Form, Button, Alert, Col } from 'react-bootstrap'
 import { Redirect } from 'react-router-dom'
 import { Formik, ErrorMessage} from 'formik'
 import * as yup from 'yup'
@@ -42,8 +42,8 @@ function AddBook () {
             .max(100, 'Category must be betwen 1 and 100 characters')
             .required('Required'),
         cover: yup.string()
-            .min(1, 'Category must be betwen 1 and 200 characters')
-            .max(200, 'Category must be betwen 1 and 200 characters')
+            .min(1, 'Cover must be betwen 1 and 200 characters')
+            .max(200, 'Cover must be betwen 1 and 200 characters')
             .required('Required'),
         isbn: yup.string()
             .min(10, 'ISBN must be betwen 10 and 13 characters')
@@ -51,19 +51,22 @@ function AddBook () {
             .matches('^[0-9]*$', 'Can only contain numbers')
             .required('Required'),
         quantity: yup.string()
-            .min(1, 'ISBN must be betwen 1 and 6 characters')
-            .max(6, 'ISBN must be betwen 1 and 6 characters')
+            .min(1, 'Quantity must be betwen 1 and 6 digits')
+            .max(6, 'Quantity must be betwen 1 and 6 digits')
+            .matches('^[0-9]*$', 'Can only contain numbers')
+            .required('Required'),
+        threshold: yup.string()
+            .min(1, 'ISBN must be betwen 1 and 6 digits')
+            .max(6, 'ISBN must be betwen 1 and 6 digits')
             .matches('^[0-9]*$', 'Can only contain numbers')
             .required('Required'),
         buyPrice: yup.string()
-            .min(1, 'ISBN must be betwen 1 and 10 characters')
-            .max(10, 'ISBN must be betwen 1 and 10 characters')
-            // .matches('^(\d{1,5}|\d{0,5}\.\d{1,2})$', 'Can only contain numbers with 2 decimal places')
+            .min(1, 'buyPrice must be betwen 1 and 10 digits')
+            .max(10, 'buyPrice must be betwen 1 and 10 digits')
             .required('Required'),
         sellPrice: yup.string()
-            .min(1, 'ISBN must be betwen 1 and 10 characters')
-            .max(10, 'ISBN must be betwen 1 and 10 characters')
-            // .matches('^(\d{1,5}|\d{0,5}\.\d{1,2})$', 'Can only contain numbers with 2 decimal places')
+            .min(1, 'sellPrice must be betwen 1 and 10 digits')
+            .max(10, 'sellPrice must be betwen 1 and 10 digits')
             .required('Required'),
         publicationDate: yup.date()
             .max(currentDate, 'Cannot choose a future date')
@@ -90,6 +93,7 @@ function AddBook () {
                     sellPrice: '',
                     publicationDate: '',
                     publisher: '',
+                    threshold: ''
                 }}
                 onSubmit={ async (data) => {
                     let addBookData = {
@@ -142,21 +146,18 @@ function AddBook () {
                     values,
                     touched,
                     errors,
-                    // setSubmitting,
                     dirty,
                     isValid,
-                    submitForm
                 }) => (
                     <div id = "form-cont-adbks">
                         {alerts}
                         <Form id = "form-adbks" onSubmit={handleSubmit}>
                             <h2 id = "title-adbks"> Add Book </h2>
-                            <Form.Row className="form-row-adbks">
-                                <Form.Group>
+                            <Form.Row>
+                                <Form.Group as={Col}>
                                     <Form.Label> Book Title </Form.Label>
                                     <Form.Control
                                         name="title"
-                                        placeholder="Learning JavaScript Design Patterns"
                                         value={values.title}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -165,11 +166,10 @@ function AddBook () {
                                     />
                                     <ErrorMessage name="title" />
                                 </Form.Group>
-                                <Form.Group>
+                                <Form.Group as={Col}>
                                     <Form.Label> Author </Form.Label>
                                     <Form.Control
                                         name="author"
-                                        placeholder="Addy Osmani"
                                         value={values.author}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -178,52 +178,10 @@ function AddBook () {
                                     />
                                     <ErrorMessage name="author" />
                                 </Form.Group>
-                                <Form.Group>
-                                    <Form.Label> Edition </Form.Label>
-                                    <Form.Control
-                                        name="edition"
-                                        placeholder="2"
-                                        value={values.edition}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        isValid={touched.edition && !errors.edition}
-                                        isInvalid={touched.edition && errors.edition} 
-                                    />
-                                    <ErrorMessage name="edition" />
-                                </Form.Group>
-                            </Form.Row>
-                            <Form.Row className="form-row-adbks">
-                                <Form.Group>
-                                    <Form.Label> Category</Form.Label>
-                                    <Form.Control
-                                        name="category"
-                                        placeholder="Educational"
-                                        value={values.category}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        isValid={touched.category && !errors.category}
-                                        isInvalid={touched.category && errors.category} 
-                                    />
-                                    <ErrorMessage name="category" />
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Label> Cover </Form.Label>
-                                    <Form.Control
-                                        name="cover"
-                                        placeholder="https://addyosmani.com/resources/essentialjsdesignpatterns/cover/cover..."
-                                        value={values.cover}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        isValid={touched.cover && !errors.cover}
-                                        isInvalid={touched.cover && errors.cover} 
-                                    />
-                                    <ErrorMessage name="cover" />
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Label> ISBN Number </Form.Label>
+                                <Form.Group as={Col}>
+                                    <Form.Label> ISBN  </Form.Label>
                                     <Form.Control
                                         name="isbn"
-                                        placeholder="9781449331818"
                                         value={values.isbn}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -233,49 +191,46 @@ function AddBook () {
                                     <ErrorMessage name="isbn" />
                                 </Form.Group>
                             </Form.Row>
-                            <Form.Row className="form-row-adbks">
-                                <Form.Group>
-                                    <Form.Label> Quantity </Form.Label>
+                            <Form.Row>
+                                <Form.Group as={Col}>
+                                    <Form.Label> Edition </Form.Label>
                                     <Form.Control
-                                        name="quantity"
-                                        placeholder="50"
-                                        value={values.quantity}
+                                        name="edition"
+                                        value={values.edition}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        isValid={touched.quantity && !errors.quantity}
-                                        isInvalid={touched.quantity && errors.quantity} 
+                                        isValid={touched.edition && !errors.edition}
+                                        isInvalid={touched.edition && errors.edition} 
                                     />
-                                    <ErrorMessage name="quantity" />
+                                    <ErrorMessage name="edition" />
                                 </Form.Group>
-                                <Form.Group>
-                                    <Form.Label> Buy Price </Form.Label>
+                                <Form.Group as={Col}>
+                                    <Form.Label> Category</Form.Label>
                                     <Form.Control
-                                        name="buyPrice"
-                                        placeholder="10.59"
-                                        value={values.buyPrice}
+                                        name="category"
+                                        value={values.category}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        isValid={touched.buyPrice && !errors.buyPrice}
-                                        isInvalid={touched.buyPrice && errors.buyPrice} 
+                                        isValid={touched.category && !errors.category}
+                                        isInvalid={touched.category && errors.category} 
                                     />
-                                    <ErrorMessage name="buyPrice" />
+                                    <ErrorMessage name="category" />
                                 </Form.Group>
-                                <Form.Group>
-                                    <Form.Label> Sell Price </Form.Label>
+                                <Form.Group as={Col}>
+                                    <Form.Label> Publisher </Form.Label>
                                     <Form.Control
-                                        name="sellPrice"
-                                        placeholder="11.52"
-                                        value={values.sellPrice}
+                                        name="publisher"
+                                        value={values.publisher}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        isValid={touched.sellPrice && !errors.sellPrice}
-                                        isInvalid={touched.sellPrice && errors.sellPrice} 
+                                        isValid={touched.publisher && !errors.publisher}
+                                        isInvalid={touched.publisher && errors.publisher} 
                                     />
-                                    <ErrorMessage name="sellPrice" />
+                                    <ErrorMessage name="publisher" />
                                 </Form.Group>
                             </Form.Row>
-                            <Form.Row className="form-row-adbks">
-                                <Form.Group>
+                            <Form.Row>
+                                <Form.Group as={Col}>
                                     <Form.Label> Publication Date </Form.Label>
                                     <Form.Control
                                         name="publicationDate"
@@ -288,26 +243,75 @@ function AddBook () {
                                     />
                                     <ErrorMessage name="publicationDate" />
                                 </Form.Group>
-                                <Form.Group>
-                                    <Form.Label> Publisher </Form.Label>
+                                <Form.Group as={Col}>
+                                    <Form.Label> Cover </Form.Label>
                                     <Form.Control
-                                        name="publisher"
-                                        placeholder="O Reilly Media"
-                                        value={values.publisher}
+                                        name="cover"
+                                        placeholder="https://link-to-cover"
+                                        value={values.cover}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        isValid={touched.publisher && !errors.publisher}
-                                        isInvalid={touched.publisher && errors.publisher} 
+                                        isValid={touched.cover && !errors.cover}
+                                        isInvalid={touched.cover && errors.cover} 
                                     />
-                                    <ErrorMessage name="publisher" />
+                                    <ErrorMessage name="cover" />
                                 </Form.Group>
+                                <Form.Group as={Col}>
+                                    <Form.Label> Quantity </Form.Label>
+                                    <Form.Control
+                                        name="quantity"
+                                        value={values.quantity}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        isValid={touched.quantity && !errors.quantity}
+                                        isInvalid={touched.quantity && errors.quantity} 
+                                    />
+                                    <ErrorMessage name="quantity" />
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col}>
+                                    <Form.Label> Buy Price </Form.Label>
+                                    <Form.Control
+                                        name="buyPrice"
+                                        value={values.buyPrice}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        isValid={touched.buyPrice && !errors.buyPrice}
+                                        isInvalid={touched.buyPrice && errors.buyPrice} 
+                                    />
+                                    <ErrorMessage name="buyPrice" />
+                                </Form.Group>
+                                <Form.Group as={Col}>
+                                    <Form.Label> Sell Price </Form.Label>
+                                    <Form.Control
+                                        name="sellPrice"
+                                        value={values.sellPrice}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        isValid={touched.sellPrice && !errors.sellPrice}
+                                        isInvalid={touched.sellPrice && errors.sellPrice} 
+                                    />
+                                    <ErrorMessage name="sellPrice" />
+                                </Form.Group>
+                                <Form.Group as={Col}>
+                                    <Form.Label> Threshold </Form.Label>
+                                    <Form.Control
+                                        name="threshold"
+                                        value={values.threshold}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        isValid={touched.threshold && !errors.threshold}
+                                        isInvalid={touched.threshold && errors.threshold} 
+                                    />
+                                </Form.Group>
+                                <ErrorMessage name="threshold" />
                             </Form.Row>
                             <div id = "addbut-adbks">
                                 <Button 
                                     variant="primary" 
                                     type="submit" 
                                     disabled={!(dirty && isValid)}
-                                    onClick={submitForm}
                                 > 
                                     Add 
                                 </Button>

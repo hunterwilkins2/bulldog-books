@@ -62,6 +62,10 @@ router.post('/login', async (req, res, next) => {
 
         const user = await User.login(email, password)
 
+        if(user.status === 'suspended') {
+            throw Error('User\'s account is suspended')
+        }
+
         const token = auth.createToken(user._id, user.status, user.userType)
 
         const cookieOptions = { 

@@ -2,7 +2,10 @@
 import {React, useEffect, useState} from 'react'
 import {Row, Col} from 'react-bootstrap'
 import {Button, DropdownButton, Dropdown} from 'react-bootstrap'
+import { Redirect } from 'react-router-dom'
 import StoreNavbar from '../StoreNavbar'
+import Cookies from 'js-cookie'
+
 import './../styles/ManageUsers.css'
 
 
@@ -10,29 +13,30 @@ function ManagePromotions(){
 
     const [user, setUsers] = useState([])
 
-    useEffect(() => {
-        async function fetchUsers(){
-            let usersGetData={
-                method: 'GET',
-                withCredentials: true,
-                credentials: 'include',
-                mode: 'cors',
-                cache: 'no-cache',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'https://localhost:3000',
-                    'Access-Control-Allow-Credentials': true,
-                },
-                redirect: 'follow',
-                referrerPolicy: 'no-referrer',
-            }
-            const response = await fetch('http://localhost:3000/api/users', usersGetData)
-            const data = await response.json()
-            if(data.errors) {
-                console.log(data.errors.split(';')) // TODO: Add a set erros hook (see Homepage.js)
-            }
-            await setUsers(data)
+    async function fetchUsers(){
+        let usersGetData={
+            method: 'GET',
+            withCredentials: true,
+            credentials: 'include',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                'Access-Control-Allow-Credentials': true,
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
         }
+        const response = await fetch('http://localhost:3000/api/users', usersGetData)
+        const data = await response.json()
+        if(data.errors) {
+            console.log(data.errors.split(';')) // TODO: Add a set erros hook (see Homepage.js)
+        }
+        await setUsers(data)
+    }
+
+    useEffect(() => {
         fetchUsers()
     }, [])
 
@@ -49,24 +53,17 @@ function ManagePromotions(){
             <Col className = "col-list-manusers"> {users.userType} </Col>
             <div id = "but-cont-manusers">
                 <Col id = "col-susp-manusers">
-                    {(users.userType != 'admin') &&
                     <Button 
+                        disabled={users.userType === 'admin'}
                         id = "but-susp-manusers" 
                         value = {usersIndex} 
                         onClick = {async (event) => {await handleClick(event)}} 
                     >     
                         {(users.status == 'suspended' ? ('Unsuspend') : ('Suspend'))}
                     </Button>
-                    }   
                 </Col>
                 
-                <Col id = "col-type-manusers">
-                    <DropdownButton id = "but-type-manusers" title="Type">
-                        <Dropdown.Item> Admin </Dropdown.Item>  
-                        <Dropdown.Item> Employee </Dropdown.Item>  
-                        <Dropdown.Item> Customer </Dropdown.Item>
-                    </DropdownButton>
-                </Col>
+            
             </div>
         </Row>
 
@@ -113,6 +110,8 @@ function ManagePromotions(){
             console.log('no errors')
         } 
 
+        fetchUsers()
+
 
     }
     
@@ -125,6 +124,7 @@ function ManagePromotions(){
         
         <div>
             <StoreNavbar/>
+            {Cookies.get('userType') !== 'admin' && <Redirect to='/'/>}
             <div id = "cont-manusers">
                 <Row id = "row-title-manusers">
                     <Col className = "col-title-manusers"> Last Name </Col>

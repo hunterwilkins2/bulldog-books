@@ -32,6 +32,11 @@ const verifyCustomer = (req, res, next) => {
                 res.status(401)
                 next(Error('Must be logged in'))
             } else {
+                if(decodedToken.status === 'suspended') {
+                    res.status(401)
+                    next(Error('User\'s account is suspended'))
+                }
+
                 if(decodedToken.status !== 'active') {
                     res.status(401)
                     next(Error('User must confirm their email'))
@@ -60,6 +65,11 @@ const verifyEmployee = (req, res, next) => {
                     next(Error('Only admins or employees can access that route'))
                 }
 
+                if(decodedToken.status === 'suspended') {
+                    res.status(401)
+                    next(Error('User\'s account is suspended'))
+                }
+
                 if(decodedToken.status !== 'active') {
                     res.status(401)
                     next(Error('User must confirm their email'))
@@ -85,6 +95,11 @@ const verifyAdmin = (req, res, next) => {
                 if(decodedToken.type !== 'admin') {
                     res.status(403)
                     next(Error('Only admins can access that route'))
+                }
+
+                if(decodedToken.status === 'suspended') {
+                    res.status(401)
+                    next(Error('User\'s account is suspended'))
                 }
 
                 if(decodedToken.status !== 'active') {

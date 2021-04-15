@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
 import { Navbar, Form, FormControl, Button, Nav, Dropdown, DropdownButton } from 'react-bootstrap'
-import { Basket, Search } from 'react-bootstrap-icons'
+import { Search } from 'react-bootstrap-icons'
 import { Link } from 'react-router-dom'
 import { getCookie, deleteCookie } from './cookie-parser'
 import Cookies from 'js-cookie'
@@ -44,26 +44,30 @@ function StoreNavbar({homePage=false, login=false}){
             {!login && 
 
             <Nav id = "nav-link-style" >
-                <DropdownButton id="button-profile" title="Profile">
-                    <Dropdown.Item href="/user/Profile">Profile</Dropdown.Item>
-                    <Dropdown.Item href="/user/Orders">Orders</Dropdown.Item>
-                </DropdownButton>
-
-                <Button id = "button-cart" href="/user/Cart" className="ml-2" variant="light"><Basket /> Cart</Button>{' '}
 
                 {Cookies.get('userType') === 'admin' && 
-                <>
-                    <Button href = "/admin/ManageUsers"  id = "button-cart" className="ml-2" variant="light" onClick={()=>console.log('clicked')}>Manage Users</Button>
-                    <Button href = "/admin/ManagePromotions"  id = "button-cart" className="ml-2" variant="light" onClick={()=>console.log('clicked')}>Manage Promotions</Button>
-                </>
+                <DropdownButton id="button-profile" title="Admin" className='button-navbar'>
+                    <Dropdown.Item  as={Link} to='/admin/AddBook'>Add Book</Dropdown.Item>
+                    <Dropdown.Item >Delete Book</Dropdown.Item>
+                    <Dropdown.Item  as={Link} to='/admin/ManageUsers'>Manage Users</Dropdown.Item>
+                    <Dropdown.Item  as={Link} to='/admin/ManagePromotions'>Manage Promotions</Dropdown.Item>
+                    
+                </DropdownButton>
                 }
 
-                <Button id = "button-login" onClick={logout}
-                    href={!getCookie('jwt') ? '/login' : '/'} 
-                    className="ml-2" 
-                    variant="outline-info">
-                    {!getCookie('jwt') ? 'Login' : 'Logout'}
-                </Button>{' '}
+                <DropdownButton id="button-profile" title="Profile" className='button-navbar'>
+                    <Dropdown.Item  as={Link} to='/user/Profile'>Profile</Dropdown.Item>
+                    <Dropdown.Item  as={Link} to='/user/Orders'>Orders</Dropdown.Item>
+                    <Dropdown.Item  as={Link} to='/user/Cart'>Cart</Dropdown.Item>
+                </DropdownButton>
+
+                <Link to={!getCookie('jwt') ? '/login' : '/'}>
+                    <Button id = "button-login" onClick={logout}
+                        className="ml-2" 
+                        variant="outline-info">
+                        {!getCookie('jwt') ? 'Login' : 'Logout'}
+                    </Button>{' '}
+                </Link>
             </Nav>
             }
 
