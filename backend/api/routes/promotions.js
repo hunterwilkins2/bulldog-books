@@ -7,7 +7,7 @@ const Promotion = require('../models/Promotion.model')
 const router = express.Router()
 
 // Read all promotions
-router.get('/', async (req, res, next) => {
+router.get('/', auth.verifyEmployee, async (req, res, next) => {
     try {
         const promotions = await Promotion.find()
         res.json(promotions)
@@ -17,7 +17,7 @@ router.get('/', async (req, res, next) => {
 })
 
 // Create one promotion
-router.post('/', auth.verifyAdmin, async (req, res, next) => {
+router.post('/', auth.verifyEmployee, async (req, res, next) => {
     try {
         const { startDate, 
             endDate,
@@ -34,7 +34,7 @@ router.post('/', auth.verifyAdmin, async (req, res, next) => {
 
         if(isSent) {
             await (await User.find({ recievePromotions : true })).forEach(function (doc) {
-                mailer.sendMail(doc.email, `New Promotion Code: ${promotion.title}`, `Use the promotion code ${promotion.title} from ${promotion.startDate} to ${promotion.endDate} for ${100 * promotion.discount}% off!`)
+                mailer.sendMail(doc.email, `New Promotion Code: ${promotion.title}`, `Use the promotion code ${promotion.title} from ${promotion.startDate} to ${promotion.endDate} for ${100 *promotion.discount}% off!`)
             })
         }
 
@@ -44,7 +44,7 @@ router.post('/', auth.verifyAdmin, async (req, res, next) => {
     }
 })
 
-router.post('/send-promotion', async (req, res, next) => {
+router.post('/send-promotion', auth.verifyEmployee, async (req, res, next) => {
     try {
         const { id } = req.body
 
@@ -62,7 +62,7 @@ router.post('/send-promotion', async (req, res, next) => {
     }
 })
 
-router.patch('/', async (req, res, next) => {
+router.patch('/', auth.verifyEmployee, async (req, res, next) => {
     try {
         const { id, 
             startDate, 
@@ -84,7 +84,7 @@ router.patch('/', async (req, res, next) => {
     }
 })
 
-router.delete('/', async (req, res, next) => {
+router.delete('/', auth.verifyEmployee, async (req, res, next) => {
     try {
         const { id } = req.body
 
