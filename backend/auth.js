@@ -32,7 +32,7 @@ const verifyCustomer = (req, res, next) => {
                 res.status(401)
                 next(Error('Must be logged in'))
             } else {
-                if(decodedToken.status !== 'suspended') {
+                if(decodedToken.status === 'suspended') {
                     res.status(401)
                     next(Error('User\'s account is suspended'))
                 }
@@ -65,7 +65,7 @@ const verifyEmployee = (req, res, next) => {
                     next(Error('Only admins or employees can access that route'))
                 }
 
-                if(decodedToken.status !== 'suspended') {
+                if(decodedToken.status === 'suspended') {
                     res.status(401)
                     next(Error('User\'s account is suspended'))
                 }
@@ -97,7 +97,7 @@ const verifyAdmin = (req, res, next) => {
                     next(Error('Only admins can access that route'))
                 }
 
-                if(decodedToken.status !== 'suspended') {
+                if(decodedToken.status === 'suspended') {
                     res.status(401)
                     next(Error('User\'s account is suspended'))
                 }
