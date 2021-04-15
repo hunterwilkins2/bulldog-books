@@ -22,12 +22,12 @@ router.post('/', auth.verifyEmployee, async (req, res, next) => {
         const { startDate, 
             endDate,
             title, 
-            discount,
-            isSent } = req.body
+            discount} = req.body
 
-        const doesPromotionExist = await Promotion.findOne({ title })
+        const doesPromotionExist = await Promotion.find({ title })
 
         console.log(doesPromotionExist)
+        console.log(doesPromotionExist.length)
 
         if(doesPromotionExist && doesPromotionExist.length > 0) {
             throw Error('Promotion with the same title already exists')
@@ -38,13 +38,11 @@ router.post('/', auth.verifyEmployee, async (req, res, next) => {
             endDate: endDate,
             title: title,
             discount: discount,
-            isSent })
+            isSent: true })
 
-        if(isSent) {
-            await (await User.find({ recievePromotions : true })).forEach(function (doc) {
-                mailer.sendMail(doc.email, `New Promotion Code: ${promotion.title}`, `Use the promotion code ${promotion.title} from ${promotion.startDate} to ${promotion.endDate} for ${100 *promotion.discount}% off!`)
-            })
-        }
+        await (await User.find({ recievePromotions : true })).forEach(function (doc) {
+            mailer.sendMail(doc.email, `New Promotion Code: ${promotion.title}`, `Use the promotion code ${promotion.title} from ${promotion.startDate} to ${promotion.endDate} for ${100 *promotion.discount}% off!`)
+        })
 
         res.json(promotion)
     } catch(error) {
@@ -78,10 +76,12 @@ router.patch('/', auth.verifyEmployee, async (req, res, next) => {
             title,
             discount
         } = req.body
-        
+        console.log('id', id)
+        console.log('title', title)
         const promotion = await Promotion.findById(id)
 
         if(!promotion.isSent) {
+            console.log(id)
             await Promotion.findByIdAndUpdate(id, { startDate, endDate, title, discount} )
         } else {
             throw Error('Cannot update a promotion that has already been sent to customers')
