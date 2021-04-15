@@ -4,6 +4,8 @@ import {Button, Card, Col, ListGroup, ListGroupItem, Form, Row, Alert} from 'rea
 import * as yup from 'yup'
 
 import StoreNavbar from '../StoreNavbar'
+import UpdatePromos from './UpdatePromos'
+
 import './../styles/ManagePromos.css'
 
 function ManagePromotions(){
@@ -141,14 +143,20 @@ function ManagePromotions(){
                             <div>
                                 <Button
                                     disabled={promotion.isSent}
-                                >Update</Button>
+                                    onClick = {() => UpdatePromos(promotion)}
+                                >
+                                    Update
+                                </Button>
+                                
                             </div>
                             <div>
                                 <Button 
                                     disabled={promotion.isSent}
                                     onClick={async (event) => {await handleDelete(event)}}
                                     value={promotionIndex}
-                                >Delete</Button>
+                                >
+                                    Delete
+                                </Button>
                             </div>
                             <div>
                                 <Button 
