@@ -62,7 +62,7 @@ function ManagePromotions(){
             console.log(data.errors.split(';')) 
             setErrors(data.errors.split(';'))
         }
-        setPromotions(data)
+        await setPromotions(data)
     }
 
     useEffect(() => {
@@ -93,7 +93,7 @@ function ManagePromotions(){
             console.log(data.errors.split(';')) 
             setErrors(data.errors.split(';'))
         }
-        fetchPromotions()
+        await fetchPromotions()
     }
     async function handleDelete(event){
         console.log(promotions[event.target.value]._id)
@@ -121,7 +121,7 @@ function ManagePromotions(){
             console.log(data.errors.split(';')) 
             setErrors(data.errors.split(';'))
         }
-        fetchPromotions()
+        await fetchPromotions()
     }
 
     const promotionCards = promotions.map((promotion, promotionIndex) => (
@@ -195,7 +195,7 @@ function ManagePromotions(){
                                             console.log('no errors')
                                         }    
                             
-                                        fetchPromotions()
+                                        await fetchPromotions()
                                     }}
                                 >{({
                                         handleSubmit,

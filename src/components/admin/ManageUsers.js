@@ -110,7 +110,7 @@ function ManagePromotions(){
             console.log('no errors')
         } 
 
-        fetchUsers()
+        await fetchUsers()
 
 
     }
