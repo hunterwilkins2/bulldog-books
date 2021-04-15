@@ -1,10 +1,10 @@
 import {React, useEffect, useState} from 'react'
 import { Formik } from 'formik'
-import {Button, Card, Col, ListGroup, ListGroupItem, Form, Row, Alert} from 'react-bootstrap'
+import {Button, Card, Col, ListGroup, ListGroupItem, Form, Row, Alert, Modal} from 'react-bootstrap'
 import * as yup from 'yup'
 
 import StoreNavbar from '../StoreNavbar'
-import UpdatePromos from './UpdatePromos'
+// import UpdatePromos from './UpdatePromos'
 
 import './../styles/ManagePromos.css'
 
@@ -12,6 +12,9 @@ function ManagePromotions(){
     const [promotions, setPromotions] = useState([])
     const [errors, setErrors] = useState([])
 
+    const [show, setShow] = useState(false)
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
 
     const alerts = errors.map(error => 
         <Alert key={error} variant='danger'>
@@ -141,13 +144,48 @@ function ManagePromotions(){
                     <ListGroup >
                         <div id = "lG-buttons-hp">
                             <div>
-                                <Button
-                                    disabled={promotion.isSent}
-                                    onClick = {() => UpdatePromos(promotion)}
-                                >
-                                    Update
-                                </Button>
-                                
+                                <>
+                                    <Button 
+                                        variant="primary" 
+                                        onClick={handleShow}
+                                        disabled={promotion.isSent}
+                                        value={promotionIndex}
+                                    >
+                                        Update
+                                    </Button>
+                                    <Modal show={show} onHide={handleClose} animation={false}>
+                                        <Modal.Header>Update Promo</Modal.Header>
+                                        <Modal.Body>
+                                            <Form>
+                                                <Form.Group>
+                                                    <Form.Label>Title</Form.Label>
+                                                    <Form.Control placeholder='title' />
+                                                </Form.Group>
+                                                <Form.Group>
+                                                    <Form.Label>Start Date</Form.Label>
+                                                    <Form.Control placeholder='startDate' />
+                                                </Form.Group>
+                                                <Form.Group>
+                                                    <Form.Label>End Date</Form.Label>
+                                                    <Form.Control placeholder='endDate' />
+                                                </Form.Group>
+                                                <Form.Group>
+                                                    <Form.Label>Discount</Form.Label>
+                                                    <Form.Control placeholder='discount' />
+                                                </Form.Group>
+                                            </Form>
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                            <Button variant="secondary" onClick={handleClose}>
+                                                Close
+                                            </Button>
+                                            <Button variant="primary">
+                                                Save Changes
+                                            </Button>
+                                        </Modal.Footer>
+                                    </Modal>
+                                </>
+
                             </div>
                             <div>
                                 <Button 
