@@ -29,7 +29,7 @@ router.post('/', auth.verifyEmployee, async (req, res, next) => {
 
         console.log(doesPromotionExist)
 
-        if(doesPromotionExist) {
+        if(doesPromotionExist.length > 0) {
             throw Error('Promotion with the same title already exists')
         }
         
