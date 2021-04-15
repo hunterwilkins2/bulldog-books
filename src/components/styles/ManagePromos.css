@@ -1,6 +1,46 @@
 
 
-#lG-buttons-hp {
+#h1-style-cart {
+    padding: 2vh;
+}
+
+#lG-buttons-mp {
     display: flex;
     justify-content: space-around;
+}
+
+#lG-hp {
+    font-size:small;
+}
+
+#lGI-title-hp {
+    text-align: center;
+}
+
+#promo-card-title-mp {
+    color: white;
+    text-align: center;
+    margin-top: 3vh;
+}
+
+#promocard-cont-mp {
+    padding-left: 2vw;
+    padding-right: 2vw;
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.but-mp {
+    max-width: 12vh;
+    min-width: fit-content;
+    font-size: xx-small;
+    padding-left: -1vw;
+    padding-right: -1vw;
+    margin-top:.5vh;
+}
+
+#form-style-profile-mp {
+    max-height: 45vh;
+    min-height: 45vh;
 }
