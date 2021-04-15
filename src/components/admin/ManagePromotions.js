@@ -311,7 +311,7 @@ function ManagePromotions(){
         <div id = "background">
             <StoreNavbar/> 
             {Cookies.get('userType') !== 'admin' && <Redirect to='/'/>}
-            <h1 id = "h1-style-cart">Manage Promotions</h1>
+            <h2 id = "h2-style-cart">Manage Promotions</h2>
             <Row className="justify-content-md-center">
                 <Col xs={6}>
                     <Formik
@@ -369,12 +369,12 @@ function ManagePromotions(){
                             isValid
                         }) => ( 
                             <Form id = "form-style-profile" onSubmit={handleSubmit}>
-                                <h3>Enter New Promotion</h3>
+                                <h3 id = "form-title-mp">Enter New Promotion</h3>
                                 {alerts}
                                 <Form.Row>
                                     <Form.Group as={Col}>
-                                        <Form.Label>Promotion Title</Form.Label>
-                                        <Form.Control
+                                        <Form.Label className = "form-label-mp">Promotion Title</Form.Label>
+                                        <Form.Control className = "control-label-mp"
                                             name = 'title' 
                                             placeholder = 'PROMOTITLE'
                                             value={values.title}
@@ -387,8 +387,8 @@ function ManagePromotions(){
                                 </Form.Row>
                                 <Form.Row>
                                     <Form.Group as={Col}>
-                                        <Form.Label>Start Date</Form.Label>
-                                        <Form.Control 
+                                        <Form.Label className = "form-label-mp">Start Date</Form.Label>
+                                        <Form.Control className = "control-label-mp"
                                             name='startDate'
                                             type='date'
                                             value={values.startDate}
@@ -399,8 +399,8 @@ function ManagePromotions(){
                                         />
                                     </Form.Group>
                                     <Form.Group as={Col}>
-                                        <Form.Label>End Date</Form.Label>
-                                        <Form.Control 
+                                        <Form.Label className = "form-label-mp">End Date</Form.Label>
+                                        <Form.Control className = "control-label-mp"
                                             name='endDate'
                                             type='date'
                                             value={values.endDate}
@@ -413,8 +413,8 @@ function ManagePromotions(){
                                 </Form.Row>
                                 <Form.Row>
                                     <Form.Group as={Col}>
-                                        <Form.Label>Discount</Form.Label>
-                                        <Form.Control 
+                                        <Form.Label className = "form-label-mp">Discount</Form.Label>
+                                        <Form.Control className = "control-label-mp"
                                             name='discount'
                                             placeholder='0.20'
                                             value={values.discount}
@@ -426,7 +426,7 @@ function ManagePromotions(){
                                     </Form.Group>
                                 </Form.Row>
                                 <Form.Row>
-                                    <Form.Group as={Col}>
+                                    <Form.Group id = "form-check-mp" as={Col}>
                                         <Form.Check 
                                             name='isSent'
                                             label="Send Promotion Now"
@@ -450,7 +450,7 @@ function ManagePromotions(){
                         )}</Formik>
                 </Col>
             </Row>
-            <h1 id = "promo-card-title-mp"> Current and Past Promotions </h1>
+            <h2 id = "promo-card-title-mp"> Current and Past Promotions </h2>
             <Row id = "promocard-cont-mp" >
                 {promotionCards}
             </Row>

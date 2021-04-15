@@ -1,7 +1,10 @@
 
 
-#h1-style-cart {
+#h2-style-cart {
     padding: 2vh;
+    color: white;
+    text-align: center;
+
 }
 
 #lG-buttons-mp {
@@ -40,7 +43,24 @@
     margin-top:.5vh;
 }
 
-#form-style-profile-mp {
-    max-height: 45vh;
-    min-height: 45vh;
+#form-style-profile {
+    max-height: fit-content;
+    min-height: fit-content;
+}
+
+#form-title-mp {
+    text-align: center;
+    font-size: larger;
+}
+
+.form-label-mp {
+    font-size: small;
+}
+
+.control-label-mp {
+    font-size: small;
+}
+
+#form-check-mp {
+    font-size: small;
 }
