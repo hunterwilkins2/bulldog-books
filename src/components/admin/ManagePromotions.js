@@ -6,7 +6,6 @@ import * as yup from 'yup'
 import Cookies from 'js-cookie'
 
 import StoreNavbar from '../StoreNavbar'
-// import UpdatePromos from './UpdatePromos'
 
 import './../styles/ManagePromos.css'
 

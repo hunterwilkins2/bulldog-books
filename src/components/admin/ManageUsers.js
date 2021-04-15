@@ -2,7 +2,10 @@
 import {React, useEffect, useState} from 'react'
 import {Row, Col} from 'react-bootstrap'
 import {Button, DropdownButton, Dropdown} from 'react-bootstrap'
+import { Redirect } from 'react-router-dom'
 import StoreNavbar from '../StoreNavbar'
+import Cookies from 'js-cookie'
+
 import './../styles/ManageUsers.css'
 
 
@@ -121,6 +124,7 @@ function ManagePromotions(){
         
         <div>
             <StoreNavbar/>
+            {Cookies.get('userType') !== 'admin' && <Redirect to='/'/>}
             <div id = "cont-manusers">
                 <Row id = "row-title-manusers">
                     <Col className = "col-title-manusers"> Last Name </Col>
