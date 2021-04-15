@@ -63,7 +63,32 @@ function ManagePromotions(){
         fetchPromotions()
     }, [])
 
-
+    async function handleEmail(event){
+        let promoSendData={
+            method: 'POST',
+            withCredentials: true,
+            credentials: 'include',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                'Access-Control-Allow-Credentials': true,
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify({
+                'id': promotions[event.target.value]._id
+            })
+        }
+        const response = await fetch('http://localhost:3000/api/promotions/send-promotion', promoSendData)
+        const data = await response.json()
+        if(data.errors) {
+            console.log(data.errors.split(';')) 
+            setErrors(data.errors.split(';'))
+        }
+        fetchPromotions()
+    }
     async function handleDelete(event){
         console.log(promotions[event.target.value]._id)
 
@@ -114,13 +139,23 @@ function ManagePromotions(){
                     <ListGroup >
                         <div id = "lG-buttons-hp">
                             <div>
-                                <Button>Update</Button>
+                                <Button
+                                    disabled={promotion.isSent}
+                                >Update</Button>
                             </div>
                             <div>
                                 <Button 
+                                    disabled={promotion.isSent}
                                     onClick={async (event) => {await handleDelete(event)}}
                                     value={promotionIndex}
                                 >Delete</Button>
+                            </div>
+                            <div>
+                                <Button 
+                                    disabled={promotion.isSent}
+                                    onClick={async (event) => {await handleEmail(event)}}
+                                    value={promotionIndex}
+                                >Email</Button>
                             </div>
                         </div>
                     </ListGroup>
