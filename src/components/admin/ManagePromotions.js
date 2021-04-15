@@ -4,6 +4,7 @@ import {Button, Card, Col, ListGroup, ListGroupItem, Form, Row, Alert, Modal} fr
 import { Redirect } from 'react-router-dom'
 import * as yup from 'yup'
 import Cookies from 'js-cookie'
+import moment from 'moment'
 
 import StoreNavbar from '../StoreNavbar'
 
@@ -17,6 +18,8 @@ function ManagePromotions(){
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
 
+    const currentDate = moment().format('YYYY-MM-DD')
+
     const alerts = errors.map(error => 
         <Alert key={error} variant='danger'>
             {error}
@@ -29,7 +32,7 @@ function ManagePromotions(){
             .max(100, 'Title must be betwen 1 and 100 characters')
             .required('Required'),
         startDate: yup.date()
-            .min(new Date())
+            .min(currentDate)
             .required('Required'),
         endDate: yup.date()
             .min(yup.ref('startDate'))
@@ -62,7 +65,7 @@ function ManagePromotions(){
             console.log(data.errors.split(';')) 
             setErrors(data.errors.split(';'))
         }
-        setPromotions(data)
+        await setPromotions(data)
     }
 
     useEffect(() => {
@@ -93,7 +96,7 @@ function ManagePromotions(){
             console.log(data.errors.split(';')) 
             setErrors(data.errors.split(';'))
         }
-        fetchPromotions()
+        await fetchPromotions()
     }
     async function handleDelete(event){
         console.log(promotions[event.target.value]._id)
@@ -121,7 +124,7 @@ function ManagePromotions(){
             console.log(data.errors.split(';')) 
             setErrors(data.errors.split(';'))
         }
-        fetchPromotions()
+        await fetchPromotions()
     }
 
     const promotionCards = promotions.map((promotion, promotionIndex) => (
@@ -195,7 +198,7 @@ function ManagePromotions(){
                                             console.log('no errors')
                                         }    
                             
-                                        fetchPromotions()
+                                        await fetchPromotions()
                                     }}
                                 >{({
                                         handleSubmit,
