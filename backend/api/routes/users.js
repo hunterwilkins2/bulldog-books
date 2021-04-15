@@ -93,7 +93,7 @@ router.patch('/unsuspend', auth.verifyAdmin, async (req, res, next) => {
             throw Error('Cannot unsuspend an admin user')
 
         const user = await User.findOneAndUpdate({ email }, 
-            { status: 'inactive'},
+            { status: 'active'},
             { projection: 'status userType firstName lastName email dateJoined recievePromotions', new: true },
         )
         
