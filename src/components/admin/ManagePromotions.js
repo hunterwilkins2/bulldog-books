@@ -321,7 +321,7 @@ function ManagePromotions(){
                             startDate: '',
                             endDate: '',
                             discount: '',
-                            isSent: true
+                            isSent: false
                         }}
                         validationSchema={validationSchema}
                         onSubmit={async (data) => {
