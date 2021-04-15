@@ -1,9 +1,13 @@
 # Test Cases
-
 ## Template: Test case name
 - Write a sentence about what your test is testing
 - Write a sentence about what you expected to happen
 - Write a sentence about what actually happened
+
+## Create and Delete a Book from Category
+- Admin adds a new book to category
+- Book should be updated in Categories list
+- Book is updated
 
 # Promotion Test Cases
 ## Valid Promotion Entered
