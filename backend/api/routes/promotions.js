@@ -25,7 +25,7 @@ router.post('/', auth.verifyEmployee, async (req, res, next) => {
             discount,
             isSent } = req.body
 
-        const doesPromotionExist = await Promotion.findOne({ title })
+        const doesPromotionExist = await Promotion.find({ title })
 
         console.log(doesPromotionExist)
 
