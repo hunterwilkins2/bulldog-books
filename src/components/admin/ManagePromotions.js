@@ -1,7 +1,9 @@
 import {React, useEffect, useState} from 'react'
 import { Formik } from 'formik'
 import {Button, Card, Col, ListGroup, ListGroupItem, Form, Row, Alert, Modal} from 'react-bootstrap'
+import { Redirect } from 'react-router-dom'
 import * as yup from 'yup'
+import Cookies from 'js-cookie'
 
 import StoreNavbar from '../StoreNavbar'
 // import UpdatePromos from './UpdatePromos'
@@ -306,6 +308,7 @@ function ManagePromotions(){
     return(
         <div id = "background">
             <StoreNavbar/> 
+            {Cookies.get('userType') !== 'admin' && <Redirect to='/'/>}
             <h1 id = "h1-style-cart">Manage Promotions</h1>
             <Row className="justify-content-md-center">
                 <Col xs={6}>
