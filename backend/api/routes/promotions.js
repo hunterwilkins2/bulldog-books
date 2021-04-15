@@ -78,13 +78,7 @@ router.patch('/', auth.verifyEmployee, async (req, res, next) => {
             title,
             discount
         } = req.body
-
-        const doesPromotionExist = await Promotion.findOne({ title })
-
-        if(doesPromotionExist._id != id) {
-            throw Error('Promotion with the same title already exists')
-        }
-
+        
         const promotion = await Promotion.findById(id)
 
         if(!promotion.isSent) {
