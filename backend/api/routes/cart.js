@@ -3,19 +3,6 @@ const Cart = require('../models/Cart.model')
 const auth = require('../../auth')
 const router = express.Router()
 
-// Make new cart
-router.post('/', auth.verifyCustomer, async (req, res, next) => {
-    try {
-        const id = auth.getId(req.cookies.jwt)
-        const cart = new Cart({
-            user: id
-        })
-        await cart.save()
-    } catch(error) {
-        next(error)
-    }
-})
-
 // Delete cart
 router.delete('/', auth.verifyCustomer, async (req, res, next) => {
     try {
@@ -31,7 +18,7 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
     try {
         const { bookID, quantity} = req.body
         const id = auth.getId(req.cookies.jwt)
-        const cart = await Cart.findOne({user : id})
+        const cart = await Cart.findByIdAndDelete(id)
         cart.books.push({book: bookID, bookQuantity: quantity})
     } catch(error) {
         next(error)
@@ -43,7 +30,7 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
 router.get('/', auth.verifyCustomer, async (req, res, next) => {
     try {
         const id = auth.getId(req.cookies.jwt)
-        const cart = await Cart.findOne({user : id})
+        const cart = await Cart.findByIdAndDelete(id)
         res.json(cart.books)
     } catch(error) {
         next(error)
@@ -52,11 +39,11 @@ router.get('/', auth.verifyCustomer, async (req, res, next) => {
 
 
 // Delete books from cart
-router.delete('/', auth.verifyCustomer, async (req, res, next) => {
+router.delete('/deleteBook', auth.verifyCustomer, async (req, res, next) => {
     try {
         const { bookID, quantity} = req.body
         const id = auth.getId(req.cookies.jwt)
-        const cart = await Cart.findOne({user : id})
+        const cart = await Cart.findByIdAndDelete(id)
         cart.books.pop({book: bookID, bookQuantity: quantity})
     } catch(error) {
         next(error)
