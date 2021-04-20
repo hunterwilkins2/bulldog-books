@@ -24,15 +24,42 @@ function HomePage(){
 
     const [books, setBooks] = useState([])
 
-    useEffect(() => {
-        async function fetchBooks(){
-            const response = await fetch('http://localhost:3000/api/books')
-            const data = await response.json()
-            if(data.errors) {
-                setErrors(data.errors.split(';'))
-            }
-            setBooks(data)
+    // useEffect(() => {
+    //     async function fetchBooks(){
+    //         const response = await fetch('http://localhost:3000/api/books')
+    //         const data = await response.json()
+    //         if(data.errors) {
+    //             setErrors(data.errors.split(';'))
+    //         }
+    //         await setBooks(data)
+    //     }
+
+    async function fetchBooks(){
+        let booksGetData={
+            method: 'GET',
+            withCredentials: true,
+            credentials: 'include',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                'Access-Control-Allow-Credentials': true,
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
         }
+        const response = await fetch('http://localhost:3000/api/books', booksGetData)
+        const data = await response.json()
+        if(data.errors) {
+            console.log(data.errors.split(';')) 
+            setErrors(data.errors.split(';'))
+        }
+        await setBooks(data)
+        console.log(data)
+    }
+
+    useEffect(() => {
         fetchBooks()
     }, [])
 
@@ -43,6 +70,33 @@ function HomePage(){
         setPopupBook(book)
     }
     const closePopup = () => setShowPopup(false)
+
+    async function handleDelete(isbn){
+        // console.log(books[event.target.value].isbn)
+        console.log(isbn)
+
+        let booksDeleteData={
+            method: 'DELETE',
+            withCredentials: true,
+            credentials: 'include',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                'Access-Control-Allow-Credentials': true,
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+        }
+        const response = await fetch(`http://localhost:3000/api/books/${isbn}`, booksDeleteData)
+        const data = await response.json()
+        if(data.errors) {
+            console.log(data.errors.split(';')) 
+            setErrors(data.errors.split(';'))
+        }
+        await fetchBooks()
+    }
 
 
     const bookCards = books.map(book => (
@@ -64,7 +118,10 @@ function HomePage(){
                 <ListGroup className="list-group-flush">
                     <ListGroupItem id = "lGI-links-hp">
                         {Cookies.get('userType') === 'admin' && 
-                             <Button id = "but-mb-hp" onClick={() => makePopup(book)} >Edit Books</Button>
+                            <div>
+                                <Button id = "but-mb-hp" onClick={() => makePopup(book)} >Edit</Button>
+                                <Button id = "but-mb-hp" value = {book.isbn}  onClick={() => handleDelete(book.isbn)} > Delete </Button>
+                            </div>
                         }
                         <Card.Link href={book.website}>More Info</Card.Link>
                         <Card.Link href="">Add To Cart</Card.Link>

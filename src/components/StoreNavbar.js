@@ -48,7 +48,6 @@ function StoreNavbar({homePage=false, login=false}){
                 {Cookies.get('userType') === 'admin' && 
                 <DropdownButton id="button-profile" title="Admin" className='button-navbar'>
                     <Dropdown.Item  as={Link} to='/admin/AddBook'>Add Book</Dropdown.Item>
-                    <Dropdown.Item >Delete Book</Dropdown.Item>
                     <Dropdown.Item  as={Link} to='/admin/ManageUsers'>Manage Users</Dropdown.Item>
                     <Dropdown.Item  as={Link} to='/admin/ManagePromotions'>Manage Promotions</Dropdown.Item>
                     
