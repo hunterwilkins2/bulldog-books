@@ -8,7 +8,7 @@ const orderSchema = Schema({
     tax: { type: Number, required: true },
     delivery: { type: Number, required: true },
     total: { type: Number, required: true },
-    promotions: { type: OBJECT_ID, ref: 'Promotion' },
+    promotion: { type: OBJECT_ID, ref: 'Promotion' },
     customer: {type: OBJECT_ID, ref: 'User' },
     paymentCard: {type: OBJECT_ID, ref: 'Payment' },
     bookOrderList: {
