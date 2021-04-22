@@ -1,4 +1,5 @@
 const express = require('express')
+const User = require('../models/User.model')
 const Order = require('../models/Order.model')
 const Book = require('../models/Book.model')
 const Cart = require('../models/Cart.model')
@@ -7,6 +8,15 @@ const auth = require('../../auth')
 const mailer = require('../../email')
 
 const router = express.Router()
+
+const findBooks = async (cartItemSchema) => {
+    const books = []
+    for(var book in cartItemSchema) {
+        books.push({book: await Book.findById(book.book), bookQuantity: book.bookQuantity})
+    }
+
+    return books
+}
 
 // router.get('/all-orders', auth.verifyAdmin, async (req, res, next) => {
 //     try {
@@ -56,26 +66,22 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
     try {
 
         const id = auth.getId(req.cookies.jwt)
-        const paymentId = req.body.payment
-        const promotionId = req.body.promotion
+        const { paymentId, promotionTitle } = req.body
 
         const cart = await Cart.findOne({ user: id })
+        const cartBooks = await findBooks(cart.bookOrderList)
+        const promotion = await Promotion.findOne(promotionTitle)
 
-        const ids = cart.books.map(schema => schema.book)
-        const books = await Book.find({ '_id': { $in: ids } }, 'sellPrice')
-
-        const promotion = await Promotion.findById(promotionId)
-
-        if(promotion.startDate < Date.now()) {
+        if(!promotion) {
+            throw Error('Invalid promotion title')
+        } else if(promotion.startDate < Date.now()) {
             throw Error('Promotion cannot be used. Promotion hasn\'t started yet')
-        }
-
-        if(promotion.endDate > Date.now()) {
+        } else if(promotion.endDate > Date.now()) {
             throw Error('Promotion cannot be used. Promotion has already ended')
         }
 
         const promotionAmount = promotion.discount
-        const subtotal = (1 - promotionAmount) * books.reduce(0, (acc, book) => acc + book.)
+        const subtotal = (1 - promotionAmount) * cartBooks.reduce(0, (acc, book) => acc + book.bookQuantity * book.sellPrice)
         const delivery = 12.00
         const tax = 0.08 * subtotal
         const total = subtotal + delivery + tax
@@ -85,7 +91,7 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
             tax, 
             delivery, 
             total,
-            promotionId,
+            promotionId: promotion._id,
             customer: id,
             paymentId,
             bookOrderList: cart.books
@@ -93,7 +99,7 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
 
         const user = await User.findById(id)
 
-        mailer.sendMail(user.email, "Thank you for your purchase", `${user.firstName} your order will be delivered shortly`)
+        mailer.sendMail(user.email, 'Thank you for your purchase', `${user.firstName} your order will be delivered shortly`)
 
         req.json(order)
     } catch(error) {
