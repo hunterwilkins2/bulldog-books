@@ -4,7 +4,7 @@ const auth = require('../../auth')
 const Book = require('../models/Book.model')
 const router = express.Router()
 
-// Add books to cart
+// Add books to cart. if book is already in cart, then it will add the new quantity to the book that is already in the cart
 router.post('/', auth.verifyCustomer, async (req, res, next) => {
     try {
         const { bookID, quantity} = req.body

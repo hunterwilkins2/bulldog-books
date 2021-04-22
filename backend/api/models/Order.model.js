@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose')
-const { cartItemSchema } = require('./CartItem.schema')
+// const { cartItemSchema } = require('./CartItem.schema')
 
 const OBJECT_ID = Schema.Types.ObjectId
 
@@ -12,8 +12,7 @@ const orderSchema = Schema({
     customer: {type: OBJECT_ID, ref: 'User' },
     paymentCard: {type: OBJECT_ID, ref: 'Payment' },
     bookOrderList: {
-        type: [cartItemSchema],
-        default: () => [{}]
+        type: [{ book: OBJECT_ID, bookQuantity: Number}],
     }
 })
     
