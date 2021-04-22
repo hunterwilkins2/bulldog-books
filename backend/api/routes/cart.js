@@ -86,6 +86,7 @@ router.patch('/', auth.verifyCustomer, async (req, res, next) => {
 // Delete books from cart
 router.delete('/', auth.verifyCustomer, async (req, res, next) => {
     try {
+        // eslint-disable-next-line no-unused-vars
         const { bookID, quantity} = req.body
         const id = auth.getId(req.cookies.jwt)
         let hadError = false
@@ -98,7 +99,7 @@ router.delete('/', auth.verifyCustomer, async (req, res, next) => {
                 return false
             }
             
-            const index = doc.books.findIndex(element => element.book === bookID && element.bookQuantity == quantity)
+            const index = doc.books.findIndex(element => element.book === bookID)
             if(index == -1) {
                 hadError = true
                 return false
