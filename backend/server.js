@@ -17,6 +17,7 @@ const profile = require('./api/routes/profile')
 const bestSellers = require('./api/routes/bestSeller')
 const newRelases = require('./api/routes/newReleases')
 const promotions = require('./api/routes/promotions')
+const cart = require('./api/routes/cart')
 
 mongoose.set('useFindAndModify', false)
 mongoose.set('useCreateIndex', true)
@@ -50,6 +51,7 @@ app.use('/api/address', address)
 app.use('/api/payment', payment)
 app.use('/api/profile', profile)
 app.use('/api/promotions', promotions)
+app.use('/api/cart', cart)
 
 // Error handlers for invalid requests
 app.use(middlewares.notFound)
