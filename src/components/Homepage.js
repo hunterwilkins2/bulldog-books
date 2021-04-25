@@ -113,8 +113,12 @@ function HomePage(){
                                 <Button id = "but-mb-hp" value = {book.isbn}  onClick={() => handleDelete(book.isbn)} > Delete </Button>
                             </div>
                         }
-                        <Card.Link href={book.website}>More Info</Card.Link>
-                        <Card.Link href="">Add To Cart</Card.Link>
+                        {Cookies.get('userType') === ('customer' || 'employee') &&
+                            <div>
+                                <Card.Link href={book.website}>More Info</Card.Link>
+                                <Card.Link href="">Add To Cart</Card.Link>
+                            </div>
+                        }
                     </ListGroupItem>                   
                 </ListGroup>
             </Card>
