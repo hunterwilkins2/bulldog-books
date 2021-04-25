@@ -8,8 +8,6 @@ import '../styles/EditBook.css'
 
 function EditBook (book) {
     
-    console.log(book)
-    
     return (
         <>
             <StoreNavbar/>
@@ -22,7 +20,6 @@ function EditBook (book) {
                         threshold: book.threshold 
                     }} 
                     onSubmit={async (data) => {
-                        console.log(data)
 
                         let bookUpdateData={
                             method: 'PATCH',
@@ -52,7 +49,9 @@ function EditBook (book) {
                                 'threshold': data.threshold,
                             })
                         }
-                        const bookUpdateResponse = await (await fetch(`http://localhost:3000/api/books/${data.isbn}`, bookUpdateData)).json()
+                        const bookUpdateResponse = await (await fetch(`http://localhost:3000/api/books/${book.history.location.state.book.isbn}`, bookUpdateData)).json()
+                        console.log(data.isbn)
+                        console.log(book.history.location.state.book.isbn)
                         if(bookUpdateResponse.errors) {
                             console.log(bookUpdateResponse.errors.split(';'))
                         }
@@ -80,64 +79,59 @@ function EditBook (book) {
                                         <Form.Control 
                                             name='title'
                                             value={values.title}
+                                            placeholder = {book.history.location.state.book.title}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-
                                         />
                                     </Form.Group>
-                                
                                     <Form.Group >
                                         <Form.Label>Author</Form.Label>
                                         <Form.Control 
                                             name='author'
                                             value={values.author}
+                                            placeholder = {book.history.location.state.book.author}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-
                                         />
                                     </Form.Group>
-                                
                                     <Form.Group >
                                         <Form.Label>Edition</Form.Label>
                                         <Form.Control 
                                             name='edition'
                                             value={values.edition}
+                                            placeholder = {book.history.location.state.book.edition}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-
                                         />
                                     </Form.Group>
-                                
                                     <Form.Group >
                                         <Form.Label>Category</Form.Label>
                                         <Form.Control 
                                             name='category'
                                             value={values.category}
+                                            placeholder = {book.history.location.state.book.category}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-
                                         />
                                     </Form.Group>
-                                
                                     <Form.Group >
                                         <Form.Label>Cover Image</Form.Label>
                                         <Form.Control 
                                             name='cover'
                                             value={values.cover}
+                                            placeholder = {book.history.location.state.book.cover}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-
                                         />
                                     </Form.Group>
-                                
                                     <Form.Group >
                                         <Form.Label>ISBN</Form.Label>
                                         <Form.Control 
                                             name='isbn'
                                             value={values.isbn}
+                                            placeholder = {book.history.location.state.book.isbn}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-
                                         />
                                     </Form.Group>
                                 </Col>
@@ -147,9 +141,9 @@ function EditBook (book) {
                                         <Form.Control 
                                             name='quantity'
                                             value={values.quantity}
+                                            placeholder = {book.history.location.state.book.quantity}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-
                                         />
                                     </Form.Group>
                                     <Form.Label>Buy Price</Form.Label>
@@ -157,9 +151,9 @@ function EditBook (book) {
                                         <Form.Control 
                                             name='buyPrice'
                                             value={values.buyPrice}
+                                            placeholder = {book.history.location.state.book.buyPrice}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-
                                         />
                                     </Form.Group>
                                     <Form.Label>Sell Price</Form.Label>
@@ -167,9 +161,9 @@ function EditBook (book) {
                                         <Form.Control 
                                             name='sellPrice'
                                             value={values.sellPrice}
+                                            placeholder = {book.history.location.state.book.sellPrice}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-
                                         />
                                     </Form.Group>
                                     <Form.Label>Publication Date</Form.Label>
@@ -180,7 +174,6 @@ function EditBook (book) {
                                             value={values.publicationDate}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-
                                         />
                                     </Form.Group>
                                     <Form.Label>Publisher</Form.Label>
@@ -188,9 +181,9 @@ function EditBook (book) {
                                         <Form.Control 
                                             name='publisher'
                                             value={values.publisher}
+                                            placeholder = {book.history.location.state.book.publisher}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-
                                         />
                                     </Form.Group>
                                     <Form.Label>Threshold Value</Form.Label>
@@ -198,9 +191,9 @@ function EditBook (book) {
                                         <Form.Control 
                                             name='threshold'
                                             value={values.threshold}
+                                            placeholder = {book.history.location.state.book.threshold}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-
                                         />
                                     </Form.Group>
                                 </Col>

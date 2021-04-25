@@ -81,7 +81,7 @@ function HomePage(){
     }
 
 
-    const bookCards = books.map((book, bookIndex) => (
+    const bookCards = books.map((book) => (
         <Col key={book.isbn} xs='3' id = "column-hp">
             <Card id = "card-style-hp">
                 <Card.Img className = "mx-auto" id = "image-hp" src={book.cover} />
@@ -105,7 +105,7 @@ function HomePage(){
                                     <Button id = "but-mb-hp"
                                         variant="primary" 
                                         onClick={console.log('show!')}
-                                        value={bookIndex}
+                                        value={book.isbn}
                                     >
                                         Edit
                                     </Button>
