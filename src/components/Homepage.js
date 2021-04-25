@@ -2,12 +2,12 @@
 import React, {useState, useEffect} from 'react'
 import { Card, ListGroup, ListGroupItem, Col, Row, Container, Alert, Button } from 'react-bootstrap'
 import Cookies from 'js-cookie'
+import { Link } from 'react-router-dom'
 
 // import Promos from  './Promos'
 import BestSellers from './BestSeller'
 import NewReleases from './NewReleases'
 import StoreNavbar from './StoreNavbar'
-import ManageBooksPopup from './admin/ManageBooksPopup'
 
 import './styles/Homepage.css'
 import './styles/Background.css'
@@ -23,16 +23,6 @@ function HomePage(){
     )
 
     const [books, setBooks] = useState([])
-
-    // useEffect(() => {
-    //     async function fetchBooks(){
-    //         const response = await fetch('http://localhost:3000/api/books')
-    //         const data = await response.json()
-    //         if(data.errors) {
-    //             setErrors(data.errors.split(';'))
-    //         }
-    //         await setBooks(data)
-    //     }
 
     async function fetchBooks(){
         let booksGetData={
@@ -63,14 +53,6 @@ function HomePage(){
         fetchBooks()
     }, [])
 
-    const [showPopup, setShowPopup] = useState(false)
-    const [popupBook, setPopupBook] = useState(null)
-    function makePopup(book) {
-        setShowPopup(true)
-        setPopupBook(book)
-    }
-    const closePopup = () => setShowPopup(false)
-
     async function handleDelete(isbn){
         // console.log(books[event.target.value].isbn)
         console.log(isbn)
@@ -99,7 +81,7 @@ function HomePage(){
     }
 
 
-    const bookCards = books.map(book => (
+    const bookCards = books.map((book, bookIndex) => (
         <Col key={book.isbn} xs='3' id = "column-hp">
             <Card id = "card-style-hp">
                 <Card.Img className = "mx-auto" id = "image-hp" src={book.cover} />
@@ -119,7 +101,15 @@ function HomePage(){
                     <ListGroupItem id = "lGI-links-hp">
                         {Cookies.get('userType') === 'admin' && 
                             <div>
-                                <Button id = "but-mb-hp" onClick={() => makePopup(book)} >Edit</Button>
+                                <Link to={{ pathname: '/admin/EditBook', state: { book: book} }}>
+                                    <Button id = "but-mb-hp"
+                                        variant="primary" 
+                                        onClick={console.log('show!')}
+                                        value={bookIndex}
+                                    >
+                                        Edit
+                                    </Button>
+                                </Link>
                                 <Button id = "but-mb-hp" value = {book.isbn}  onClick={() => handleDelete(book.isbn)} > Delete </Button>
                             </div>
                         }
@@ -153,8 +143,7 @@ function HomePage(){
                 <Row lg={3} >
                     {bookCards}
                 </Row>
-            </Container>
-            <ManageBooksPopup show={showPopup} book={popupBook} close={closePopup}></ManageBooksPopup>
+            </Container>       
         </div>
     )
 

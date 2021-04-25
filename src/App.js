@@ -17,6 +17,7 @@ import ManagePromotions from './components/admin/ManagePromotions'
 import ManageUsers from './components/admin/ManageUsers'
 import AddBook from './components/admin/AddBook'
 import UpdatePromo from './components/admin/UpdatePromo'
+import EditBook from './components/admin/EditBook'
 
 
 // need to troubleshoot why Cart, Orders, Profile not rendering
@@ -41,6 +42,7 @@ function App() {
                 <Route path='/admin/ManagePromotions' exact component={ManagePromotions} />
                 <Route path='/admin/ManageUsers' exact component={ManageUsers} />
                 <Route path='/admin/AddBook' exact component={AddBook} />
+                <Route path='/admin/EditBook' exact component={EditBook} />
                 <Route path='/admin/UpdatePromo' exact component={UpdatePromo} />
             </Switch>
         </Router>
