@@ -95,7 +95,7 @@ function HomePage(){
                     <ListGroupItem id = "lGI-hp">Author: {book.author}</ListGroupItem>
                 </ListGroup>
                 <ListGroup id = "lG-hp" className="list-group-flush">
-                    <ListGroupItem id = "lGI-hp">Price: ${book.buyPrice}</ListGroupItem>
+                    <ListGroupItem id = "lGI-hp">Price: ${book.sellPrice}</ListGroupItem>
                 </ListGroup>
                 <ListGroup className="list-group-flush">
                     <ListGroupItem id = "lGI-links-hp">
