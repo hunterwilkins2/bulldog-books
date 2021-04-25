@@ -57,7 +57,7 @@ function StoreNavbar({homePage=false, login=false}){
                 <DropdownButton id="button-profile" title="Profile" className='button-navbar'>
                     <Dropdown.Item  as={Link} to='/user/Profile'>Profile</Dropdown.Item>
                     <Dropdown.Item  as={Link} to='/user/Orders'>Orders</Dropdown.Item>
-                    {Cookies.get('userType') === ('customer' || 'employee') &&
+                    {Cookies.get('userType') !== ('admin') &&
                         <Dropdown.Item  as={Link} to='/user/Cart'>Cart</Dropdown.Item>
                     }
                 </DropdownButton>

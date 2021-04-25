@@ -113,7 +113,7 @@ function HomePage(){
                                 <Button id = "but-mb-hp" value = {book.isbn}  onClick={() => handleDelete(book.isbn)} > Delete </Button>
                             </div>
                         }
-                        {Cookies.get('userType') === ('customer' || 'employee') &&
+                        {Cookies.get('userType') !== ('admin') &&
                             <div>
                                 <Card.Link href={book.website}>More Info</Card.Link>
                                 <Card.Link href="">Add To Cart</Card.Link>
