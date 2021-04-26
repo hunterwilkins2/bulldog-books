@@ -118,9 +118,9 @@ function HomePage(){
                             </div>
                         }
                         {Cookies.get('userType') !== ('admin') &&
-                            <div>
+                            <>
          
-                                <Button id = "button-mib-hp" 
+                                <Button className = "but-mb-hp" 
                                     variant="primary" 
                                     onClick={handleShow}
                                     // value ={handleShow.target} 
@@ -214,9 +214,18 @@ function HomePage(){
                                         </Row>
                                     </Modal.Footer>
                                 </Modal>
-                            
-                                <Card.Link href="">Add To Cart</Card.Link>
-                            </div>
+
+                                <Link to={{ pathname: '/user/Cart', state: { book: book} }}>
+                                    <Button className = "but-mb-hp"
+                                        variant="primary" 
+                                        onClick={console.log('show!')}
+                                        value={book.isbn}
+                                    >
+                                        Add To Cart
+                                    </Button>
+                                </Link>
+
+                            </>
                         }
                     </ListGroupItem>                   
                 </ListGroup>
