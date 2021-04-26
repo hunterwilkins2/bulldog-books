@@ -46,7 +46,7 @@ function HomePage(){
             setErrors(data.errors.split(';'))
         }
         await setBooks(data)
-        console.log(data)
+        // console.log(data)
     }
 
     useEffect(() => {
@@ -80,7 +80,7 @@ function HomePage(){
         await fetchBooks()
     }
 
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState([])
   
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -120,18 +120,22 @@ function HomePage(){
                         {Cookies.get('userType') !== ('admin') &&
                             <div>
          
-                                <Button id = "button-mib-hp" variant="primary" onClick={handleShow} >
+                                <Button id = "button-mib-hp" 
+                                    variant="primary" 
+                                    onClick={handleShow}
+                                    // value ={handleShow.target} 
+                                >
                                         More Info
                                 </Button>
   
-                                <Modal show={show} onHide={handleClose} animation={false}>
-                                    <Modal.Header>
+                                <Modal id = "modal-hp" show={show} onHide={handleClose} animation={false}>
+                                    <Modal.Header id = "modal-header-hp">
                                         Book Information
                                     </Modal.Header>
-                                    <Modal.Body>
+                                    <Modal.Body id = "modal-body-hp">
                                         <Row>
                                             <Col>
-                                                    Title:
+                                                Title:
                                             </Col>
                                             <Col>
                                                 {book.title}
@@ -202,7 +206,7 @@ function HomePage(){
                                             </Col>
                                         </Row>
                                     </Modal.Body>
-                                    <Modal.Footer >
+                                    <Modal.Footer id = "modal-footer-hp" >
                                         <Row>
                                             <Button variant="danger" onClick={handleClose}>
                                                     Close

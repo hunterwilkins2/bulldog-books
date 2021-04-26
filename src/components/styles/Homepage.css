@@ -128,3 +128,24 @@
     border-bottom: 2px solid black;
     color: white;
 }
+
+#modal-hp {
+
+}
+
+#modal-header-hp {
+    min-height: 9vh;
+    max-height: 9vh;
+    font-size:x-large;
+    font-weight: bold;
+}
+
+#modal-body-hp {
+    min-height: 40vh;
+    max-height: 40vh;
+}
+
+#modal-footer-hp {
+    min-height: 10vh;
+    max-height: 10vh;
+}
