@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React, {useState, useEffect} from 'react'
-import { Card, ListGroup, ListGroupItem, Col, Row, Container, Alert, Button } from 'react-bootstrap'
+import { Card, ListGroup, ListGroupItem, Col, Row, Container, Alert, Button, Modal } from 'react-bootstrap'
 import Cookies from 'js-cookie'
 import { Link } from 'react-router-dom'
 
@@ -55,7 +55,7 @@ function HomePage(){
 
     async function handleDelete(isbn){
         // console.log(books[event.target.value].isbn)
-        console.log(isbn)
+        // console.log(isbn)
 
         let booksDeleteData={
             method: 'DELETE',
@@ -80,6 +80,10 @@ function HomePage(){
         await fetchBooks()
     }
 
+    const [show, setShow] = useState(false)
+  
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
 
     const bookCards = books.map((book) => (
         <Col key={book.isbn} xs='3' id = "column-hp">
@@ -102,7 +106,7 @@ function HomePage(){
                         {Cookies.get('userType') === 'admin' && 
                             <div>
                                 <Link to={{ pathname: '/admin/EditBook', state: { book: book} }}>
-                                    <Button id = "but-mb-hp"
+                                    <Button className = "but-mb-hp"
                                         variant="primary" 
                                         onClick={console.log('show!')}
                                         value={book.isbn}
@@ -110,12 +114,103 @@ function HomePage(){
                                         Edit
                                     </Button>
                                 </Link>
-                                <Button id = "but-mb-hp" value = {book.isbn}  onClick={() => handleDelete(book.isbn)} > Delete </Button>
+                                <Button className = "but-mb-hp" value = {book.isbn}  onClick={() => handleDelete(book.isbn)} > Delete </Button>
                             </div>
                         }
                         {Cookies.get('userType') !== ('admin') &&
                             <div>
-                                <Card.Link href={book.website}>More Info</Card.Link>
+         
+                                <Button id = "button-mib-hp" variant="primary" onClick={handleShow} >
+                                        More Info
+                                </Button>
+  
+                                <Modal show={show} onHide={handleClose} animation={false}>
+                                    <Modal.Header>
+                                        Book Information
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <Row>
+                                            <Col>
+                                                    Title:
+                                            </Col>
+                                            <Col>
+                                                {book.title}
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col>
+                                                    Author:
+                                            </Col>
+                                            <Col>
+                                                {book.author}
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col>
+                                                    Edition:
+                                            </Col>
+                                            <Col>
+                                                {book.edition}
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col>
+                                                    Category:
+                                            </Col>
+                                            <Col>
+                                                {book.category}
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col>
+                                                    ISBN:
+                                            </Col>
+                                            <Col>
+                                                {book.isbn}
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col>
+                                                    Quantity in Stock:
+                                            </Col>
+                                            <Col>
+                                                {book.quantity}
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col>
+                                                    Price:
+                                            </Col>
+                                            <Col>
+                                                    ${book.sellPrice}
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col>
+                                                    Publication Date:
+                                            </Col>
+                                            <Col>
+                                                {book.publicationDate.substring(0,10)}
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col>
+                                                    Publisher:
+                                            </Col>
+                                            <Col>
+                                                {book.publisher}
+                                            </Col>
+                                        </Row>
+                                    </Modal.Body>
+                                    <Modal.Footer >
+                                        <Row>
+                                            <Button variant="danger" onClick={handleClose}>
+                                                    Close
+                                            </Button>
+                                        </Row>
+                                    </Modal.Footer>
+                                </Modal>
+                            
                                 <Card.Link href="">Add To Cart</Card.Link>
                             </div>
                         }
