@@ -14,7 +14,7 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
             if(err)
                 return false
 
-            const index = doc.books.findIndex(element => element.book === bookID)
+            const index = doc.books.findIndex(element => element.book == bookID)
             if(index != -1) {
                 doc.books.splice(index, 1, { book: bookID, bookQuantity: quantity + doc.books[index].bookQuantity })
             } else {
@@ -62,7 +62,7 @@ router.patch('/', auth.verifyCustomer, async (req, res, next) => {
                 return false
             }
             
-            const index = doc.books.findIndex(element => element.book === bookID)
+            const index = doc.books.findIndex(element => element.book == bookID)
             if(index == -1) {
                 hadError = true
                 return false
