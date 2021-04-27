@@ -28,12 +28,13 @@
 }
 
 #promo-bestseller-row-hp {
-    background-image: url('../images/background.jpg');
+    /* background-image: url('../images/background.jpg'); */
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: scroll;
-    border: 2px solid white;
+    /* border: 2px solid white; */
     border-radius: 25px;
+    /* box-shadow: 0 4px 8px 0 rgba(17, 17, 17, 0.7); */
 
     text-align: center;
 

@@ -1,71 +1,163 @@
 import React, {useState, useEffect} from 'react'
-import { Card, ListGroup, ListGroupItem, Row, Col, Container, Form, Button } from 'react-bootstrap'
+import { Row, Col, Container, Button, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import NumericInput from 'react-numeric-input'
 
 import StoreNavbar from './StoreNavbar'
-import { booksData } from '../data/books'
 import './styles/Cart.css' 
 import './styles/Background.css'
 
 function Cart(){
 
-    let orderData = booksData.slice(1,4)
+    const [carts, setCart] = useState([])
 
-    const [cart, setBooks] = useState([])
+    async function fetchCart(){
+        let cartGetData={
+            method: 'GET',
+            withCredentials: true,
+            credentials: 'include',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                'Access-Control-Allow-Credentials': true,
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+        }
+        const response = await fetch('http://localhost:3000/api/cart', cartGetData)
+        const data = await response.json()
+        if(data.errors) {
+            console.log(data.errors.split(';')) // TODO: Add a set erros hook (see Homepage.js)
+        }
+        await setCart(data)
+        console.log(data)
+    }
 
     useEffect(() => {
-        setBooks(orderData)
+        fetchCart()
     }, [])
 
-    // const [cart, setCart] = useState([])
+    async function deleteCart (event) {
 
-    // useEffect(() => {
-    //     async function fetchCart(){
-    //         const response = await fetch('http://localhost:3000/api/cartitems')
-    //         const cartData = await response.json()
-    //         setCart(cartData)
-    //     }
-    //     fetchCart()
-    // }, [])
+        let cartIndex = event.target.value
+        let bookID = carts[cartIndex].book._id
+        let quantity = carts[cartIndex].bookQuantity
 
-    const cartCards = cart.map(cart => (
-        <Col id = "col-style-cart" key={cart.isbn} xs='3'>
-            <Card id = "card-style-cart">
-                <Card.Img variant="top" src={cart.image} id = "card-image-cart" />
-                <Card.Body>
-                    <Card.Title>{cart.title}</Card.Title>
-                </Card.Body>  
-                <ListGroup className="list-group-flush" >
-                    <ListGroupItem>Author: {cart.author}</ListGroupItem>
-                </ListGroup>
-                <ListGroup>
-                    <Form>
-                        <Form.Group controlId="exampleForm.ControlSelect1">
-                            <NumericInput min={0} max={100} value={1}/>
-                        </Form.Group>
-                    </Form> 
-                </ListGroup>
-                <ListGroup>
-                    <Button>Remove From Cart</Button> 
-                </ListGroup>
-     
-            </Card>
-        </Col>
+        console.log(cartIndex)
+        console.log(bookID)
+        console.log(quantity)
+
+        let bookData={
+            method: 'DELETE',
+            withCredentials: true,
+            credentials: 'include',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                'Access-Control-Allow-Credentials': true,
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify({
+                'bookID': bookID,
+                'quantity': quantity
+            })
+        }
+
+        let userResponse = await (await fetch('http://localhost:3000/api/cart', bookData)).json()
+
+        if(userResponse.errors) {
+            console.log(userResponse.errors.split(';'))
+        }
+        else {
+            console.log('no errors')
+        } 
+
+        await fetchCart()
+
+    }
+
+    console.log(carts)
+
+    const cartRows = carts.map((cartItem, cartIndex) => (
+        <Row className = "row-list-cart" key = {cartItem.book}>
+            <Col className = "col-cover-cart"> 
+                <img id = "img-cart" src={cartItem.book.cover} alt={cartItem.title} /> 
+            </Col>
+            <Col className = "col-list-cart"> 
+                <Row> <h3>{cartItem.book.title}</h3></Row>
+                <Row> {cartItem.book.author}</Row>
+
+            </Col>
+            <Col className = "col-quantity-cart">
+                <Form id = "num-form-cart">
+                    <NumericInput 
+                        id="quant-select-cart" 
+                        placeholder={cartItem.bookQuantity} 
+                        min={0} 
+                        max={100} 
+                        value={1}
+                    />
+                </Form> 
+            </Col>
+            <Col className = "col-price-cart"> 
+                $ {cartItem.book.sellPrice}
+            </Col>
+            <Col className = "col-delete-cart">
+                <div>
+                    <Button 
+                        id="delete-but-cart"
+                        variant="danger" 
+                        value = {cartIndex}
+                        onClick = {async (event) => {await deleteCart(event)}}
+
+                    >
+                        X
+                    </Button>
+                </div>
+            </Col>
+        </Row>
     ))
+        
+    
+
+    
+
+
+    let sum = 0
+    carts.forEach(cartItem => {
+        sum = sum + (cartItem.book.sellPrice)
+    })
+    console.log(sum)
+
+
     return(
         <div id = "background">
             <StoreNavbar/> 
             <h1 id = "h1-style-cart">Cart</h1>
-            <Container>
-                <Row className="mx-auto" lg={3} id = "row-style-cart">
-                    {cartCards}
-                </Row>
-                <Link to='/user/checkout'>
-                    <Button variant="primary" type="submit" id = "button-style-cart">
+            <Container className = "main-cont-cart">
+                <div>
+                    {cartRows}
+                </div>
+                <div>
+                    <Row id = "row-subtotal-cart">
+                        <div id = "subtotal-title-cart"> Subtotal </div>
+                        <div id = "subtotal-price-cart"> $ {sum}</div>
+                    </Row>
+                </div>
+                <div>
+                    <Row id = "row-but-cart">
+                        <Link to='/user/checkout'>
+                            <Button variant="primary" type="submit" id = "button-style-cart">
                             Proceed to Checkout
-                    </Button>
-                </Link>
+                            </Button>
+                        </Link>
+                    </Row>
+                </div>
             </Container>
         </div>      
     )

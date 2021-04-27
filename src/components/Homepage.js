@@ -54,8 +54,6 @@ function HomePage(){
     }, [])
 
     async function handleDelete(isbn){
-        // console.log(books[event.target.value].isbn)
-        // console.log(isbn)
 
         let booksDeleteData={
             method: 'DELETE',
@@ -85,7 +83,7 @@ function HomePage(){
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
 
-    const bookCards = books.map((book) => (
+    const bookCards = books.map((book, bookIndex) => (
         <Col key={book.isbn} xs='3' id = "column-hp">
             <Card id = "card-style-hp">
                 <Card.Img className = "mx-auto" id = "image-hp" src={book.cover} />
@@ -216,10 +214,13 @@ function HomePage(){
                                 </Modal>
 
                                 <Link to={{ pathname: '/user/Cart', state: { book: book} }}>
-                                    <Button className = "but-mb-hp"
+                                    <Button 
+                                        className = "but-mb-hp"
                                         variant="primary" 
                                         onClick={console.log('show!')}
-                                        value={book.isbn}
+                                        value = {bookIndex}
+                                        // eslint-disable-next-line react/jsx-no-duplicate-props
+                                        onClick = {async (event) => {await addToCart(event)}}
                                     >
                                         Add To Cart
                                     </Button>
@@ -233,6 +234,49 @@ function HomePage(){
         </Col>
 
     ))
+
+    async function addToCart (event) {
+
+        let bookIndex = event.target.value
+        let bookID = books[bookIndex]._id
+        let quantity = 1
+
+        console.log(bookIndex)
+        console.log(bookID)
+        console.log(quantity)
+
+        let bookData={
+            method: 'POST',
+            withCredentials: true,
+            credentials: 'include',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                'Access-Control-Allow-Credentials': true,
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify({
+                'bookID': bookID,
+                'quantity': quantity
+            })
+        }
+
+        let userResponse = await (await fetch('http://localhost:3000/api/cart', bookData)).json()
+
+        if(userResponse.errors) {
+            console.log(userResponse.errors.split(';'))
+        }
+        else {
+            console.log('no errors')
+        } 
+
+        await fetchBooks()
+
+    }
+
 
 
     return (
