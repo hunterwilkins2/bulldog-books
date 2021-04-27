@@ -4,7 +4,7 @@ const auth = require('../../auth')
 const Book = require('../models/Book.model')
 const router = express.Router()
 
-// Add books to cart
+// Add books to cart. if book is already in cart, then it will add the new quantity to the book that is already in the cart
 router.post('/', auth.verifyCustomer, async (req, res, next) => {
     try {
         const { bookID, quantity} = req.body
@@ -14,7 +14,7 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
             if(err)
                 return false
 
-            const index = doc.books.findIndex(element => element.book === bookID)
+            const index = doc.books.findIndex(element => element.book == bookID)
             if(index != -1) {
                 doc.books.splice(index, 1, { book: bookID, bookQuantity: quantity + doc.books[index].bookQuantity })
             } else {
@@ -62,7 +62,7 @@ router.patch('/', auth.verifyCustomer, async (req, res, next) => {
                 return false
             }
             
-            const index = doc.books.findIndex(element => element.book === bookID)
+            const index = doc.books.findIndex(element => element.book == bookID)
             if(index == -1) {
                 hadError = true
                 return false
