@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { Form, Button, Alert, Col } from 'react-bootstrap'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Formik, ErrorMessage} from 'formik'
 import * as yup from 'yup'
 import moment from 'moment'
@@ -63,10 +63,12 @@ function AddBook () {
         buyPrice: yup.string()
             .min(1, 'buyPrice must be betwen 1 and 10 digits')
             .max(10, 'buyPrice must be betwen 1 and 10 digits')
+            .matches('^[0-9 & .]*$', 'Can only contain numbers and decimals')
             .required('Required'),
         sellPrice: yup.string()
             .min(1, 'sellPrice must be betwen 1 and 10 digits')
             .max(10, 'sellPrice must be betwen 1 and 10 digits')
+            .matches('^[0-9 & .]*$', 'Can only contain numbers and decimals')
             .required('Required'),
         publicationDate: yup.date()
             .max(currentDate, 'Cannot choose a future date')
@@ -315,6 +317,9 @@ function AddBook () {
                                 > 
                                     Add 
                                 </Button>
+                                <Link to='/'>
+                                    <Button id='back-button'>Back</Button>
+                                </Link>
                             </div>
                         </Form>
                         {noErrors && <Redirect to='/'/>}

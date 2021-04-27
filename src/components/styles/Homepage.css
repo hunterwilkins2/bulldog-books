@@ -28,12 +28,13 @@
 }
 
 #promo-bestseller-row-hp {
-    background-image: url('../images/background.jpg');
+    /* background-image: url('../images/background.jpg'); */
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: scroll;
-    border: 2px solid white;
+    /* border: 2px solid white; */
     border-radius: 25px;
+    /* box-shadow: 0 4px 8px 0 rgba(17, 17, 17, 0.7); */
 
     text-align: center;
 
@@ -73,12 +74,20 @@
     text-align: center;
 }
 
-#but-mb-hp {
+.but-mb-hp {
     background-color: transparent;
     text-align: center;
     border: none;
     color: rgb(15, 117, 241);
 
+}
+
+#button-mib-hp {
+    background-color: transparent;
+    text-align: center;
+    border: none;
+    color: rgb(15, 117, 241);
+    padding-top: .3vh;
 }
 
 #image-hp {
@@ -119,4 +128,25 @@
     padding-bottom: .5vh;
     border-bottom: 2px solid black;
     color: white;
+}
+
+#modal-hp {
+
+}
+
+#modal-header-hp {
+    min-height: 9vh;
+    max-height: 9vh;
+    font-size:x-large;
+    font-weight: bold;
+}
+
+#modal-body-hp {
+    min-height: 40vh;
+    max-height: 40vh;
+}
+
+#modal-footer-hp {
+    min-height: 10vh;
+    max-height: 10vh;
 }

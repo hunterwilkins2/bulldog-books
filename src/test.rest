@@ -1,0 +1,14 @@
+
+
+POST http://localhost:3000/login HTTP/1.1
+Accept: application/json
+Content-type: application/json
+
+{
+"username":"sdk81722@uga.edu",
+"password":"Spencer.2328",
+}
+
+###
+GET http://localhost:3000/cart HTTP/1.1
+
