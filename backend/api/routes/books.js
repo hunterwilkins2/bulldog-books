@@ -14,6 +14,7 @@ router.get('/', async (req, res, next) => {
     }
 })
 
+/* This search route clashes with the route to get one book
 router.get('/:keyword', async (req, res, next) => {
     try {
         const books = await Book.find({'title': { '$regex': req.params.keyword, '$options': 'i' }})
@@ -22,6 +23,7 @@ router.get('/:keyword', async (req, res, next) => {
         next(error)
     }
 })
+*/
 
 // Read one
 router.get('/:isbn', async (req, res, next) => {
