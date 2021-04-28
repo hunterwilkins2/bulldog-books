@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import { Row, Col, Container, Button, Form } from 'react-bootstrap'
+import { Formik } from 'formik'
 import { Link } from 'react-router-dom'
-import NumericInput from 'react-numeric-input'
+// import NumericInput from 'react-numeric-input'
+
 
 import StoreNavbar from './StoreNavbar'
 import './styles/Cart.css' 
@@ -32,7 +34,7 @@ function Cart(){
             console.log(data.errors.split(';')) // TODO: Add a set erros hook (see Homepage.js)
         }
         await setCart(data)
-        console.log(data)
+        // console.log(data)
     }
 
     useEffect(() => {
@@ -83,6 +85,12 @@ function Cart(){
 
     console.log(carts)
 
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2
+    })
+
     const cartRows = carts.map((cartItem, cartIndex) => (
         <Row className = "row-list-cart" key = {cartItem.book}>
             <Col className = "col-cover-cart"> 
@@ -91,21 +99,95 @@ function Cart(){
             <Col className = "col-list-cart"> 
                 <Row> <h3>{cartItem.book.title}</h3></Row>
                 <Row> {cartItem.book.author}</Row>
-
             </Col>
             <Col className = "col-quantity-cart">
-                <Form id = "num-form-cart">
-                    <NumericInput 
-                        id="quant-select-cart" 
-                        placeholder={cartItem.bookQuantity} 
-                        min={0} 
-                        max={100} 
-                        value={1}
-                    />
-                </Form> 
+                <Formik 
+                    initialValues={{
+                        quantity: cartItem.bookQuantity,
+                    }} 
+                    onSubmit={async (data, {setSubmitting}) => {
+                        console.log(data)
+
+                        let cartQuantData={
+                            method: 'PATCH',
+                            withCredentials: true,
+                            credentials: 'include',
+                            mode: 'cors',
+                            cache: 'no-cache',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                                'Access-Control-Allow-Credentials': true,
+                            },
+                            redirect: 'follow',
+                            referrerPolicy: 'no-referrer',
+                            body: JSON.stringify({
+                                'bookID': cartItem.book._id,
+                                'quantity': data.quantity,
+                            })
+                        }
+
+                        console.log(cartItem.book._id)
+                        console.log(data.quantity)
+
+                        setSubmitting(false)
+
+                        const cartQuantResponse = await (await fetch('http://localhost:3000/api/cart', cartQuantData)).json()
+                        if(cartQuantResponse.errors) {
+                            console.log(cartQuantResponse.errors.split(';'))
+                        }
+                        else {
+                            console.log('no errors')
+                        } 
+                    }}
+                >{({ handleSubmit,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        // touched,
+                        // errors,
+                        setSubmitting
+                    }) => (
+                        <Form id = "num-form-cart" onSubmit={handleSubmit}>
+                            
+                            {/* <NumericInput
+                                id="quant-select-cart"
+                                name="quantity"
+                                placeholder={cartItem.bookQuantity}
+                                min={0} 
+                                max={100} 
+                                value={values.quantity}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            /> */}
+
+                            <div id = "formcontrol-div-cart">
+                                <Form.Control
+                                    id="quant-select-cart"
+                                    name="quantity"
+                                    placeholder={cartItem.bookQuantity}
+                                    value={values.quantity}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                            </div>
+
+                            <div>
+                                <Button 
+                                    id="update-but-cart" 
+                                    disabled={setSubmitting} 
+                                    variant="primary" 
+                                    type="submit"
+                                >
+                                Update Quantity
+                                </Button> 
+                            </div>
+
+                        </Form>
+                    )}</Formik>
             </Col>
             <Col className = "col-price-cart"> 
-                $ {cartItem.book.sellPrice}
+                Price: {formatter.format(cartItem.book.sellPrice * cartItem.bookQuantity)}
             </Col>
             <Col className = "col-delete-cart">
                 <div>
@@ -123,16 +205,12 @@ function Cart(){
         </Row>
     ))
         
-    
-
-    
-
 
     let sum = 0
     carts.forEach(cartItem => {
-        sum = sum + (cartItem.book.sellPrice)
+        sum = sum + (cartItem.book.sellPrice * cartItem.bookQuantity)
     })
-    console.log(sum)
+    // console.log(sum)
 
 
     return(
@@ -146,7 +224,7 @@ function Cart(){
                 <div>
                     <Row id = "row-subtotal-cart">
                         <div id = "subtotal-title-cart"> Subtotal </div>
-                        <div id = "subtotal-price-cart"> $ {sum}</div>
+                        <div id = "subtotal-price-cart"> {formatter.format(sum)}</div>
                     </Row>
                 </div>
                 <div>

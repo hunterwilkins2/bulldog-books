@@ -1,7 +1,7 @@
 
     
     .main-cont-cart {
-        max-width: 55vw;
+        max-width: 70vw;
     }
 
 
@@ -44,8 +44,8 @@
         flex-direction: column;
         justify-content: center;
 
-        max-width: 18vw;
-        min-width: 18vw;
+        max-width: 20vw;
+        min-width: 20vw;
 
     }
 
@@ -61,8 +61,8 @@
         flex-direction: column;
         justify-content: center;
 
-        max-width: 6vw;
-        min-width: 6vw;
+        max-width: 15vw;
+        min-width: 15vw;
 
     }
 
@@ -72,8 +72,10 @@
         flex-direction: column;
         justify-content: center;
 
-        max-width: 7vw;
-        min-width: 7vw;
+        max-width: 12vw;
+        min-width: 12vw;
+
+        font-size: larger;
 
     }
 
@@ -84,16 +86,20 @@
         flex-direction: column;
         justify-content: center;
 
-        text-align:right;
+        margin-left: 2vw;
 
         max-width: 5vw;
         min-width: 5vw;
 
     }
 
+    #formcontrol-div-cart {
+        display: flex;
+        justify-content: center;
+    }
+
     
     #num-form-cart {
-
     }
 
     #delete-but-cart {
@@ -111,19 +117,30 @@
     }
 
     #subtotal-title-cart {
-        margin-left: 2%;
+        margin-left: 1.5vw;
         font-size: x-large;
         font-weight: bold;
     }
 
     #subtotal-price-cart {
-        margin-left: 45%;
+        margin-left: 40vw;
         font-size: x-large;
         font-weight: bold;
     }
 
-    #row-but-cart {
+    #delete-but-cart {
         
-        margin: 1%;
+        margin: 3%;
 
     }
+
+    #update-but-cart {
+        
+        font-size:xx-small;
+        max-width: 4vw;
+        min-width: 4vw;
+
+        margin: 1vw;
+
+    }
+
