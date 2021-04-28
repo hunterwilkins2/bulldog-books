@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Row, Col, Button} from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 import './styles/NewReleases.css' 
 
@@ -17,7 +18,7 @@ function NewReleases(){
         fetchnReleases()
     }, [])
 
-    const bookCards = nReleases.map(nReleases => (
+    const bookCards = nReleases.map((nReleases, index) => (
 
         <Row className = "mx-auto" id = "row-style-nr" key={nReleases.title}>
             <Row id = "row1-nr">
@@ -29,7 +30,15 @@ function NewReleases(){
             </Row>
             <Row id = "row2-buttons-nr" className = "mx-auto">
                 <div>
-                    <Button id = "button-mi-nr" size='sm'>More Info..</Button>
+                    <Link to={{ pathname: '/MoreInfo', state: { book: nReleases} }}>
+                        <Button className = "but-mp"
+                            variant="primary" 
+                            onClick={console.log('show!')}
+                            value={index}
+                        >
+                                        More Info
+                        </Button>
+                    </Link>
                 </div>
                 <div>
                     <Button id = "button-atc-nr" size='sm'>Add to Cart</Button>

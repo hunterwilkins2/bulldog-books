@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Row, Col, Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 // import { bsellerData } from '../data/bsellerData'
 import './styles/Bestsellers.css' 
@@ -18,7 +19,7 @@ function BestSellers(){
         fetchbSellers()
     }, [])
 
-    const bookCards = bSellers.map(bseller => (
+    const bookCards = bSellers.map((bseller, index) => (
 
         <Row className = "mx-auto" id = "row-style-b" key={bseller.title}>
             <Row id = "row1-bs"> 
@@ -30,7 +31,15 @@ function BestSellers(){
             </Row>
             <Row id = "row2-buttons-bs" className = "mx-auto">
                 <div>
-                    <Button id = "button-mi-bs" size='sm'>More Info..</Button>
+                    <Link to={{ pathname: '/MoreInfo', state: { book: bseller} }}>
+                        <Button className = "but-mp"
+                            variant="primary" 
+                            onClick={console.log('show!')}
+                            value={index}
+                        >
+                                        More Info
+                        </Button>
+                    </Link>
                 </div>
                 <div>
                     <Button id = "button-atc-bs" size='sm'>Add to Cart</Button>
