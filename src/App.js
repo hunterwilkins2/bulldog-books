@@ -18,7 +18,7 @@ import ManageUsers from './components/admin/ManageUsers'
 import AddBook from './components/admin/AddBook'
 import UpdatePromo from './components/admin/UpdatePromo'
 import EditBook from './components/admin/EditBook'
-
+import MoreInfo from './components/MoreInfo'
 
 // need to troubleshoot why Cart, Orders, Profile not rendering
 
@@ -30,6 +30,7 @@ function App() {
         <Router>
             <Switch>
                 <Route path='/' exact component={Homepage} />
+                <Route path='/MoreInfo' exact component={MoreInfo} />
                 <Route path='/register' exact component={Register} />
                 <Route path='/forgot' exact component={Forgot} />
                 <Route path='/reset-password' exact component={ResetPassword} />

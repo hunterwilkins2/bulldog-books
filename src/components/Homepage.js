@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React, {useState, useEffect} from 'react'
-import { Card, ListGroup, ListGroupItem, Col, Row, Container, Alert, Button, Modal } from 'react-bootstrap'
+import { Card, ListGroup, ListGroupItem, Col, Row, Container, Alert, Button } from 'react-bootstrap'
 import Cookies from 'js-cookie'
 import { Link } from 'react-router-dom'
 
@@ -78,10 +78,7 @@ function HomePage(){
         await fetchBooks()
     }
 
-    const [show, setShow] = useState([])
   
-    const handleClose = () => setShow(false)
-    const handleShow = () => setShow(true)
 
     const bookCards = books.map((book, bookIndex) => (
         <Col key={book.isbn} xs='3' id = "column-hp">
@@ -117,101 +114,15 @@ function HomePage(){
                         }
                         {Cookies.get('userType') !== ('admin') &&
                             <>
-         
-                                <Button className = "but-mb-hp" 
-                                    variant="primary" 
-                                    onClick={handleShow}
-                                    // value ={handleShow.target} 
-                                >
+                                <Link to={{ pathname: '/MoreInfo', state: { book: book} }}>
+                                    <Button className = "but-mp"
+                                        variant="primary" 
+                                        onClick={console.log('show!')}
+                                        value={bookIndex}
+                                    >
                                         More Info
-                                </Button>
-  
-                                <Modal id = "modal-hp" show={show} onHide={handleClose} animation={false}>
-                                    <Modal.Header id = "modal-header-hp">
-                                        Book Information
-                                    </Modal.Header>
-                                    <Modal.Body id = "modal-body-hp">
-                                        <Row>
-                                            <Col>
-                                                Title:
-                                            </Col>
-                                            <Col>
-                                                {book.title}
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col>
-                                                    Author:
-                                            </Col>
-                                            <Col>
-                                                {book.author}
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col>
-                                                    Edition:
-                                            </Col>
-                                            <Col>
-                                                {book.edition}
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col>
-                                                    Category:
-                                            </Col>
-                                            <Col>
-                                                {book.category}
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col>
-                                                    ISBN:
-                                            </Col>
-                                            <Col>
-                                                {book.isbn}
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col>
-                                                    Quantity in Stock:
-                                            </Col>
-                                            <Col>
-                                                {book.quantity}
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col>
-                                                    Price:
-                                            </Col>
-                                            <Col>
-                                                    ${book.sellPrice}
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col>
-                                                    Publication Date:
-                                            </Col>
-                                            <Col>
-                                                {book.publicationDate.substring(0,10)}
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col>
-                                                    Publisher:
-                                            </Col>
-                                            <Col>
-                                                {book.publisher}
-                                            </Col>
-                                        </Row>
-                                    </Modal.Body>
-                                    <Modal.Footer id = "modal-footer-hp" >
-                                        <Row>
-                                            <Button variant="danger" onClick={handleClose}>
-                                                    Close
-                                            </Button>
-                                        </Row>
-                                    </Modal.Footer>
-                                </Modal>
+                                    </Button>
+                                </Link>
 
                                 <Link to={{ pathname: '/user/Cart', state: { book: book} }}>
                                     <Button 
