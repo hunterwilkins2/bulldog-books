@@ -1,8 +1,12 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-no-target-blank */
 import React, {useState, useEffect} from 'react'
-import { Card, ListGroup, ListGroupItem, Col, Row, Container, Alert, Button } from 'react-bootstrap'
+import { Card, ListGroup, ListGroupItem, Col, Row, Container, Alert, Button, Form, FormControl } from 'react-bootstrap'
+import { Search } from 'react-bootstrap-icons'
 import Cookies from 'js-cookie'
 import { Link } from 'react-router-dom'
+import { Formik, ErrorMessage } from 'formik'
+import * as yup from 'yup'
 
 // import Promos from  './Promos'
 import BestSellers from './BestSeller'
@@ -117,7 +121,6 @@ function HomePage(){
                                 <Link to={{ pathname: '/MoreInfo', state: { book: book} }}>
                                     <Button className = "but-mp"
                                         variant="primary" 
-                                        onClick={console.log('show!')}
                                         value={bookIndex}
                                     >
                                         More Info
@@ -128,7 +131,6 @@ function HomePage(){
                                     <Button 
                                         className = "but-mb-hp"
                                         variant="primary" 
-                                        onClick={console.log('show!')}
                                         value = {bookIndex}
                                         // eslint-disable-next-line react/jsx-no-duplicate-props
                                         onClick = {async (event) => {await addToCart(event)}}
@@ -207,6 +209,46 @@ function HomePage(){
                     </Col>
                 </Row>
                 }
+                
+                <div className='search-bar'>
+                    <Formik 
+                        initialValues={{searchVal: ''}} 
+                        onSubmit={async (data) => {
+                            console.log(data.searchVal)
+                            const result = books.filter(book => 
+                                book.title.toLowerCase().includes(data.searchVal.toLowerCase())
+                                || book.author.toLowerCase().includes(data.searchVal.toLowerCase())
+                                || book.isbn.toString().includes(data.searchVal)
+                            )
+                            setBooks(result)
+                        }}
+                    >{({ handleSubmit,
+                            handleChange,
+                            handleBlur,
+                            values,
+                            touched,
+                            errors,
+                            setSubmitting
+                        }) => (
+                            <Form inline className='search-form' onSubmit={handleSubmit}>
+                                <FormControl 
+                                    name='searchVal'
+                                    placeholder='Title, Author, ISBN'
+                                    type='text'
+                                    value={values.searchVal}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}/>
+                                <Button type="submit">
+                                    <Search></Search>
+                                </Button>
+                                <Button
+                                    onClick={async (event) => {await fetchBooks( )}}
+                                >
+                                    Reset
+                                </Button>
+                            </Form>
+                        )}</Formik> 
+                </div>
                 <Row lg={3} >
                     {bookCards}
                 </Row>

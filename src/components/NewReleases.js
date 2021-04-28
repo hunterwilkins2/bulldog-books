@@ -33,7 +33,6 @@ function NewReleases(){
                     <Link to={{ pathname: '/MoreInfo', state: { book: nReleases} }}>
                         <Button className = "but-mp"
                             variant="primary" 
-                            onClick={console.log('show!')}
                             value={index}
                         >
                                         More Info

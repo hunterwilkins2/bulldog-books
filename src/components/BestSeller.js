@@ -34,7 +34,6 @@ function BestSellers(){
                     <Link to={{ pathname: '/MoreInfo', state: { book: bseller} }}>
                         <Button className = "but-mp"
                             variant="primary" 
-                            onClick={console.log('show!')}
                             value={index}
                         >
                                         More Info

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import { Navbar, Form, FormControl, Button, Nav, Dropdown, DropdownButton } from 'react-bootstrap'
-import { Search } from 'react-bootstrap-icons'
+import { Navbar, Button, Nav, Dropdown, DropdownButton } from 'react-bootstrap'
+import {  } from 'react-bootstrap-icons'
 import { Link } from 'react-router-dom'
 import { getCookie, deleteCookie } from './cookie-parser'
 import Cookies from 'js-cookie'
@@ -16,7 +16,7 @@ function logout() {
     }
 }
 
-function StoreNavbar({homePage=false, login=false}){
+function StoreNavbar({ login=false}){
 
     return(
         <Navbar className="basic-nav" bg="dark">
@@ -31,15 +31,6 @@ function StoreNavbar({homePage=false, login=false}){
                 </Link>
             </Navbar.Brand>
 
-            {homePage && 
-            <Form inline id = "search-form-style" >
-                <FormControl type="text" placeholder="Title, Author, ISBN" id = "searchStyle" />
-                <Button id = "button-search" >
-                    <Search></Search>
-                </Button>
-            </Form>
-
-            }
 
             {!login && 
 
