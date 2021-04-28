@@ -99,7 +99,7 @@ router.delete('/', auth.verifyCustomer, async (req, res, next) => {
                 return false
             }
             
-            const index = doc.books.findIndex(element => element.book === bookID)
+            const index = doc.books.findIndex(element => element.book == bookID)
             if(index == -1) {
                 hadError = true
                 return false
