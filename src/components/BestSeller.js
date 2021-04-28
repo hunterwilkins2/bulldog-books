@@ -19,6 +19,49 @@ function BestSellers(){
         fetchbSellers()
     }, [])
 
+
+
+    async function addToCart (event) {
+
+        let bookIndex = event.target.value
+        let bookID = bSellers[bookIndex]._id
+        let quantity = 1
+
+        console.log(bookIndex)
+        console.log(bookID)
+        console.log(quantity)
+
+        let bookData={
+            method: 'POST',
+            withCredentials: true,
+            credentials: 'include',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                'Access-Control-Allow-Credentials': true,
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify({
+                'bookID': bookID,
+                'quantity': quantity
+            })
+        }
+
+        let userResponse = await (await fetch('http://localhost:3000/api/cart', bookData)).json()
+
+        if(userResponse.errors) {
+            console.log(userResponse.errors.split(';'))
+        }
+        else {
+            console.log('no errors')
+        } 
+    }
+
+
+
     const bookCards = bSellers.map((bseller, index) => (
 
         <Row className = "mx-auto" id = "row-style-b" key={bseller.title}>
@@ -41,7 +84,17 @@ function BestSellers(){
                     </Link>
                 </div>
                 <div>
-                    <Button id = "button-atc-bs" size='sm'>Add to Cart</Button>
+                    <Link to={{ pathname: '/user/Cart', state: { book: bseller} }}>
+                        <Button 
+                            className = "but-mb"
+                            variant="primary" 
+                            value = {index}
+                            // eslint-disable-next-line react/jsx-no-duplicate-props
+                            onClick = {async (event) => {await addToCart(event)}}
+                        >
+                                        Add To Cart
+                        </Button>
+                    </Link>
                 </div>
             </Row>
         </Row>

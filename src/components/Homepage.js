@@ -185,9 +185,7 @@ function HomePage(){
         else {
             console.log('no errors')
         } 
-
         await fetchBooks()
-
     }
 
 
