@@ -38,3 +38,30 @@
 - When a customer or employee is unsuspended their status should go back to what it was before being suspended
 - Expected: If a customer of employee is unsuspended and their status was active then it should go back to being active. If the status was inactive, it should go back to being inactive. 
 - Actually: When a customer or employee with active status before supension was unsuspended their status was went back to active. However, if their status before being suspended was inactive, it was changed to active instead of inactive like it should be. 
+
+## (FAILED) Add to cart when not logged in
+- The case when a web user clicks add to cart
+- The user should be redirected to login page
+- Nothing happened...
+
+## (FAILED) Admin viewing order history
+- The page should show all the orders from users
+- Error thrown `Cannot read property 'street' of null`
+
+## (FAILED) Updating quantity of cart item with something other than a number
+- The page should display an error to the user telling them they can only use numbers
+- Error thrown on backend
+
+## (FAILED) Calaculate subtotal on cart page
+- The page should calculate the subtotal using the price of the book * the quantity
+- Quantity is not used in the calculation
+
+## (FAILED) Checkout page
+- The page should display the books in the cart and allow the user to select an address or card they have saved
+- Formix data shown to users
+- Page should redirect to order history page on successful order
+- Error should be displayed to user if it occurs
+
+## (FAILED) Logged in user viewing order history
+- The page should display all orders the user had made
+- Error thrown `Cannot read property 'type' of null`
