@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, {useState, useEffect} from 'react'
-import {Button, Card, Col, Container, Form, Row, ListGroup} from 'react-bootstrap'
+import {Button, Card, Col, Container, Form, Row, ListGroup, Alert} from 'react-bootstrap'
 import { Formik, ErrorMessage } from 'formik'
+import { Redirect } from 'react-router-dom'
 import * as yup from 'yup'
 
 
@@ -21,6 +22,14 @@ function Checkout(){
     const [state, setState] = useState('')
     const [zip, setZip] = useState('')
     const [addressId, setAddressid] = useState('')
+    const [errors, setErrors] = useState([])
+    const [noErrors, setNoErrors] = useState(false)
+
+    const alerts = errors.map(error => 
+        <Alert key={error} variant='danger'>
+            {error}
+        </Alert>
+    )
 
 
     async function fetchBooks(){
@@ -82,7 +91,16 @@ function Checkout(){
                 setState(addressResponse.state)
                 setZip(addressResponse.zipcode)       
                 setAddressid(addressResponse._id)
-            }         
+            }  
+            if(infoResponse.errors){
+                setErrors(errors => [...errors, infoResponse.errors])
+            }   
+            if(paymentResponse.errors){
+                setErrors(errors => [...errors, paymentResponse.errors])
+            }      
+            if(addressResponse.errors){
+                setErrors(errors => [...errors, addressResponse.errors])
+            } 
         }
         fetchData()
         fetchBooks()
@@ -133,6 +151,7 @@ function Checkout(){
 
             <StoreNavbar/> 
             <h1 id = "title-checkout">Checkout for {firstName} {lastName}</h1>
+            {alerts}
 
             <Container id = "cont1-co">
                 <Card id = "card1-co">
@@ -230,6 +249,9 @@ function Checkout(){
                             const addressResponse = await (await fetch('http://localhost:3000/api/address/temp-address', addressData)).json()
                             console.log(addressResponse)
                             addressIdSend = addressResponse._id
+                            if(addressResponse.errors){
+                                setErrors(errors => [...errors, addressResponse.errors])
+                            } 
                         }
                         if(!data.useExistingPayment){
                             let paymentData = {
@@ -254,6 +276,9 @@ function Checkout(){
                             const paymentResponse = await (await fetch('http://localhost:3000/api/payment/temp-payment', paymentData)).json()
                             console.log(paymentResponse)
                             paymentIdSend = paymentResponse._id
+                            if(paymentResponse.errors){
+                                setErrors(errors => [...errors, paymentResponse.errors])
+                            } 
                         }
                         if(data.promo != ''){
                             console.log(data.promo)
@@ -281,6 +306,11 @@ function Checkout(){
 
                         const orderResponse = await (await fetch('http://localhost:3000/api/order', orderData)).json()
                         console.log(orderResponse)
+                        if(orderResponse.errors){
+                            setErrors(errors => [...errors, orderResponse.errors])
+                        } else {
+                            setNoErrors(true)
+                        }
 
                     }}
                 >{({ handleSubmit,
@@ -446,6 +476,7 @@ function Checkout(){
                             <Button id = "but-sub-co"disabled={setSubmitting} variant="primary" type="submit">
                                 Submit
                             </Button>   
+                            {noErrors && <Redirect to='/user/orders'/>}
                         </Form>
                     )}</Formik>
             </Container>
