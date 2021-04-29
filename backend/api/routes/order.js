@@ -23,10 +23,10 @@ const createOrderSummary = async (orders) => {
 
         const address = await Address.findById(order.addressId)
         const payment = await Payment.findById(order.paymentId, 'type expirationDate')
-
+        const user = await User.findById(order.customer, '_id firstName lastName email')
         summary.push({
             _id: order._id,
-            customer: order.customer,
+            customer: user,
             subtotal: order.subtotal,
             tax: order.tax,
             delivery: order.delivery,
