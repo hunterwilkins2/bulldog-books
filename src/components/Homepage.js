@@ -192,8 +192,51 @@ function HomePage(){
 
     return (
         <div id = "background">
+
             <StoreNavbar homePage={true}/> 
+
             {alerts}
+
+            <div className='search-bar'>
+                <Formik 
+                    initialValues={{searchVal: ''}} 
+                    onSubmit={async (data) => {
+                        console.log(data.searchVal)
+                        const result = books.filter(book => 
+                            book.title.toLowerCase().includes(data.searchVal.toLowerCase())
+                                || book.author.toLowerCase().includes(data.searchVal.toLowerCase())
+                                || book.isbn.toString().includes(data.searchVal)
+                        )
+                        setBooks(result)
+                    }}
+                >{({ handleSubmit,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        touched,
+                        errors,
+                        setSubmitting
+                    }) => (
+                        <Form inline className='search-form' onSubmit={handleSubmit}>
+                            <FormControl 
+                                name='searchVal'
+                                placeholder='Title, Author, ISBN'
+                                type='text'
+                                value={values.searchVal}
+                                onChange={handleChange}
+                                onBlur={handleBlur}/>
+                            <Button type="submit">
+                                <Search></Search>
+                            </Button>
+                            <Button
+                                onClick={async (event) => {await fetchBooks( )}}
+                            >
+                                    Reset
+                            </Button>
+                        </Form>
+                    )}</Formik> 
+            </div>
+
             <Container id = "cont-hp">
                 {Cookies.get('userType') !== 'admin' &&
                 <Row className ="mx-auto" id = "promo-bestseller-row-hp">
@@ -208,49 +251,11 @@ function HomePage(){
                 </Row>
                 }
                 
-                <div className='search-bar'>
-                    <Formik 
-                        initialValues={{searchVal: ''}} 
-                        onSubmit={async (data) => {
-                            console.log(data.searchVal)
-                            const result = books.filter(book => 
-                                book.title.toLowerCase().includes(data.searchVal.toLowerCase())
-                                || book.author.toLowerCase().includes(data.searchVal.toLowerCase())
-                                || book.isbn.toString().includes(data.searchVal)
-                            )
-                            setBooks(result)
-                        }}
-                    >{({ handleSubmit,
-                            handleChange,
-                            handleBlur,
-                            values,
-                            touched,
-                            errors,
-                            setSubmitting
-                        }) => (
-                            <Form inline className='search-form' onSubmit={handleSubmit}>
-                                <FormControl 
-                                    name='searchVal'
-                                    placeholder='Title, Author, ISBN'
-                                    type='text'
-                                    value={values.searchVal}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}/>
-                                <Button type="submit">
-                                    <Search></Search>
-                                </Button>
-                                <Button
-                                    onClick={async (event) => {await fetchBooks( )}}
-                                >
-                                    Reset
-                                </Button>
-                            </Form>
-                        )}</Formik> 
-                </div>
                 <Row lg={3} >
                     {bookCards}
                 </Row>
-            </Container>       
+            </Container>
+
         </div>
     )
 
