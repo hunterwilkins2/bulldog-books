@@ -60,38 +60,41 @@ function NewReleases(){
     const bookCards = nReleases.map((nReleases, index) => (
 
         <Row className = "mx-auto" id = "row-style-nr" key={nReleases.title}>
-            <Row id = "row1-nr">
-                <Col  id = "col1-nr">
-                    <img className = "mx-auto" id = "pic-nr" src={nReleases.cover} alt = "book" />
-                </Col>
-                <Col id = "col2-nr"> {nReleases.title}</Col>
-                <Col id = "col3-nr"> {nReleases.author}</Col>
-            </Row>
-            <Row id = "row2-buttons-nr" className = "mx-auto">
-                <div>
-                    <Link to={{ pathname: '/MoreInfo', state: { book: nReleases} }}>
-                        <Button className = "but-mp"
-                            variant="primary" 
-                            value={index}
-                        >
+            <Col  id = "maincol1-nr">
+                <img className = "mx-auto" id = "pic-nr" src={nReleases.cover} alt = "book" />
+            </Col>
+            <Col id = "maincol2-nr">
+                <Row id = "row1-text-nr">
+                    <Col id = "col2-nr"> {nReleases.title}</Col>
+                    <Col id = "col3-nr"> {nReleases.author}</Col>
+                </Row>
+                <Row id = "row2-buttons-nr" className = "mx-auto">
+                    <div>
+                        <Link to={{ pathname: '/MoreInfo', state: { book: nReleases} }}>
+                            <Button 
+                                id = "button-mi-nr"
+                                variant="primary" 
+                                value={index}
+                            >
                                         More Info
-                        </Button>
-                    </Link>
-                </div>
-                <div>
-                    <Link to={{ pathname: '/user/Cart', state: { book: nReleases} }}>
-                        <Button 
-                            className = "but-mb"
-                            variant="primary" 
-                            value = {index}
-                            // eslint-disable-next-line react/jsx-no-duplicate-props
-                            onClick = {async (event) => {await addToCart(event)}}
-                        >
+                            </Button>
+                        </Link>
+                    </div>
+                    <div>
+                        <Link to={{ pathname: '/user/Cart', state: { book: nReleases} }}>
+                            <Button 
+                                id = "button-atc-nr"
+                                variant="primary" 
+                                value = {index}
+                                // eslint-disable-next-line react/jsx-no-duplicate-props
+                                onClick = {async (event) => {await addToCart(event)}}
+                            >
                                         Add To Cart
-                        </Button>
-                    </Link>
-                </div>
-            </Row>
+                            </Button>
+                        </Link>
+                    </div>
+                </Row>
+            </Col>
         </Row>
 
     ))
