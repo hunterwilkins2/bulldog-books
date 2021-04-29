@@ -107,7 +107,7 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
         let promotionAmount = 0
         var promotion
         if(promotionTitle) {
-            promotion = await Promotion.findOne(promotionTitle)
+            promotion = await Promotion.findOne({ title: promotionTitle })
 
             if(!promotion) {
                 throw Error('Invalid promotion title')
