@@ -19,8 +19,7 @@ import AddBook from './components/admin/AddBook'
 import UpdatePromo from './components/admin/UpdatePromo'
 import EditBook from './components/admin/EditBook'
 import MoreInfo from './components/MoreInfo'
-
-// need to troubleshoot why Cart, Orders, Profile not rendering
+import OrderHistory from './components/admin/OrderHistory'
 
 function App() {
 
@@ -45,6 +44,7 @@ function App() {
                 <Route path='/admin/AddBook' exact component={AddBook} />
                 <Route path='/admin/EditBook' exact component={EditBook} />
                 <Route path='/admin/UpdatePromo' exact component={UpdatePromo} />
+                <Route path='/admin/OrderHistory' exact component={OrderHistory} />
             </Switch>
         </Router>
     )
