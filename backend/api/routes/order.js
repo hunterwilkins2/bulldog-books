@@ -153,7 +153,6 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
         const user = await User.findById(id)
 
         const emailBody = await createEmailBody(user, order)
-        console.log(emailBody)
         mailer.sendMail(user.email, 'Thank you for your purchase', emailBody)
 
         res.json(order)
@@ -170,12 +169,13 @@ const createEmailBody = async (user, order) => {
         books += `${book.title} x ${bookId.bookQuantity}\n`
     }
 
-    return `${user.firstName} thank you for your purchase! Your order, ${order.orderId}, will be shipped shortly.\n
-            Order summary for ${order.orderId} on ${order.orderDate}:\n
-            Shipping address: ${address.street} ${address.city}, ${address.state}\n
-            Books ordered:\n
-            ${books}
-            Your total: ${order.total}`
+    return `${user.firstName} thank you for your purchase! Your order, ${order.orderId}, will be shipped shortly.
+Order summary for ${order.orderId} on ${order.orderDate}:
+Shipping address: ${address.street} ${address.city}, ${address.state}
+Books ordered:
+
+${books}
+Your total: $${order.total.toFixed(2)}`
 }
 
 module.exports = router
