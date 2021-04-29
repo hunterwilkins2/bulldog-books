@@ -7,6 +7,10 @@
 
 }
 
+#card-style-mp {
+    margin-bottom: 2vh;
+}
+
 #lG-buttons-mp {
     display: flex;
     justify-content: space-around;
@@ -24,6 +28,7 @@
     color: white;
     text-align: center;
     margin-top: 3vh;
+    margin-bottom: 3vh;
 }
 
 #promocard-cont-mp {
@@ -31,6 +36,7 @@
     padding-right: 2vw;
     display: flex;
     justify-content: space-around;
+    width: 100vw;
 
 }
 
@@ -44,8 +50,8 @@
 }
 
 #form-style-profile {
-    max-height: fit-content;
-    min-height: fit-content;
+    max-width: 60vw;
+    min-width: 60vw;
 }
 
 #form-title-mp {
