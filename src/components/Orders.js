@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Col, Row, Container, Card } from 'react-bootstrap'
 import moment from 'moment'
+import { Redirect } from 'react-router-dom'
 
 import StoreNavbar from './StoreNavbar'
 import './styles/Orders.css' 
@@ -19,6 +20,7 @@ function Orders(){
     })
 
     const [orders, setOrders] = useState([])
+    const [errors, setErrors] = useState([])
 
     async function fetchBooks(){
         let orderGetData={
@@ -38,7 +40,8 @@ function Orders(){
         const response = await fetch('http://localhost:3000/api/order', orderGetData)
         const data = await response.json()
         if(data.errors) {
-            console.log(data.errors.split(';')) 
+            console.log(data.errors)
+            await setErrors(data.errors)
         }
         await setOrders(data)
         console.log(data)
@@ -50,10 +53,12 @@ function Orders(){
 
 
     console.log(orders)
+
+    let orderCards
+
     
-    const orderCards = orders.map((order, orderIndex) => (
+    orderCards = orders.map((order, orderIndex) => (
         <>   
-            {console.log(order)}
             <Container  key={order} id = "cont-style">
                 <Row>
                     <h3 id = "card-title"> Order {orderIndex + 1}</h3>
@@ -112,11 +117,13 @@ function Orders(){
 
         </>
 
-    ))    
+    ))  
+    
 
 
     return(
         <div id = "background">
+            {errors && <Redirect to='/login' />}
             <StoreNavbar/> 
             <h1 id = "page-title" >Order History</h1> 
                     

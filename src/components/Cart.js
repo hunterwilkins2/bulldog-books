@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { Row, Col, Container, Button, Form } from 'react-bootstrap'
 import { Formik } from 'formik'
 import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 // import NumericInput from 'react-numeric-input'
 
 
@@ -12,6 +13,7 @@ import './styles/Background.css'
 function Cart(){
 
     const [carts, setCart] = useState([])
+    const [errors, setErrors] = useState([])
 
     async function fetchCart(){
         let cartGetData={
@@ -31,7 +33,7 @@ function Cart(){
         const response = await fetch('http://localhost:3000/api/cart', cartGetData)
         const data = await response.json()
         if(data.errors) {
-            console.log(data.errors.split(';')) // TODO: Add a set erros hook (see Homepage.js)
+            setErrors(data.errors)
         }
         await setCart(data)
         // console.log(data)
@@ -219,6 +221,7 @@ function Cart(){
 
     return(
         <div id = "background">
+            {errors && <Redirect to='/login'/>}
             <StoreNavbar/> 
             <h1 id = "h1-style-cart">Cart</h1>
             <Container className = "main-cont-cart">
