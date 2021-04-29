@@ -17,4 +17,46 @@
     margin-top:5%;
     margin-bottom: 4%;
     text-align: center;
+    width: 100%;
 }
+
+#mainrow {
+    width: 100%;
+    margin-left: .1vw;
+}
+
+#maincol {
+
+    width: 100%;
+}
+
+#card1 {
+
+    min-width: 100%;
+    min-height: 100%;
+    font-size: small;
+
+}
+
+#col1 {
+
+    min-width: 80%;
+    min-height: 80%;
+    /* border: 1px solid black; */
+
+}
+
+#col2 {
+    /* border: 1px solid black; */
+}
+
+
+#li {
+    display: flex;
+    justify-content: space-between;
+
+    min-height: 4.5vh;
+    max-height: 4.5vh;
+    
+}
+
