@@ -111,9 +111,9 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
 
             if(!promotion) {
                 throw Error('Invalid promotion title')
-            } else if(promotion.startDate < Date.now()) {
+            } else if(promotion.startDate > Date.now()) {
                 throw Error('Promotion cannot be used. Promotion hasn\'t started yet')
-            } else if(promotion.endDate > Date.now()) {
+            } else if(promotion.endDate < Date.now()) {
                 throw Error('Promotion cannot be used. Promotion has already ended')
             }
 
