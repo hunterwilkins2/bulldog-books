@@ -2,6 +2,7 @@
     
     .main-cont-cart {
         max-width: 70vw;
+
     }
 
 
@@ -141,6 +142,11 @@
         min-width: 4vw;
 
         margin: 1vw;
+    }
 
+    #row-but-cart {
+
+        margin-left: .7vw;
+        
     }
 
