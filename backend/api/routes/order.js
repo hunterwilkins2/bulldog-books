@@ -24,6 +24,7 @@ const createOrderSummary = async (orders) => {
         const payment = await Payment.findById(order.paymentId)
         summary.push({
             _id: order._id,
+            userId: order.customer,
             subtotal: order.subtotal,
             tax: order.tax,
             delivery: order.delivery,
