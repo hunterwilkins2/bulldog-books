@@ -39,9 +39,9 @@ router.post('/temp-address', async (req, res, next) => {
     try {
         const { street, city, state, zipcode } = req.body
 
-        await Address.create({ street, city, state, zipcode })
+        const address = await Address.create({ street, city, state, zipcode })
 
-        res.status(200).json({message: 'Successfully added address'})
+        res.status(200).json(address)
     } catch(error) {
         next(error)
     }

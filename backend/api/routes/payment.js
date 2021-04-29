@@ -45,9 +45,9 @@ router.post('/temp-payment', async (req, res, next) => {
     try {
         const { cardNumber, type, expirationDate } = req.body
         
-        await Payment.create({ cardNumber, type, expirationDate })
+        const payment = await Payment.create({ cardNumber, type, expirationDate })
 
-        res.status(200).json({ message: 'Sucessfully added card' })
+        res.json(payment)
 
     } catch(error) {
         next(error)
