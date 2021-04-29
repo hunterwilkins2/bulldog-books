@@ -41,13 +41,15 @@ function StoreNavbar({ login=false}){
                     <Dropdown.Item  as={Link} to='/admin/AddBook'>Add Book</Dropdown.Item>
                     <Dropdown.Item  as={Link} to='/admin/ManageUsers'>Manage Users</Dropdown.Item>
                     <Dropdown.Item  as={Link} to='/admin/ManagePromotions'>Manage Promotions</Dropdown.Item>
-                    
+                    <Dropdown.Item  as={Link} to='/admin/OrderHistory'>Order History</Dropdown.Item>
                 </DropdownButton>
                 }
 
                 <DropdownButton id="button-profile" title="Profile" className='button-navbar'>
                     <Dropdown.Item  as={Link} to='/user/Profile'>Profile</Dropdown.Item>
+                    {Cookies.get('userType') !== ('admin') &&
                     <Dropdown.Item  as={Link} to='/user/Orders'>Orders</Dropdown.Item>
+                    }
                     {Cookies.get('userType') !== ('admin') &&
                         <Dropdown.Item  as={Link} to='/user/Cart'>Cart</Dropdown.Item>
                     }
