@@ -302,7 +302,8 @@ function Profile(){
                                             onBlur={handleBlur}
                                             isValid={touched.promos && !errors.promos}
                                             isInvalid={touched.promos && errors.promos} 
-                                        /></Form.Group> 
+                                        />
+                                    </Form.Group> 
                                     <Button id = "button1-profile" variant="primary" type="submit" disabled={!(dirty && isValid)}>
                                         Save Changes
                                     </Button>
