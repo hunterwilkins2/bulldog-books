@@ -12,6 +12,8 @@
         background: #ffffff;
         border-radius: 20px;
         margin-bottom: -5%;
+        min-width:90vw;
+        max-width: 90vw;
 
     }
 
@@ -58,4 +60,9 @@
         width: 70%;
 
         border: 2px solid black;
+    }
+
+    .ord-items-list-o {
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
     }

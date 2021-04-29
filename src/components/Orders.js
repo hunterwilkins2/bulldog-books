@@ -1,67 +1,109 @@
 import React, {useState, useEffect} from 'react'
 import { Col, Row, Container, Card } from 'react-bootstrap'
+import moment from 'moment'
 
 import StoreNavbar from './StoreNavbar'
-import { ordersData } from '../data/orderInfo'
 import './styles/Orders.css' 
 import './styles/Background.css'
 
 
 function Orders(){
     
+    const currentDate = moment().format('MM-DD-YYYY')
+    console.log(currentDate)
 
-    // const [orderInfo, setOrders] = useState([])
-    
-    // useEffect(() => {
-    //     async function fetchOrders(){
-    //         const response = await fetch('http://localhost:3000/api/Orders')
-    //         const ordersData = await response.json()
-    //         setOrders(ordersData)
-    //     }
-    //     fetchOrders()
-    // }, [])
+    const momentRandom = require('moment-random')
 
-    const [orderInfo, setOrders] = useState([])
-    
+    console.log(momentRandom())
+
+    let trackingNumber = 10000 + Math.random() * 10000
+
+    const [orders, setOrders] = useState([])
+
+    async function fetchBooks(){
+        let orderGetData={
+            method: 'GET',
+            withCredentials: true,
+            credentials: 'include',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://localhost:3000',
+                'Access-Control-Allow-Credentials': true,
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+        }
+        const response = await fetch('http://localhost:3000/api/order', orderGetData)
+        const data = await response.json()
+        if(data.errors) {
+            console.log(data.errors.split(';')) 
+        }
+        await setOrders(data)
+        console.log(data)
+    }
+
     useEffect(() => {
-
-        setOrders(ordersData)
-        
+        fetchBooks()
     }, [])
-        
-    
 
-    const orderCards = orderInfo.map(orderInput => (
+
+
+    // ordersbookOrderList.forEach(cartItem => {
+    //     console.log(cartItem)
+    // })
+    
+    // console.log(orders[0].bookOrderList)
+
+    // const bookItems = orders[0].bookOrderList.map((book, bookIndex) => (
+    //     <>
+    //         {console.log(book)}
+    //         {console.log(bookIndex)}
+    //     </>
+    // ))
+    
+    const orderCards = orders.map((order, orderIndex) => (
         <>   
-            <Container id = "cont-style">
+            <Container  key={order} id = "cont-style">
                 <Row>
-                    <h3 id = "card-title"> Order {orderInput.orderNum}</h3>
+                    <h3 id = "card-title"> Order {orderIndex + 1}</h3>
                 </Row>
                 <Row className = 'mx-auto' lg={3}> 
-                    <Col id = "top-buffer" key={orderInput.isbn} xs='1'>
+                    <Col id = "top-buffer" xs='1'>
                         <Card id = "card-style1">
-                            <Card.Title>{orderInput.title}</Card.Title>
-                            <Card.Img className = "mx-auto" id = "image" src={orderInput.image} />
+                            <Card.Title>Ordered Items</Card.Title>
+                            <Card.Body>
+                                {
+                                    orders[orderIndex].bookOrderList.map((bookItem) =>(
+
+                                        <Row className = "ord-items-list-o" key={bookItem}>
+                                            {bookItem.book.title} ({bookItem.bookQuantity}) 
+                                        </Row>
+                                    ))
+                                }
+                            </Card.Body>
                         </Card>
                     </Col>
-                    <Col id = "top-buffer" key={orderInput.TrackingId} xs='1'>
-                        <Card id = "card-style2">
-                            <Card.Title> Shipping Information </Card.Title>
-                            <Card.Body> <div id = "sec-title">Address Shipped: </div>  {orderInput.Address} </Card.Body>
-                            <Card.Body> <div id = "sec-title"> Quantity Shipped: </div>  {orderInput.QuantityShipped}</Card.Body>
-                            <Card.Body> <div id = "sec-title"> Date Shipped: </div>  {orderInput.DateShipped}</Card.Body>
-                            <Card.Body> <div id = "sec-title"> Tracking Id: </div>  {orderInput.TrackingId}</Card.Body>
-                        </Card>
-                    </Col>
-                    <Col id = "top-buffer" key={orderInput.OrderId} xs='1'>
+                    <Col id = "top-buffer"  xs='1'>
                         <Card id = "card-style3">
                             <Card.Title>Order Information</Card.Title>
-                            <Card.Body> <div id = "sec-title"> Price </div>  {orderInput.Price} </Card.Body>
-                            <Card.Body> <div id = "sec-title"> Quantity Ordered: </div>  {orderInput.QuantityOrdered}</Card.Body>
-                            <Card.Body> <div id = "sec-title"> Date Ordered: </div>  {orderInput.DateOrdered}</Card.Body>
-                            <Card.Body> <div id = "sec-title"> Order ID: </div>  {orderInput.OrderID}</Card.Body>
+                            <Card.Body> <div id = "sec-title"> Order Total </div>  {order.total} </Card.Body>
+                            <Card.Body> <div id = "sec-title"> Quantity Ordered: </div>  asdfs </Card.Body>
+                            <Card.Body> <div id = "sec-title"> Date Ordered: </div>  {currentDate} </Card.Body>
+                            <Card.Body> <div id = "sec-title"> Order ID: </div>  {order._id}</Card.Body>
                         </Card>
                     </Col>
+                    <Col id = "top-buffer" xs='1'>
+                        <Card id = "card-style2">
+                            <Card.Title> Shipping Information </Card.Title>
+                            <Card.Body> <div id = "sec-title">Address Shipped: </div>  address </Card.Body>
+                            <Card.Body> <div id = "sec-title"> Quantity Shipped: </div> asdf </Card.Body>
+                            <Card.Body> <div id = "sec-title"> Date Shipped: </div>  {currentDate}</Card.Body>
+                            <Card.Body> <div id = "sec-title"> Tracking Id: </div>  {Math.floor(trackingNumber)}</Card.Body>
+                        </Card>
+                    </Col>
+
                 </Row>
             </Container>
 

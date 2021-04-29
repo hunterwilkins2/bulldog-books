@@ -16,6 +16,7 @@
     "formik": "^2.2.6",
     "js-cookie": "^2.2.1",
     "moment": "^2.29.1",
+    "moment-random": "^1.1.0",
     "nodemailer": "^6.5.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
