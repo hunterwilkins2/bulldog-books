@@ -12,11 +12,11 @@ function Orders(){
     const currentDate = moment().format('MM-DD-YYYY')
     console.log(currentDate)
 
-    const momentRandom = require('moment-random')
-
-    console.log(momentRandom())
-
-    let trackingNumber = 10000 + Math.random() * 10000
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2
+    })
 
     const [orders, setOrders] = useState([])
 
@@ -62,9 +62,12 @@ function Orders(){
     //         {console.log(bookIndex)}
     //     </>
     // ))
+
+    console.log(orders)
     
     const orderCards = orders.map((order, orderIndex) => (
         <>   
+            {console.log(order)}
             <Container  key={order} id = "cont-style">
                 <Row>
                     <h3 id = "card-title"> Order {orderIndex + 1}</h3>
@@ -88,9 +91,12 @@ function Orders(){
                     <Col id = "top-buffer"  xs='1'>
                         <Card id = "card-style3">
                             <Card.Title>Order Information</Card.Title>
-                            <Card.Body> <div id = "sec-title"> Order Total </div>  {order.total} </Card.Body>
-                            <Card.Body> <div id = "sec-title"> Quantity Ordered: </div>  asdfs </Card.Body>
-                            <Card.Body> <div id = "sec-title"> Date Ordered: </div>  {currentDate} </Card.Body>
+                            <Card.Body> <div id = "sec-title"> Payment Card </div>  {order.payment.type} </Card.Body>
+                            <Card.Body> <div id = "sec-title"> Order Total </div>  {formatter.format(order.total)} </Card.Body>
+                            <Card.Body> 
+                                <div id = "sec-title"> Date Ordered: </div> 
+                                {moment(order.orderDate).format('MM-DD-YYYY').toString()} 
+                            </Card.Body>
                             <Card.Body> <div id = "sec-title"> Order ID: </div>  {order._id}</Card.Body>
                         </Card>
                     </Col>
@@ -98,9 +104,14 @@ function Orders(){
                         <Card id = "card-style2">
                             <Card.Title> Shipping Information </Card.Title>
                             <Card.Body> <div id = "sec-title">Address Shipped: </div>  address </Card.Body>
-                            <Card.Body> <div id = "sec-title"> Quantity Shipped: </div> asdf </Card.Body>
-                            <Card.Body> <div id = "sec-title"> Date Shipped: </div>  {currentDate}</Card.Body>
-                            <Card.Body> <div id = "sec-title"> Tracking Id: </div>  {Math.floor(trackingNumber)}</Card.Body>
+                            <Card.Body> <div id = "sec-title"> Date Shipped: </div>  
+                                {
+                                    
+                                    moment(order.orderDate).format('MM-DD-YYYY').toString()
+                                
+                                }
+                            </Card.Body>
+                            <Card.Body> <div id = "sec-title"> Tracking Id: </div>  {Math.floor(10000 + Math.random() * 10000)}</Card.Body>
                         </Card>
                     </Col>
 

@@ -47,7 +47,7 @@ function Checkout(){
 
     const orderSummaryItems = orderItems.map((item) => (
         <>
-            <ListGroup.Item key={item} id = "li">
+            <ListGroup.Item key={item} id = "li-co">
                 <Col id = "col1">
                     {item.book.title} ({item.bookQuantity}):                                   
                 </Col>
@@ -70,9 +70,53 @@ function Checkout(){
 
     console.log('checkout')
     return(
+
         <div id = "background">
+
             <StoreNavbar/> 
             <h1 id = "title-checkout">Checkout</h1>
+
+            <Container id = "cont1-co">
+                <Card id = "card1-co">
+                    <Card.Title> Order Summary </Card.Title>
+                    <ListGroup variant="flush">
+                        {orderSummaryItems}
+                        <ListGroup.Item id = "li-co">
+                            <Col id = "col1-co">
+                                                    Total:                                   
+                            </Col>
+                            <Col id = "col2-co">
+                                {formatter.format(total)}                            
+                            </Col>
+                        </ListGroup.Item>
+                        <ListGroup.Item id = "li-co">
+                            <Col id = "col1-co">
+                                                    Tax:                                   
+                            </Col>
+                            <Col id = "col2-co">
+                                {formatter.format(tax)}                            
+                            </Col>
+                        </ListGroup.Item>
+                        <ListGroup.Item id = "li-co">
+                            <Col id = "col1-co">
+                                                    Delivery Fee:                                   
+                            </Col>
+                            <Col id = "col2-co">
+                                {formatter.format(delfee)}                           
+                            </Col>
+                        </ListGroup.Item>
+                        <ListGroup.Item id = "li-co">
+                            <Col id = "col1-co">
+                                                    GRAND TOTAL                                   
+                            </Col>
+                            <Col id = "col2-co">
+                                {formatter.format(total + tax + delfee)}                            
+                            </Col>
+                        </ListGroup.Item>
+                    </ListGroup>
+                </Card>
+            </Container>
+
             <Container id = "main-cont-checkout">
                 <Row>
                     <Col>
@@ -159,43 +203,6 @@ function Checkout(){
                             <h2 id = "h2-checkout">Order Summary</h2>
                             <Row id = "mainrow">
                                 <Col id = "maincol">
-                                    <Card id = "card1">
-                                        <ListGroup variant="flush">
-                                            {orderSummaryItems}
-                                            <ListGroup.Item id = "li">
-                                                <Col id = "col1">
-                                                    Total:                                   
-                                                </Col>
-                                                <Col id = "col2">
-                                                    {formatter.format(total)}                            
-                                                </Col>
-                                            </ListGroup.Item>
-                                            <ListGroup.Item id = "li">
-                                                <Col id = "col1">
-                                                    Tax:                                   
-                                                </Col>
-                                                <Col id = "col2">
-                                                    {formatter.format(tax)}                            
-                                                </Col>
-                                            </ListGroup.Item>
-                                            <ListGroup.Item id = "li">
-                                                <Col id = "col1">
-                                                    Delivery Fee:                                   
-                                                </Col>
-                                                <Col id = "col2">
-                                                    {formatter.format(delfee)}                           
-                                                </Col>
-                                            </ListGroup.Item>
-                                            <ListGroup.Item id = "li">
-                                                <Col id = "col1">
-                                                    GRAND TOTAL                                   
-                                                </Col>
-                                                <Col id = "col2">
-                                                    {formatter.format(total + tax + delfee)}                            
-                                                </Col>
-                                            </ListGroup.Item>
-                                        </ListGroup>
-                                    </Card>
                                 </Col>
                             </Row>
                         </Row>
