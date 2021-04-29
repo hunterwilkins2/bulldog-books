@@ -41,6 +41,19 @@ router.post('/', async (req, res, next) => {
     }
 })
 
+router.post('/temp-payment', async (req, res, next) => {
+    try {
+        const { cardNumber, type, expirationDate } = req.body
+        
+        await Payment.create({ cardNumber, type, expirationDate })
+
+        res.status(200).json({ message: 'Sucessfully added card' })
+
+    } catch(error) {
+        next(error)
+    }
+})
+
 router.delete('/', auth.verifyCustomer, async (req, res, next) => {
     try {
         const id = auth.getId(req.cookies.jwt)

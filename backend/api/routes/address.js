@@ -35,6 +35,18 @@ router.post('/', async (req, res, next) => {
     }
 })
 
+router.post('/temp-address', async (req, res, next) => {
+    try {
+        const { street, city, state, zipcode } = req.body
+
+        await Address.create({ street, city, state, zipcode })
+
+        res.status(200).json({message: 'Successfully added address'})
+    } catch(error) {
+        next(error)
+    }
+})
+
 router.patch('/', auth.verifyCustomer, async (req, res, next) => {
     try {
         const id = auth.getId(req.cookies.jwt)

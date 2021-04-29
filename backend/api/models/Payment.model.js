@@ -5,7 +5,7 @@ const { isLength } = require('validator')
 const OBJECT_ID = Schema.Types.ObjectId
 
 const paymentSchema = Schema({
-    customer: { type: OBJECT_ID, ref: 'User', required: true},
+    customer: { type: OBJECT_ID, ref: 'User' },
     cardNumber: 
     { 
         type: String, 

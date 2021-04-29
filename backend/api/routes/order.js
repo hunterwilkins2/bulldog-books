@@ -4,8 +4,11 @@ const Order = require('../models/Order.model')
 const Book = require('../models/Book.model')
 const Cart = require('../models/Cart.model')
 const Promotion = require('../models/Promotion.model')
+const Address = require('../models/Address.model')
+const Payment = require('../models/Payment.model')
 const auth = require('../../auth')
 const mailer = require('../../email')
+
 
 const router = express.Router()
 
@@ -17,6 +20,8 @@ const createOrderSummary = async (orders) => {
         if(order.promotion) {
             promotion = await Promotion.findById(order.promotion)
         }
+        const address = await Address.findById(order.addressId)
+        const payment = await Payment.findById(order.paymentId)
         summary.push({
             _id: order._id,
             subtotal: order.subtotal,
@@ -24,6 +29,8 @@ const createOrderSummary = async (orders) => {
             delivery: order.delivery,
             total: order.total,
             promotion,
+            address,
+            payment,
             bookOrderList: books
         })
     }
@@ -88,7 +95,7 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
     try {
 
         const id = auth.getId(req.cookies.jwt)
-        const { paymentId, promotionTitle } = req.body
+        const { paymentId, addressId, promotionTitle } = req.body
 
         const cart = await Cart.findOne({ user: id })
         const cartBooks = await findBooks(cart.books)
@@ -128,8 +135,10 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
             delivery, 
             total,
             promotionId: promotion ? promotion._id : null,
+            orderDate: Date.now(),
             customer: id,
             paymentId,
+            addressId,
             bookOrderList: cart.books
         })
 
@@ -137,12 +146,29 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
 
         const user = await User.findById(id)
 
-        mailer.sendMail(user.email, 'Thank you for your purchase', `${user.firstName} your order will be delivered shortly`)
+        const emailBody = await createEmailBody(user, order)
+        mailer.sendMail(user.email, 'Thank you for your purchase', emailBody)
 
         res.json(order)
     } catch(error) {
         next(error)
     }
 })
+
+const createEmailBody = async (user, order) => {
+    const address = await Address.findById(order.addressId)
+    var books = ''
+    for(var bookId of order.bookOrderList) {
+        const book = await Book.findById(bookId.book)
+        books += `${book.title} x ${bookId.bookQuantity}\n`
+    }
+
+    return `${user.firstName} thank you for your purchase! Your order, ${order.orderId}, will be shipped shortly.\n
+            Order summary for ${order.orderId} on ${order.orderDate}:\n
+            Shipping address: ${address.street} ${address.city}, ${address.state}\n
+            Books ordered:\n
+            ${books}
+            Your total: ${order.total}`
+}
 
 module.exports = router

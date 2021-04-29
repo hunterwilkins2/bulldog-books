@@ -5,7 +5,7 @@ const { isLength } = require('validator')
 const OBJECT_ID = Schema.Types.ObjectId
 
 const addressSchema = Schema({
-    customer: { type: OBJECT_ID, ref: 'User', required: true },
+    customer: { type: OBJECT_ID, ref: 'User' },
     street: { type: String, required: [true, 'Please enter an address'] },
     city: { type: String, required: [true, 'Please enter your city'] },
     state: { type: String, required: [true, 'Please enter your state'] },
