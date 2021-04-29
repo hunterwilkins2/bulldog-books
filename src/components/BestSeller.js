@@ -86,17 +86,15 @@ function BestSellers(){
                         </Link>
                     </div>
                     <div>
-                        <Link to={{ pathname: '/user/Cart', state: { book: bseller} }}>
-                            <Button 
-                                id = "button-atc-b"
-                                variant="primary" 
-                                value = {index}
-                                // eslint-disable-next-line react/jsx-no-duplicate-props
-                                onClick = {async (event) => {await addToCart(event)}}
-                            >
+                        <Button 
+                            id = "button-atc-b"
+                            variant="primary" 
+                            value = {index}
+                            // eslint-disable-next-line react/jsx-no-duplicate-props
+                            onClick = {async (event) => {await addToCart(event)}}
+                        >
                                         Add To Cart
-                            </Button>
-                        </Link>
+                        </Button>
                     </div>
                 </Row>
             </Col>

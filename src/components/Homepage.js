@@ -82,8 +82,6 @@ function HomePage(){
         await fetchBooks()
     }
 
-  
-
     const bookCards = books.map((book, bookIndex) => (
         <Col key={book.isbn} xs='3' id = "column-hp">
             <Card id = "card-style-hp">
@@ -127,18 +125,15 @@ function HomePage(){
                                     </Button>
                                 </Link>
 
-                                <Link to={{ pathname: '/user/Cart', state: { book: book} }}>
-                                    <Button 
-                                        className = "but-mb-hp"
-                                        variant="primary" 
-                                        value = {bookIndex}
-                                        // eslint-disable-next-line react/jsx-no-duplicate-props
-                                        onClick = {async (event) => {await addToCart(event)}}
-                                    >
+                                <Button 
+                                    className = "but-mb-hp"
+                                    variant="primary" 
+                                    value = {bookIndex}
+                                    // eslint-disable-next-line react/jsx-no-duplicate-props
+                                    onClick = {async (event) => {await addToCart(event)}}
+                                >
                                         Add To Cart
-                                    </Button>
-                                </Link>
-
+                                </Button>
                             </>
                         }
                     </ListGroupItem>                   

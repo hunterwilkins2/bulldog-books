@@ -81,6 +81,8 @@ function Cart(){
 
         await fetchCart()
 
+        window.location.reload()
+
     }
 
     console.log(carts)
@@ -131,6 +133,8 @@ function Cart(){
                         console.log(data.quantity)
 
                         setSubmitting(false)
+
+                        window.location.reload()
 
                         const cartQuantResponse = await (await fetch('http://localhost:3000/api/cart', cartQuantData)).json()
                         if(cartQuantResponse.errors) {
