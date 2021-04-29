@@ -74,14 +74,20 @@ function Orders(){
                 </Row>
                 <Row className = 'mx-auto' lg={3}> 
                     <Col id = "top-buffer" xs='1'>
-                        <Card id = "card-style1">
+                        <Card id = "card-style1-o">
                             <Card.Title>Ordered Items</Card.Title>
                             <Card.Body>
                                 {
                                     orders[orderIndex].bookOrderList.map((bookItem) =>(
 
                                         <Row className = "ord-items-list-o" key={bookItem}>
-                                            {bookItem.book.title} ({bookItem.bookQuantity}) 
+                                            <Col id = "card1-col1-o">
+                                                <img id = "card1-image-o" src={bookItem.book.cover} alt={bookItem.book.title} />
+                                            </Col>
+                                            <Col id = "card1-col2-o">
+                                                {bookItem.book.title} ({bookItem.bookQuantity}) 
+                                            </Col>
+                                            
                                         </Row>
                                     ))
                                 }
@@ -91,7 +97,7 @@ function Orders(){
                     <Col id = "top-buffer"  xs='1'>
                         <Card id = "card-style3">
                             <Card.Title>Order Information</Card.Title>
-                            <Card.Body> <div id = "sec-title"> Payment Card </div>  {order.payment.type} </Card.Body>
+                            <Card.Body> <div id = "sec-title"> Payment Card </div>  {order.payment.type} - Exp ({moment(order.payment.expirationDate).format('MM/YY')}) </Card.Body>
                             <Card.Body> <div id = "sec-title"> Order Total </div>  {formatter.format(order.total)} </Card.Body>
                             <Card.Body> 
                                 <div id = "sec-title"> Date Ordered: </div> 
@@ -103,7 +109,7 @@ function Orders(){
                     <Col id = "top-buffer" xs='1'>
                         <Card id = "card-style2">
                             <Card.Title> Shipping Information </Card.Title>
-                            <Card.Body> <div id = "sec-title">Address Shipped: </div>  address </Card.Body>
+                            <Card.Body> <div id = "sec-title">Address Shipped: </div>  {order.address.street}, {order.address.city}, {order.address.state} {order.address.zipcode}  </Card.Body>
                             <Card.Body> <div id = "sec-title"> Date Shipped: </div>  
                                 {
                                     

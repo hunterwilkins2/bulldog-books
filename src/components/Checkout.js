@@ -64,9 +64,9 @@ function Checkout(){
         total = total + (cartItem.book.sellPrice * cartItem.bookQuantity)
     })
 
-    let tax = total * .04
+    let tax = total * .08
 
-    let delfee = 8
+    let delfee = 12
 
     console.log('checkout')
     return(
