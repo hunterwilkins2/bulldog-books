@@ -20,11 +20,13 @@ const createOrderSummary = async (orders) => {
         if(order.promotion) {
             promotion = await Promotion.findById(order.promotion)
         }
+
         const address = await Address.findById(order.addressId)
-        const payment = await Payment.findById(order.paymentId)
+        const payment = await Payment.findById(order.paymentId, 'type expirationDate')
+
         summary.push({
             _id: order._id,
-            userId: order.customer,
+            customer: order.customer,
             subtotal: order.subtotal,
             tax: order.tax,
             delivery: order.delivery,
@@ -32,6 +34,7 @@ const createOrderSummary = async (orders) => {
             promotion,
             address,
             payment,
+            orderDate: order.orderDate,
             bookOrderList: books
         })
     }
@@ -51,7 +54,7 @@ const findBooks = async (cartItemSchema) => {
 // Admin view to view all orders
 router.get('/all-orders', auth.verifyAdmin, async (req, res, next) => {
     try {
-        const orders = await Order.find({}, '_id subtotal tax delivery total promotion bookOrderList')
+        const orders = await Order.find({})
 
         const orderSummary = await createOrderSummary(orders)
 
@@ -66,7 +69,7 @@ router.get('/', auth.verifyCustomer, async (req, res, next) => {
     try {
         const id = auth.getId(req.cookies.jwt)
 
-        const orders = await Order.find({ customer: id }, '_id subtotal tax delivery total promotion bookOrderList')
+        const orders = await Order.find({ customer: id })
 
         const orderSummary = await createOrderSummary(orders)
 
@@ -81,7 +84,7 @@ router.get('/:orderid', auth.verifyCustomer, async (req, res, next) => {
     try {
         const id = auth.getId(req.cookies.jwt)
 
-        const orders = await Order.findOne({ customer: id,  _id: req.params.orderid }, '_id, subtotal, tax, delivery, total, promotion, bookOrderList')
+        const orders = await Order.findOne({ customer: id,  _id: req.params.orderid })
 
         const orderSummary = await createOrderSummary([orders])
 
@@ -97,6 +100,8 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
 
         const id = auth.getId(req.cookies.jwt)
         const { paymentId, addressId, promotionTitle } = req.body
+
+        console.log(paymentId)
 
         const cart = await Cart.findOne({ user: id })
         const cartBooks = await findBooks(cart.books)
@@ -148,6 +153,7 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
         const user = await User.findById(id)
 
         const emailBody = await createEmailBody(user, order)
+        console.log(emailBody)
         mailer.sendMail(user.email, 'Thank you for your purchase', emailBody)
 
         res.json(order)

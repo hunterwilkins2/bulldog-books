@@ -15,7 +15,7 @@ const orderSchema = Schema({
     orderDate: { type: Date, required: true },
     promotion: { type: OBJECT_ID, ref: 'Promotion' },
     customer: {type: OBJECT_ID, ref: 'User' },
-    paymentCard: {type: OBJECT_ID, ref: 'Payment' },
+    paymentId: {type: OBJECT_ID, ref: 'Payment' },
     addressId: {type: OBJECT_ID, ref: 'Address' },
     bookOrderList: {
         type: [{ book: OBJECT_ID, bookQuantity: Number}],
