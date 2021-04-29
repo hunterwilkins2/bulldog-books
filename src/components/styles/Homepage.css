@@ -81,14 +81,6 @@
 
 }
 
-#button-mib-hp {
-    background-color: transparent;
-    text-align: center;
-    border: none;
-    color: rgb(15, 117, 241);
-    padding-top: .3vh;
-}
-
 #image-hp {
     max-height: 45%;
     max-width: 55%;

@@ -119,7 +119,7 @@ function HomePage(){
                         {Cookies.get('userType') !== ('admin') &&
                             <>
                                 <Link to={{ pathname: '/MoreInfo', state: { book: book} }}>
-                                    <Button className = "but-mp"
+                                    <Button className = "but-mb-hp"
                                         variant="primary" 
                                         value={bookIndex}
                                     >
