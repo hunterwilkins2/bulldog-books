@@ -2,8 +2,8 @@
 
 #row-style-b {
     border:2px solid #ffffff;
-    border-radius: 15px;
-    background: lightgray;
+    border-radius: 10px;
+    background:  #ffffff;
     margin: 1%;
 
     /* align-items: center;
@@ -21,6 +21,8 @@
 
     min-height: 15vh;
     min-width: 6vw;
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 #maincol1-b {

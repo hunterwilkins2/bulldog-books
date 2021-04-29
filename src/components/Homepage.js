@@ -197,59 +197,59 @@ function HomePage(){
 
             {alerts}
 
-            <div className='search-bar'>
-                <Formik 
-                    initialValues={{searchVal: ''}} 
-                    onSubmit={async (data) => {
-                        console.log(data.searchVal)
-                        const result = books.filter(book => 
-                            book.title.toLowerCase().includes(data.searchVal.toLowerCase())
-                                || book.author.toLowerCase().includes(data.searchVal.toLowerCase())
-                                || book.isbn.toString().includes(data.searchVal)
-                        )
-                        setBooks(result)
-                    }}
-                >{({ handleSubmit,
-                        handleChange,
-                        handleBlur,
-                        values,
-                        touched,
-                        errors,
-                        setSubmitting
-                    }) => (
-                        <Form inline className='search-form' onSubmit={handleSubmit}>
-                            <FormControl 
-                                name='searchVal'
-                                placeholder='Title, Author, ISBN'
-                                type='text'
-                                value={values.searchVal}
-                                onChange={handleChange}
-                                onBlur={handleBlur}/>
-                            <Button type="submit">
-                                <Search></Search>
-                            </Button>
-                            <Button
-                                onClick={async (event) => {await fetchBooks( )}}
-                            >
-                                    Reset
-                            </Button>
-                        </Form>
-                    )}</Formik> 
-            </div>
-
             <Container id = "cont-hp">
                 {Cookies.get('userType') !== 'admin' &&
                 <Row className ="mx-auto" id = "promo-bestseller-row-hp">
-                    <Col className ="mx-auto" id = "col-onsale-hp"> 
-                        <div className="text-danger" id = "title-hp"> New Releases </div>
+                    <Col className ="mx-auto" > 
+                        <div className="text-white" id = "title-hp"> New Releases </div>
                         <NewReleases/> 
                     </Col>
-                    <Col className ="mx-auto" id = "col-bestseller-hp">
-                        <div className="text-white" id = "title-hp"> Best Sellers </div> 
+                    <Col className ="mx-auto" >
+                        <div className="text-danger" id = "title-hp"> Best Sellers </div> 
                         <BestSellers/>
                     </Col>
                 </Row>
                 }
+
+                <div className='search-bar'>
+                    <Formik 
+                        initialValues={{searchVal: ''}} 
+                        onSubmit={async (data) => {
+                            console.log(data.searchVal)
+                            const result = books.filter(book => 
+                                book.title.toLowerCase().includes(data.searchVal.toLowerCase())
+                                || book.author.toLowerCase().includes(data.searchVal.toLowerCase())
+                                || book.isbn.toString().includes(data.searchVal)
+                            )
+                            setBooks(result)
+                        }}
+                    >{({ handleSubmit,
+                            handleChange,
+                            handleBlur,
+                            values,
+                            touched,
+                            errors,
+                            setSubmitting
+                        }) => (
+                            <Form inline className='search-form' onSubmit={handleSubmit}>
+                                <FormControl 
+                                    name='searchVal'
+                                    placeholder='Title, Author, ISBN'
+                                    type='text'
+                                    value={values.searchVal}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}/>
+                                <Button type="submit">
+                                    <Search></Search>
+                                </Button>
+                                <Button
+                                    onClick={async (event) => {await fetchBooks( )}}
+                                >
+                                    Reset
+                                </Button>
+                            </Form>
+                        )}</Formik> 
+                </div>
                 
                 <Row lg={3} >
                     {bookCards}
