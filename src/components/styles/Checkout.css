@@ -18,6 +18,11 @@
 
 }
 
+#card1-title-co {
+    margin-left: 1vw;
+    margin-top: 1vh;
+}
+
 #col1-co {
 
     min-width: 80%;
@@ -36,6 +41,16 @@
 
     min-height: 4.5vh;
     max-height: 4.5vh;
+    
+}
+
+#li-gt-co {
+    display: flex;
+    justify-content: space-between;
+
+    min-height: 4.5vh;
+    max-height: 4.5vh;
+    font-weight: bold;
     
 }
 
@@ -62,6 +77,18 @@
 #maincol {
 
     width: 100%;
+}
+
+#main-form-co {
+    padding-top: 3vh;
+}
+
+.form-titles-co {
+    margin-left: -1vw;
+}
+
+#but-sub-co {
+    margin-left: -1vw;
 }
 
 

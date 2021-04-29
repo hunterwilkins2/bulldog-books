@@ -56,7 +56,7 @@ function OrderHistory(){
             {console.log(order)}
             <Container  key={order} id = "cont-style">
                 <Row>
-                    <h3 id = "card-title"> Customer: {order.customer.lastName}, {order.customer.firstName} {'>'} OrderID: {order._id.toString().slice(-5)}</h3>
+                    <h3 id = "card-title"> CustomerEmail: {order.customer.email} {'>'} OrderID: {order._id.toString().slice(-5)}</h3>
                 </Row>
                 <Row className = 'mx-auto' lg={3}> 
                     <Col id = "top-buffer" xs='1'>
@@ -121,6 +121,9 @@ function OrderHistory(){
             <h1 id = "page-title" >Order History</h1> 
                     
             {orderCards}
+
+            <br></br>
+            <br></br>  
                     
         </div>
     )

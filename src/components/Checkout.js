@@ -98,10 +98,10 @@ function Checkout(){
     const orderSummaryItems = orderItems.map((item) => (
         <>
             <ListGroup.Item key={item} id = "li-co">
-                <Col id = "col1">
+                <Col id = "col1-co">
                     {item.book.title} ({item.bookQuantity}):                                   
                 </Col>
-                <Col id = "col2">
+                <Col id = "col2-co">
                     {formatter.format(item.book.sellPrice * item.bookQuantity)}                            
                 </Col>
                                                 
@@ -136,7 +136,7 @@ function Checkout(){
 
             <Container id = "cont1-co">
                 <Card id = "card1-co">
-                    <Card.Title> Order Summary </Card.Title>
+                    <Card.Title id = "card1-title-co"> Order Summary </Card.Title>
                     <ListGroup variant="flush">
                         {orderSummaryItems}
                         <ListGroup.Item id = "li-co">
@@ -163,7 +163,7 @@ function Checkout(){
                                 {formatter.format(delfee)}                           
                             </Col>
                         </ListGroup.Item>
-                        <ListGroup.Item id = "li-co">
+                        <ListGroup.Item id = "li-gt-co">
                             <Col id = "col1-co">
                                                     GRAND TOTAL                                   
                             </Col>
@@ -291,9 +291,8 @@ function Checkout(){
                         errors,
                         setSubmitting
                     }) => (
-                        <Form onSubmit={handleSubmit}>
-                            <pre>{JSON.stringify(values)}</pre>
-                            <h3> Address Information </h3>
+                        <Form id = "main-form-co" onSubmit={handleSubmit}>
+                            <h3 className = "form-titles-co"> Address Information </h3>
                             <Form.Group>
                                 <Form.Check 
                                     name='useExistingAddress'
@@ -362,7 +361,7 @@ function Checkout(){
                                     <ErrorMessage name="zip" />
                                 </Form.Group>
                             </Form.Row>
-                            <h3> Payment Information </h3>
+                            <h3 className = "form-titles-co"> Payment Information </h3>
                             <Form.Group>
                                 <Form.Check 
                                     name='useExistingPayment'
@@ -386,7 +385,7 @@ function Checkout(){
                                 </Form.Control>
                                 <ErrorMessage name="state" />
                             </Form.Group>
-                            <h4>New Payment Information</h4>
+                            <h4 className = "form-titles-co">New Payment Information</h4>
                             <Form.Group  >
                                 <Form.Label>Card Type</Form.Label>
                                 <Form.Control 
@@ -430,7 +429,7 @@ function Checkout(){
                                     />
                                 </Form.Group>
                             </Form.Row>
-                            <h3> Promo Code </h3>
+                            <h3 className = "form-titles-co"> Promo Code </h3>
                             <Form.Group controlID="formCardNumber">
                                 <Form.Label>Promo Code </Form.Label>
                                 <Form.Control 
@@ -444,7 +443,7 @@ function Checkout(){
                                 />
                                 <ErrorMessage name="promo" />
                             </Form.Group>
-                            <Button disabled={setSubmitting} variant="primary" type="submit">
+                            <Button id = "but-sub-co"disabled={setSubmitting} variant="primary" type="submit">
                                 Submit
                             </Button>   
                         </Form>

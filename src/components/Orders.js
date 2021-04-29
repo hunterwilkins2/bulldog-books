@@ -121,7 +121,9 @@ function Orders(){
             <h1 id = "page-title" >Order History</h1> 
                     
             {orderCards}
-                    
+            
+            <br></br>
+            <br></br>        
         </div>
     )
 }
