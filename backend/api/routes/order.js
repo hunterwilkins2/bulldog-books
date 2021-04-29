@@ -175,8 +175,7 @@ Shipping address: ${address.street} ${address.city}, ${address.state}
 Books ordered:
 
 ${books}
-
-Your total: ${order.total}`
+Your total: $${order.total.toFixed(2)}`
 }
 
 module.exports = router
