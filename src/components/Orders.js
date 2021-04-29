@@ -49,20 +49,6 @@ function Orders(){
     }, [])
 
 
-
-    // ordersbookOrderList.forEach(cartItem => {
-    //     console.log(cartItem)
-    // })
-    
-    // console.log(orders[0].bookOrderList)
-
-    // const bookItems = orders[0].bookOrderList.map((book, bookIndex) => (
-    //     <>
-    //         {console.log(book)}
-    //         {console.log(bookIndex)}
-    //     </>
-    // ))
-
     console.log(orders)
     
     const orderCards = orders.map((order, orderIndex) => (
