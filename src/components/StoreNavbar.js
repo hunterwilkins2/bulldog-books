@@ -45,6 +45,8 @@ function StoreNavbar({ login=false}){
                 </DropdownButton>
                 }
 
+                { Cookies.get('userType') && 
+
                 <DropdownButton id="button-profile" title="Profile" className='button-navbar'>
                     <Dropdown.Item  as={Link} to='/user/Profile'>Profile</Dropdown.Item>
                     {Cookies.get('userType') !== ('admin') &&
@@ -54,6 +56,8 @@ function StoreNavbar({ login=false}){
                         <Dropdown.Item  as={Link} to='/user/Cart'>Cart</Dropdown.Item>
                     }
                 </DropdownButton>
+
+                }
 
                 <Link to={!getCookie('jwt') ? '/login' : '/'}>
                     <Button id = "button-login" onClick={logout}
