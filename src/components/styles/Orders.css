@@ -10,11 +10,11 @@
     #cont-style {
         border:0.5px solid #ffffff;
         background: #ffffff;
-        border-radius: 20px;
-        margin-bottom: -5%;
+        border-radius: 5px;
         min-width:83vw;
         max-width: 83vw;
-        padding-bottom: 3vh;
+
+        margin-bottom: -1vh;
 
     }
 
@@ -24,7 +24,7 @@
 
     #card-style1-o {
         padding: 10px;
-        max-height: fit-content;
+        height:fit-content;
         width: 100%;
     }
 
@@ -79,6 +79,10 @@
 
     #sec-title {
         font-weight: bold;
+    }
+
+    #row-o {
+        padding-bottom: 2vh;
     }
 
 
