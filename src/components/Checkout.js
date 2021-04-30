@@ -349,7 +349,7 @@ function Checkout(){
                             <Form.Row>
                                 <Form.Group as={Col}>
                                     <Form.Label>City</Form.Label>
-                                    <Form.Control id = "form-control-profile"
+                                    <Form.Control id = "form-control"
                                         name="city"
                                         value={values.city}
                                         type="text" 
@@ -364,7 +364,7 @@ function Checkout(){
                             <Form.Row>
                                 <Form.Group as={Col}>
                                     <Form.Label>State</Form.Label>
-                                    <Form.Control id = "form-control-profile"
+                                    <Form.Control id = "form-control"
                                         as="select" 
                                         name="state"
                                         value={values.state}
@@ -379,7 +379,7 @@ function Checkout(){
                                 </Form.Group>
                                 <Form.Group as={Col}>
                                     <Form.Label>Zip</Form.Label>
-                                    <Form.Control id = "form-control-profile"
+                                    <Form.Control id = "form-control"
                                         name="zip"
                                         value={values.zip}
                                         type="text" 
