@@ -101,7 +101,13 @@ router.post('/', auth.verifyCustomer, async (req, res, next) => {
         const id = auth.getId(req.cookies.jwt)
         const { paymentId, addressId, promotionTitle } = req.body
 
-        console.log(paymentId)
+        if(!paymentId) {
+            throw Error('Must include valid payment')
+        }
+
+        if(!addressId) {
+            throw Error('Must include valid address')
+        }
 
         const cart = await Cart.findOne({ user: id })
         const cartBooks = await findBooks(cart.books)

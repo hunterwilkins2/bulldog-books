@@ -41,7 +41,7 @@ router.post('/temp-address', async (req, res, next) => {
 
         const address = await Address.create({ street, city, state, zipcode })
 
-        res.status(200).json(address)
+        res.json(address)
     } catch(error) {
         next(error)
     }
