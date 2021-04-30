@@ -10,6 +10,7 @@ import StoreNavbar from './StoreNavbar'
 import StateList from './forms/StateList'
 import './styles/Checkout.css' 
 import './styles/Background.css'
+import { updateLocale } from 'moment'
 
 function Checkout(){
 
@@ -145,6 +146,50 @@ function Checkout(){
 
     let delfee = 12
 
+    const validationSchema = yup.object().shape({
+        expirationDate: yup.string().when(['useExistingPayment'], {
+            is: (useExistingPayment) => useExistingPayment != true,
+            then: yup.string().required(),
+            otherwise: yup.string().notRequired()
+        }),
+        cardType: yup.string().when(['useExistingPayment'], {
+            is: (useExistingPayment) => useExistingPayment != true,
+            then: yup.string().required(),
+            otherwise: yup.string().notRequired()
+        }),
+        cardNumber: yup.string().when(['useExistingPayment'], {
+            is: (useExistingPayment) => useExistingPayment != true,
+            then: yup.string().length(16, 'Must be 16 digits').matches('^[0-9]*$', 'Can only contain numbers').required(),
+            otherwise: yup.string().notRequired()
+        }),
+        payment: yup.string().when(['useExistingPayment'], {
+            is: (useExistingPayment) => useExistingPayment === true,
+            then: yup.string().required(),
+            otherwise: yup.string().notRequired()
+        }),
+        address1: yup.string().when(['useExistingAddress'], {
+            is: (useExistingAddress) => useExistingAddress === false,
+            then: yup.string().required(),
+            otherwise: yup.string().notRequired()
+        }),
+        state: yup.string().when(['useExistingAddress'], {
+            is: (useExistingAddress) => useExistingAddress === false,
+            then: yup.string().required(),
+            otherwise: yup.string().notRequired()
+        }),
+        city: yup.string().when(['useExistingAddress'], {
+            is: (useExistingAddress) => useExistingAddress === false,
+            then: yup.string().required(),
+            otherwise: yup.string().notRequired()
+        }),
+        zip: yup.string().when(['useExistingAddress'], {
+            is: (useExistingAddress) => useExistingAddress === false,
+            then: yup.string().required(),
+            otherwise: yup.string().notRequired()
+        })
+    }
+    )
+
     return(
 
         <div id = "background">
@@ -194,8 +239,10 @@ function Checkout(){
                 </Card>
             </Container>
 
+
             <Container id = "main-cont-checkout">
                 <Formik 
+                    
                     enableReinitialize
                     initialValues={{
                         useExistingAddress: false,
@@ -313,13 +360,15 @@ function Checkout(){
                         }
 
                     }}
+                    validationSchema={validationSchema}
                 >{({ handleSubmit,
                         handleChange,
                         handleBlur,
                         values,
                         touched,
                         errors,
-                        setSubmitting
+                        dirty,
+                        isValid
                     }) => (
                         <Form id = "main-form-co" onSubmit={handleSubmit}>
                             <h3 className = "form-titles-co"> Address Information </h3>
@@ -409,6 +458,8 @@ function Checkout(){
                                     name="payment"
                                     value={values.payment}
                                     onChange={handleChange}
+                                    isValid={touched.payment && !errors.payment}
+                                    isInvalid={errors.payment}
                                 >
                                     <option value=''>Choose...</option>
                                     {paymentOptions}
@@ -442,8 +493,10 @@ function Checkout(){
                                     value={values.cardNumber}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    isValid={touched.cardNumber && !errors.cardNumber}
+                                    isInvalid={errors.cardNumber}
                                 />
-                                <ErrorMessage name="newCardNumber" />
+                                <ErrorMessage name="cardNumber" />
                             </Form.Group>
                             <Form.Row>
                                 <Form.Group as={Col} >
@@ -473,7 +526,7 @@ function Checkout(){
                                 />
                                 <ErrorMessage name="promo" />
                             </Form.Group>
-                            <Button id = "but-sub-co"disabled={setSubmitting} variant="primary" type="submit">
+                            <Button id = "but-sub-co" disabled={!(dirty && isValid)}variant="primary" type="submit">
                                 Submit
                             </Button>   
                             {noErrors && <Redirect to='/user/orders'/>}
