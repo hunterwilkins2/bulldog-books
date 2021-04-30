@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, {useState, useEffect} from 'react'
 import { Col, Row, Container, Card } from 'react-bootstrap'
 import moment from 'moment'
@@ -123,7 +124,6 @@ function Orders(){
 
     return(
         <div id = "background">
-            {errors && <Redirect to='/login' />}
             <StoreNavbar/> 
             <h1 id = "page-title" >Order History</h1> 
                     

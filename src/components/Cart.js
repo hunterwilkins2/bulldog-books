@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, {useState, useEffect} from 'react'
 import { Row, Col, Container, Button, Form } from 'react-bootstrap'
 import { Formik } from 'formik'
@@ -221,7 +222,6 @@ function Cart(){
 
     return(
         <div id = "background">
-            {errors && <Redirect to='/login'/>}
             <StoreNavbar/> 
             <h1 id = "h1-style-cart">Cart</h1>
             <Container className = "main-cont-cart">
