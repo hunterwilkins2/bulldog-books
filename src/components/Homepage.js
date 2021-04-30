@@ -82,6 +82,12 @@ function HomePage(){
         await fetchBooks()
     }
 
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2
+    })
+
     const bookCards = books.map((book, bookIndex) => (
         <Col key={book.isbn} xs='3' id = "column-hp">
             <Card id = "card-style-hp">
@@ -96,7 +102,7 @@ function HomePage(){
                     <ListGroupItem id = "lGI-hp">Author: {book.author}</ListGroupItem>
                 </ListGroup>
                 <ListGroup id = "lG-hp" className="list-group-flush">
-                    <ListGroupItem id = "lGI-hp">Price: ${book.sellPrice}</ListGroupItem>
+                    <ListGroupItem id = "lGI-hp">Price: {formatter.format(book.sellPrice)}</ListGroupItem>
                 </ListGroup>
                 <ListGroup className="list-group-flush">
                     <ListGroupItem id = "lGI-links-hp">
