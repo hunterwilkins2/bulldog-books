@@ -58,7 +58,7 @@ function OrderHistory(){
                 <Row>
                     <h3 id = "card-title"> CustomerEmail: {order.customer.email} {'>'} OrderID: {order._id.toString().slice(-5)}</h3>
                 </Row>
-                <Row className = 'mx-auto' lg={3}> 
+                <Row id = "row-o" className = 'mx-auto' lg={3}> 
                     <Col id = "top-buffer" xs='1'>
                         <Card id = "card-style1-o">
                             <Card.Title>Ordered Items</Card.Title>
@@ -119,7 +119,7 @@ function OrderHistory(){
         <div id = "background">
             <StoreNavbar/> 
             <h1 id = "page-title" >Order History</h1> 
-                    
+        
             {orderCards}
 
             <br></br>

@@ -64,7 +64,7 @@ function Orders(){
                 <Row>
                     <h3 id = "card-title"> Order {orderIndex + 1}</h3>
                 </Row>
-                <Row className = 'mx-auto' lg={3}> 
+                <Row id = "row-o" className = 'mx-auto' lg={3}> 
                     <Col id = "top-buffer" xs='1'>
                         <Card id = "card-style1-o">
                             <Card.Title>Ordered Items</Card.Title>
@@ -128,7 +128,7 @@ function Orders(){
             <h1 id = "page-title" >Order History</h1> 
                     
             {orderCards}
-            
+
             <br></br>
             <br></br>        
         </div>
