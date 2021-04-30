@@ -4,7 +4,7 @@ import { Row, Col, Container, Button, Form } from 'react-bootstrap'
 import { Formik } from 'formik'
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
-// import NumericInput from 'react-numeric-input'
+import * as yup from 'yup'
 
 
 import StoreNavbar from './StoreNavbar'
@@ -96,6 +96,13 @@ function Cart(){
         minimumFractionDigits: 2
     })
 
+    const validationSchema = yup.object().shape({
+        quantity: yup.number()
+            .min(1, 'Minimum 1')
+            .max(99, 'Max 99')
+            .required('Required'),
+    })
+
     const cartRows = carts.map((cartItem, cartIndex) => (
         <Row className = "row-list-cart" key = {cartItem.book}>
             <Col className = "col-cover-cart"> 
@@ -107,6 +114,7 @@ function Cart(){
             </Col>
             <Col className = "col-quantity-cart">
                 <Formik 
+                    validationSchema={validationSchema}
                     initialValues={{
                         quantity: cartItem.bookQuantity,
                     }} 
@@ -151,31 +159,20 @@ function Cart(){
                         handleChange,
                         handleBlur,
                         values,
-                        // touched,
-                        // errors,
+                        touched,
+                        errors, 
                         setSubmitting
                     }) => (
                         <Form id = "num-form-cart" onSubmit={handleSubmit}>
-                            
-                            {/* <NumericInput
-                                id="quant-select-cart"
-                                name="quantity"
-                                placeholder={cartItem.bookQuantity}
-                                min={0} 
-                                max={100} 
-                                value={values.quantity}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                            /> */}
-
                             <div id = "formcontrol-div-cart">
                                 <Form.Control
                                     id="quant-select-cart"
                                     name="quantity"
-                                    placeholder={cartItem.bookQuantity}
                                     value={values.quantity}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    isValid={touched.quantity && !errors.quantity}
+                                    isInvalid={touched.quantity && errors.quantity}
                                 />
                             </div>
 
