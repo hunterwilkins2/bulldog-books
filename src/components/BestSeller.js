@@ -6,8 +6,32 @@ import Cookies from 'js-cookie'
 // import { bsellerData } from '../data/bsellerData'
 import './styles/Bestsellers.css' 
 
+import ReactNotification from 'react-notifications-component'
+import {store} from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import 'animate.css'
+
 
 function BestSellers(){
+
+    const handleOnClickNotifications = () => {
+        store.addNotification({
+            title: 'Cart Notfication',
+            message: 'Book Successfully Added To Cart!',
+            type: 'success',
+            insert: 'top',
+            container: 'top-right',
+            animationIn: ['animate__animated animate__fadeIn'], 
+            animationOut: ['animate__animated animate__fadeOut'],
+
+            dismiss: {
+                duration: 3000,
+                showIcon: true
+            },
+
+            width: 800
+        })
+    }
 
     const [bSellers, setbSellers] = useState([])
 
@@ -93,7 +117,7 @@ function BestSellers(){
                             variant="primary" 
                             value = {index}
                             // eslint-disable-next-line react/jsx-no-duplicate-props
-                            onClick = {async (event) => {await addToCart(event)}}
+                            onClick = {async (event) => {{await addToCart(event)}; {handleOnClickNotifications()}}}
                         >
                                         Add To Cart
                         </Button>
@@ -107,6 +131,7 @@ function BestSellers(){
 
     return(
         <div>
+            <ReactNotification/>
             {bookCards}
         </div>
     )

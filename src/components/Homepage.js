@@ -16,6 +16,10 @@ import StoreNavbar from './StoreNavbar'
 import './styles/Homepage.css'
 import './styles/Background.css'
 
+import ReactNotification from 'react-notifications-component'
+import {store} from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import 'animate.css'
 
 function HomePage(){
     const [errors, setErrors] = useState([])
@@ -88,6 +92,25 @@ function HomePage(){
         minimumFractionDigits: 2
     })
 
+    const handleOnClickNotifications = () => {
+        store.addNotification({
+            title: 'Cart Notfication',
+            message: 'Book Successfully Added To Cart!',
+            type: 'success',
+            insert: 'top',
+            container: 'top-right',
+            animationIn: ['animate__animated animate__fadeIn'], 
+            animationOut: ['animate__animated animate__fadeOut'],
+
+            dismiss: {
+                duration: 3000,
+                showIcon: true
+            },
+
+            width: 500
+        })
+    }
+
     const bookCards = books.map((book, bookIndex) => (
         <Col key={book.isbn} xs='3' id = "column-hp">
             <Card id = "card-style-hp">
@@ -138,7 +161,7 @@ function HomePage(){
                                     variant="primary" 
                                     value = {bookIndex}
                                     // eslint-disable-next-line react/jsx-no-duplicate-props
-                                    onClick = {async (event) => {await addToCart(event)}}
+                                    onClick = {async (event) => {await addToCart(event); {handleOnClickNotifications()}} }
                                 >
                                         Add To Cart
                                 </Button>
@@ -201,6 +224,8 @@ function HomePage(){
 
             {alerts}
 
+            <ReactNotification/>
+
             <Container id = "cont-hp">
                 {Cookies.get('userType') !== 'admin' &&
                 <Row className ="mx-auto" id = "promo-bestseller-row-hp">
@@ -247,7 +272,7 @@ function HomePage(){
                                     <Search></Search>
                                 </Button>
                                 <Button
-                                    onClick={async (event) => {await fetchBooks( )}}
+                                    onClick={async (event) => {await fetchBooks()}}
                                 >
                                     Reset
                                 </Button>
@@ -259,6 +284,8 @@ function HomePage(){
                     {bookCards}
                 </Row>
             </Container>
+
+            {/* <Hello/> */}
 
         </div>
     )
