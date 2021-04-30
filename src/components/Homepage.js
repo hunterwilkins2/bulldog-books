@@ -125,6 +125,8 @@ function HomePage(){
                                     </Button>
                                 </Link>
 
+                                { Cookies.get('userType') && 
+
                                 <Button 
                                     className = "but-mb-hp"
                                     variant="primary" 
@@ -134,6 +136,7 @@ function HomePage(){
                                 >
                                         Add To Cart
                                 </Button>
+                                }
                             </>
                         }
                     </ListGroupItem>                   

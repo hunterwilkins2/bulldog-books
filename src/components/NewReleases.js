@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {Row, Col, Button} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import Cookies from 'js-cookie'
 
 import './styles/NewReleases.css' 
 
@@ -81,6 +82,7 @@ function NewReleases(){
                         </Link>
                     </div>
                     <div>
+                        {Cookies.get('userType') && 
                         <Button 
                             id = "button-atc-nr"
                             variant="primary" 
@@ -90,6 +92,7 @@ function NewReleases(){
                         >
                                         Add To Cart
                         </Button>
+                        }
                     </div>
                 </Row>
             </Col>
