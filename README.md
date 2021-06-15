@@ -20,5 +20,3 @@ This is a oneline bookstore project created for UGA CSCI 4050 using the MERN sta
 - Kawkab Aldoshan
 - Nathan Safir
 - Spencer King
-
-# TEST
