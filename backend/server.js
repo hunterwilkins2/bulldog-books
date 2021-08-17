@@ -5,7 +5,7 @@ const morgan = require('morgan') // Logger
 const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 
-require('dotenv').config()
+require('dotenv').config({ path: '.env' })
 
 const middlewares = require('./middlewares')
 const books = require('./api/routes/books')
@@ -22,10 +22,12 @@ const order = require('./api/routes/order')
 
 mongoose.set('useFindAndModify', false)
 mongoose.set('useCreateIndex', true)
-mongoose.connect(process.env.DATABASE_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).catch(error => console.log(error))
+mongoose
+    .connect(process.env.DATABASE_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .catch((error) => console.log(error))
 
 const app = express()
 
@@ -33,13 +35,16 @@ app.use(express.json())
 app.use(morgan('dev'))
 app.use(helmet())
 app.use(cookieParser())
-app.use(cors({
-    credentials: true, origin: process.env.CORS_ORIGIN
-}))
+app.use(
+    cors({
+        credentials: true,
+        origin: process.env.CORS_ORIGIN,
+    })
+)
 
 app.get('/', (req, res) => {
     res.json({
-        message: 'Hello, World'
+        message: 'Hello, World',
     })
 })
 
